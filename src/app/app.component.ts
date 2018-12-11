@@ -10,7 +10,7 @@ import { FcmService } from './fcm.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Wise Guy Investor'
+  title = 'WiseGuy Investor'
 
   user: User
   isCollapsed = true
