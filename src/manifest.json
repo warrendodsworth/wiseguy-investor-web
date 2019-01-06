@@ -1,6 +1,6 @@
 {
-  "short_name": "Wise Guy Investor",
-  "name": "Wise Guy Investor",
+  "short_name": "WiseGuy Investor",
+  "name": "WiseGuy Investor",
   "start_url": "/?utm_source=homescreen",
   "gcm_sender_id": "103953800507"
 }

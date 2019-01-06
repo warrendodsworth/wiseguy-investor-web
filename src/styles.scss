@@ -15,9 +15,10 @@ small {
   color: #999;
 }
 
-a[click]{
+a:hover{
   cursor: pointer;
 }
+
 
 .navbar-light{
   background-color: #fff !important;
