@@ -1,0 +1,26 @@
+.cover {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: rgba(0,0,0,0.03);
+}
+
+.thumb-xs {
+  height: 30px;
+  width: 30px;
+}
+
+.thumb-sm {
+  height: 56px;
+  width: 56px;
+}
+
+.thumb-m {
+  height: 100px;
+  width: 100px;
+}
+
+.thumb-lg {
+  height: 180px;
+  width: 180px;
+}

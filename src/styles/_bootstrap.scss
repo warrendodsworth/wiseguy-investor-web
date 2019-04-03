@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+$body-bg: $light;
+$enable-responsive-font-sizes: true;
+
+// functions - color(), dark(), color-ypi()
+$theme-colors: (
+  "primary":  $primary,
+  "secondary": $secondary,
+  "tertiary": $tertiary,
+
+  "success":  $success,
+  "warning": $warning,
+  "danger": $danger,
+
+  "dark": $dark,
+  "medium": $medium,
+  "light": $light,
+);
+
+
+.navbar{
+  border-bottom: 1px solid rgba(0,0,0,.0975);
+  transition: height .2s ease-in-out;
+  height: 70px;
+}
+
+.navbar-light{
+  background-color: #fafafa !important;
+}
+
+.card{
+  border: 1px solid darken($light, 3%) !important;
+  border-radius: 0.72rem !important;
+}
