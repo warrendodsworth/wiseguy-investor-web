@@ -25,27 +25,11 @@ h1, h2, h3, h4, h5 {
   margin: 2px 0 15px;
 }
 
-p {
-  margin: 2px 0 5px;
-}
-
 small {
   font-weight: 300;
   color: $medium;
 }
 
-a[click]{
+a{
   cursor: pointer;
 }
-
-
-a {
-  &.bold {
-    font-weight: 500;
-  }
-
-  &.clear {
-    text-decoration: none;
-  }
-}
-

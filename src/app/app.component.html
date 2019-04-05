@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md sticky-top navbar-light bg-white justify-content-between">
   <div class="container">
-    <a routerLink="/" class="navbar-brand pt-0">
+    <a routerLink="/" class="navbar-brand text-muted">
       Wise Guy Investor
     </a>
 
@@ -19,31 +19,11 @@
           <a routerLink="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/pricing" class="nav-link">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/insta" class="nav-link">
-            <i class="fa fa-camera-retro" style="font-size: 1.5em"></i>
-            <span class="d-inline d-md-none">Insta</span>
-          </a>
-        </li>
-
-        <!-- *ngIf="user?.roles.admin" -->
-        <li class="nav-item">
-          <a routerLink="/a/users" class="nav-link">
-            <i class="fa fa-users" style="font-size: 1.5em"></i>
-            <span class="d-inline d-md-none">Users</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/a/products" class="nav-link">
-            <i class="fa fa-th-list" style="font-size: 1.5em"></i>
-            <span class="d-inline d-md-none">Products</span>
-          </a>
+          <a routerLink="/blog" class="nav-link">Blog</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/accounts/edit" style="padding-top: 7px">
-            <img *ngIf="user" [src]="user?.photoURL" alt="" class="thumb-xs rounded-circle">
+            <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle">
             <span class="d-inline d-md-none">{{user?.displayName}}</span>
           </a>
         </li>
@@ -52,7 +32,7 @@
       <!-- ANONYMOUS -->
       <ul *ngIf="!user" class="navbar-nav ml-auto no-select">
         <li class="nav-item">
-          <a routerLink="/pricing" class="nav-link">Pricing</a>
+          <a routerLink="/blog" class="nav-link">Blog</a>
         </li>
         <li class="nav-item">
           <!-- routerLink="/login" -->
@@ -85,23 +65,14 @@
         <li><a class="text-muted" href="#">Random feature</a></li>
         <li><a class="text-muted" href="#">Team feature</a></li>
         <li><a class="text-muted" href="#">Stuff for developers</a></li>
-        <li><a class="text-muted" href="#">Another one</a></li>
-        <li><a class="text-muted" href="#">Last time</a></li>
-      </ul>
-    </div>
-    <div class="col-6 col-md">
-      <h5>Resources</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted" href="#">Resource</a></li>
-        <li><a class="text-muted" href="#">Final resource</a></li>
       </ul>
     </div>
     <div class="col-6 col-md">
       <h5>About</h5>
       <ul class="list-unstyled text-small">
+        <li><a class="text-muted" [routerLink]="['/pricing']" routerLinkActive="router-link-active">Pricing</a></li>
         <li><a class="text-muted" href="#">Team</a></li>
         <li><a class="text-muted" href="#">Privacy</a></li>
-        <li><a class="text-muted" href="#">Terms</a></li>
       </ul>
     </div>
   </div>

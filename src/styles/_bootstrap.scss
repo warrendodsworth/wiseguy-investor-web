@@ -2,34 +2,20 @@
 
 $body-bg: $light;
 $enable-responsive-font-sizes: true;
+$enable-gradients: true;
+$link-color: $secondary;
 
-// functions - color(), dark(), color-ypi()
+//add colors
 $theme-colors: (
-  "primary":  $primary,
-  "secondary": $secondary,
-  "tertiary": $tertiary,
-
-  "success":  $success,
-  "warning": $warning,
-  "danger": $danger,
-
-  "dark": $dark,
-  "medium": $medium,
-  "light": $light,
-);
+  "medium": $medium
+) !default;
 
 
-.navbar{
+.navbar {
   border-bottom: 1px solid rgba(0,0,0,.0975);
   transition: height .2s ease-in-out;
-  height: 70px;
-}
-
-.navbar-light{
-  background-color: #fafafa !important;
 }
 
 .card{
   border: 1px solid darken($light, 3%) !important;
-  border-radius: 0.72rem !important;
 }

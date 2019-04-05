@@ -8,14 +8,19 @@ export class User implements firebase.UserInfo {
   displayName: string;
   email: string;
   phoneNumber: string;
-
   about: string;
-
-  roles: Roles;
 
   fcmTokens?: { [token: string]: true };
 
+  roles: Roles;
+
   subscription: Subscription;
+}
+
+export class Roles {
+  subscriber?: boolean;
+  editor?: boolean;
+  admin?: boolean;
 }
 
 //stripe
@@ -25,8 +30,3 @@ export class Subscription {
   status: string;
 }
 
-export class Roles {
-  subscriber?: boolean;
-  editor?: boolean;
-  admin?: boolean;
-}

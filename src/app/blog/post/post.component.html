@@ -1,0 +1,18 @@
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+
+  <div class="col p-4 d-flex flex-column position-static">
+    <strong class="d-inline-block mb-2 text-secondary">{{post.tags}}</strong>
+    <h3 class="mb-0">{{post.title}}</h3>
+    <div class="mb-1 text-muted">{{post.createDate | date}}</div>
+    <p class="card-text mb-auto">
+      {{post.text | slice: 0: 100}}..
+    </p>
+    <a href="#" class="stretched-link">Continue reading</a>
+  </div>
+
+  <div class="col-auto d-none d-lg-block p-4">
+    <div class="img-background rounded img-lg" [hidden]="!post.photoURL"
+      [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
+    </div>
+  </div>
+</div>
