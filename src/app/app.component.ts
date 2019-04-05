@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
@@ -15,25 +16,31 @@ export class AppComponent {
   title = 'WiseGuy Investor'
   user: User
   isCollapsed = true
-
+  notification: any
 
   constructor(
     public auth: AuthService,
     public route: ActivatedRoute,
     public router: Router,
     public http: HttpClient,
+    public toastr: ToastrService,
     public fcm: FcmService) { }
 
   ngOnInit() {
     this.auth.user$.subscribe(user => {
       this.user = user
       if (user) {
-        this.fcm.getPermission(user)
-        this.fcm.monitorRefresh(user)
-        this.fcm.receiveMessages()
+        this.fcm.setupFCMToken(user)
+        this.fcm.listenToNotifications()
       }
     })
 
+    this.fcm.currentMessage.subscribe(msg => {
+      if (msg) {
+        this.notification = (<any>msg).notification
+        this.toastr.info(this.notification.body, this.notification.title);
+      }
+    })
   }
 
   loginGoogle() {
@@ -42,15 +49,12 @@ export class AppComponent {
 }
 
 
- // this.fcm.currentMessage.subscribe(msg => {
-    //   this.currentMessage = msg
-    // })
- // adminMenu = false
-  // currentMessage: any
 
-  // testNotifyMe() {
-  //   this.fcm.testNotifyMe(this.user.uid)
-  // }
+ // adminMenu = false
+
+// testNotifyMe() {
+//   this.fcm.testNotifyMe(this.user.uid)
+// }
 
    // subscriber: any = {};
   // subscribeToMailingList(user) {
@@ -61,10 +65,6 @@ export class AppComponent {
   //       console.log(data)
   //       this.subscriber = {};
   //     });
-  // }
-
-  // loginFacebook() {
-  //   this.auth.loginFacebook()
   // }
 
   // toggleAdminMenu() {
