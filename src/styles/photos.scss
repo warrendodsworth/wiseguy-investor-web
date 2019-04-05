@@ -24,3 +24,8 @@
   height: 150px;
   width: 150px;
 }
+
+.full-width {
+  margin-left: calc(50% - 48vw);
+  margin-right: calc(50% - 48vw);
+}

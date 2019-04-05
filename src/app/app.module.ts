@@ -7,6 +7,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentLoaderModule } from '@netbasal/content-loader';
+import { FacebookModule } from 'ngx-facebook';
 import { firebaseConfig } from 'src/environments/firebase.config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { AuthService } from './auth.service';
 import { BlogModule } from './blog/blog.module';
 import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
+
 
 @NgModule({
   declarations: [
@@ -25,14 +27,15 @@ import { HomeComponent } from './home/home.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    ContentLoaderModule,
 
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ContentLoaderModule,
 
+    FacebookModule.forRoot(),
     BlogModule,
   ],
   providers: [
