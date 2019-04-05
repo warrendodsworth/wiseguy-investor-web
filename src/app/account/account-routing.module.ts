@@ -7,9 +7,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: 'accounts/edit', component: EditProfileComponent },
-
 ]
-
 
 @NgModule({
   imports: [
