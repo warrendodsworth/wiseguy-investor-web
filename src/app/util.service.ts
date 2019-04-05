@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable({ providedIn: 'root' })
 export class UtilService {
 
   constructor(
+    public toastr: ToastrService,
     private sani: DomSanitizer) { }
 
   getSanitizedUrl(url) {

@@ -42,19 +42,18 @@ export class AuthService {
       this.updateUserData(credential.user)
     })
   }
-  updateUserData(user: firebase.User): any {
+  updateUserData(user: any) {
     const userRef = this.afs.doc(`users/${user.uid}`);
-    console.log('user', user)
-    const data = {
+
+    let data: any = {
       uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-      roles: {
-        subscriber: true
-      }
     };
-    return userRef.set(data, { merge: true });
+    if (user.displayName) data.displayName = user.displayName;
+    if (user.phoneNumber) data.phoneNumber = user.phoneNumber;
+    if (user.email) data.email = user.email;
+    if (user.photoURL) data.photoURL = user.photoURL;
+
+    return userRef.set(Object.assign({}, data), { merge: true })
   }
 
   canRead(user: User): boolean {

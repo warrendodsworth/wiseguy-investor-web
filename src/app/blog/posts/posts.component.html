@@ -1,87 +1,84 @@
-<div class="container pt-3">
-  <header class="mb-4">
-    <h3>Blog Posts</h3>
-    <button (click)="action = 'edit'" *ngIf="action == 'list'" class="btn btn-primary">Write post</button>
-    <button (click)="innerAction = !innerAction" *ngIf="action == 'list'" class="btn btn-light">See example
-      posts</button>
-    <button (click)="action = 'list'" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
-  </header>
+<header class="mb-4">
+  <h3>Blog Posts</h3>
+  <button (click)="action = 'edit'" *ngIf="action == 'list'" class="btn btn-primary">Write post</button>
+  <button (click)="innerAction = !innerAction" *ngIf="action == 'list'" class="btn btn-light">See example
+    posts</button>
+  <button (click)="action = 'list'" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
+</header>
 
-  <div [hidden]="action != 'list'">
-    <div class="row" [hidden]="!innerAction">
-      <div class="col-md-6" *ngFor="let post of posts | async | slice: 0 : 2">
-        <app-post [post]="post"></app-post>
-      </div>
+<div [hidden]="action != 'list'">
+  <div class="row" [hidden]="!innerAction">
+    <div class="col-md-6" *ngFor="let post of posts | async | slice: 0 : 2">
+      <app-post [post]="post"></app-post>
     </div>
+  </div>
 
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <facebook-content-loader *ngIf="!(posts | async)"></facebook-content-loader>
-        <p class="lead text-center text-muted" *ngIf="(posts | async)?.length == 0">Get started. Write a post..</p>
-      </div>
-      <div class="col-md-10" *ngFor="let post of posts | async">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <facebook-content-loader *ngIf="!(posts | async)"></facebook-content-loader>
+      <p class="lead text-center text-muted" *ngIf="(posts | async)?.length == 0">Get started. Write a post..</p>
+    </div>
+    <div class="col-md-10" *ngFor="let post of posts | async">
 
-        <div class="media mb-3">
-          <div class="img-background rounded img-m mr-3"
-            [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
-          </div>
+      <div class="media mb-3">
+        <div class="img-background rounded img-m mr-3" [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
+        </div>
 
-          <div class="media-body">
-            <h5 class="my-0">{{post.title}}</h5>
-            <span class="text-warning">{{post.draft ? 'Draft &middot; ' : ''}}</span>{{post.text | slice: 0: 100}}
-          </div>
+        <div class="media-body">
+          <h5 class="my-0">{{post.title}}</h5>
+          <span class="text-warning">{{post.draft ? 'Draft &middot; ' : ''}}</span>{{post.text | slice: 0: 100}}
+        </div>
 
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button (click)="edit(post)" class="btn btn-sm btn-outline-secondary">Edit</button>
-              <button (click)="delete(post.id)" class="btn btn-sm btn-outline-danger">Delete</button>
-            </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button (click)="edit(post)" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button (click)="delete(post.id)" class="btn btn-sm btn-outline-danger">Delete</button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 
+</div>
 
-  <div [hidden]="action != 'edit'">
-    <form #addForm="ngForm">
-      <div class="row">
-        <div class="col-md-8 offset-md-3 col-sm-10 offset-sm-1 card p-4">
-          <div class="form-group">
-            <label>Title</label>
-            <input [(ngModel)]="post.title" name="title" placeholder="Add a title" class="form-control" />
-          </div>
 
-          <div class="form-group">
-            <label>Text</label>
-            <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
-              class="form-control"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Category</label>
-            <input [(ngModel)]="post.category" name="category" placeholder="Add a tag" class="form-control" />
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" [(ngModel)]="post.draft" name="draft" type="checkbox" id="draftCheck">
-            <label class="form-check-label" for="draftCheck">
-              Draft
-            </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" [(ngModel)]="post.featured" name="featured" type="checkbox"
-              id="featuredCheck">
-            <label class="form-check-label" for="featuredCheck">
-              Featured
-            </label>
-          </div>
-
-          <button (click)="save( post )" class="btn btn-primary btn-block mt-3">Save</button>
+<div [hidden]="action != 'edit'">
+  <form #addForm="ngForm">
+    <div class="row">
+      <div class="col-md-8 offset-md-3 col-sm-10 offset-sm-1 card p-4">
+        <div class="form-group">
+          <label>Title</label>
+          <input [(ngModel)]="post.title" name="title" placeholder="Add a title" class="form-control" />
         </div>
+
+        <div class="form-group">
+          <label>Text</label>
+          <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
+            class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <input [(ngModel)]="post.category" name="category" placeholder="Add a tag" class="form-control" />
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" [(ngModel)]="post.draft" name="draft" type="checkbox" id="draftCheck">
+          <label class="form-check-label" for="draftCheck">
+            Draft
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" [(ngModel)]="post.featured" name="featured" type="checkbox"
+            id="featuredCheck">
+          <label class="form-check-label" for="featuredCheck">
+            Featured
+          </label>
+        </div>
+
+        <button (click)="save( post )" class="btn btn-primary btn-block mt-3">Save</button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>

@@ -1,0 +1,98 @@
+<ul class="nav justify-content-start mb-3" *ngIf="user?.roles?.admin">
+  <li class="nav-item">
+    <a class="nav-item nav-link disabled">ADMIN</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" [routerLink]="['/blog/manage']" routerLinkActive="router-link-active">Blog</a>
+  </li>
+</ul>
+
+<div class="card" *ngIf="user">
+  <div class="card-body">
+
+    <div class="row mb-2">
+      <div class="col-sm-3">
+        <nav class="nav flex-column">
+          <a class="nav-link active">Edit Profile</a>
+
+          <a routerLink="" (click)="logout()" class="nav-link mt-3">Logout</a>
+        </nav>
+      </div>
+
+      <div class="col-sm-9 col-xs-12">
+
+        <div class="text-center mb-3">
+          <div [hidden]="showCropper">
+            <div class="d-flex justify-content-center">
+              <div [style.background]="_util.getSanitizedStyle(user?.photoURL)"
+                class="rounded-circle img-background img-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <form #userForm="ngForm">
+          <div class="row">
+            <div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" [(ngModel)]="user.displayName" name="name" required placeholder="Name"
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" [(ngModel)]="user.email" name="email" required placeholder="Email"
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" [(ngModel)]="user.phoneNumber" name="phone" placeholder="Phone number"
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>About</label>
+                <input type="text" [(ngModel)]="user.about" name="about" placeholder="About" class="form-control" />
+              </div>
+
+              <button (click)="update( user )" class="btn btn-primary btn-block">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="text-right mt-5">
+      <div class="btn-group">
+        <button class="btn btn-link text-dark" (click)="deactivate()">Temporarily disable my account</button>
+      </div>
+    </div> -->
+
+<!-- <div class="form-group has-feedback">
+            <label>Username</label>
+            <input type="text" [(ngModel)]="user.username" name="username" required placeholder="Username" class="form-control" />
+          </div> -->
+
+<!-- <ng-template #rt let-r="result" let-t="term">
+    <a class="cursor-pointer">
+      <div class="media">
+        <div class="media-left mr-2" *ngIf="r.photoUrl">
+          <img [src]="r.photoUrl" class="rounded-circle img-sm">
+        </div>
+        <div class="media-body">
+          <p [innerHtml]="r.name"></p>
+          <p>
+            {{r.value}}
+            <span *ngIf="r.category">&mdash; {{r.category}}</span>
+          </p>
+        </div>
+      </div>
+    </a>
+  </ng-template> -->
+
+<!-- <div class="form-group">
+    <label>Location</label>
+    <span class="text-muted">(drag the map marker to change)</span>
+    <google-map location="user.location" user="user" title="user.name" zoom="map.zoom" mode="edit" on-dragend="onDragend()" *ngIf="user.id"></google-map>
+  </div> -->
