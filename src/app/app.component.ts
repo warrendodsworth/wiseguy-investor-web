@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FacebookService, InitParams } from 'ngx-facebook';
+import { ToastrService } from 'ngx-toastr';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { FcmService } from './fcm.service';
+
 
 @Component({
   selector: 'app-root',
@@ -12,32 +14,32 @@ import { FcmService } from './fcm.service';
 })
 export class AppComponent {
   title = 'WiseGuy Investor'
-
   user: User
   isCollapsed = true
-  adminMenu = false
-  currentMessage: any
+  notification: any
 
   constructor(
     public route: ActivatedRoute,
     public router: Router,
     public _auth: AuthService,
     public _fcm: FcmService,
-    private facebookService: FacebookService) { }
+    public facebookService: FacebookService,
+    public toastr: ToastrService) { }
 
   ngOnInit() {
     this._auth.user$.subscribe(user => {
       this.user = user
       if (user) {
-        this._fcm.getPermission(user)
-        this._fcm.monitorRefresh(user)
-        this._fcm.receiveMessages()
+        this._fcm.setupFCMToken(user)
+        this._fcm.listenToNotifications()
       }
     })
 
-    //display notification in page
     this._fcm.currentMessage.subscribe(msg => {
-      this.currentMessage = msg
+      if (msg) {
+        this.notification = (<any>msg).notification
+        this.toastr.info(this.notification.body, this.notification.title);
+      }
     })
 
     const initParams: InitParams = { xfbml: true, version: 'v3.2' };
@@ -50,15 +52,28 @@ export class AppComponent {
 }
 
 
-// testNotifyMe() {
-//   this.fcm.testNotifyMe(this.user.uid)
-// }
-// toggleAdminMenu() {
-//   this.adminMenu = !this.adminMenu
-//   localStorage.setItem('adminMenu', this.adminMenu.toString())
-// }
-// isView(name) {
-//   var path = this.route.pathFromRoot.join('/')
-//   path = path.substring(1, path.length).trim()
-//   return path.indexOf(name) > -1;
-// }
+
+
+
+   // subscriber: any = {};
+  // subscribeToMailingList(user) {
+  //   var body = "FNAME=" + user.firstname + "&LNAME=" + user.lastname + "&EMAIL=" + user.email;
+
+  //   this.http.post("https://skaoss.us14.list-manage.com/subscribe/post?u=f87d6e1ec58cd04830f6a367b&amp;id=e58a2a6af0", body)
+  //     .subscribe((data) => {
+  //       console.log(data)
+  //       this.subscriber = {};
+  //     });
+  // }
+
+ // adminMenu = false
+  // toggleAdminMenu() {
+  //   this.adminMenu = !this.adminMenu
+  //   localStorage.setItem('adminMenu', this.adminMenu.toString())
+  // }
+
+  // isView(name) {
+  //   var path = this.route.pathFromRoot.join('/')
+  //   path = path.substring(1, path.length).trim()
+  //   return path.indexOf(name) > -1;
+  // }

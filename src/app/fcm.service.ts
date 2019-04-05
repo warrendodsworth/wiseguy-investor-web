@@ -1,102 +1,106 @@
+import 'firebase/messaging';
+
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User } from 'src/models/user';
 
-//_____PWA -  https://angularfirebase.com/lessons/push-messages-with-firestore/
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class FcmService {
-  private messaging = firebase.messaging()
+  private messaging;
   private messageSource = new Subject()
   currentMessage = this.messageSource.asObservable() // message observable to show in Angular component
 
-  constructor(public afDb: AngularFirestore) { }
+  testNotificationData: any = {
+    "notification": {
+      "title": "New Subscriber",
+      "body": "Someone is following your content!",
+      "icon": "https://skaoss.blob.core.windows.net/brand/icon512.png"
+    },
+    "collapse_key": "do_not_collapse",
+    "from": "515731833571",
+    "to": "eijcuH8xmn0:APA91bE-hTUHa7pzbXTtKcuAE8kmg87e9anELCIJOR8yXcJPta9-6fYM0YNrajNIOVel9Ivka5Qn4Vbd33RTm_xbT06ByqP86HysE9fqvYZzeXevMoVIr9cuZ1wMKZlBmL9Vx0xDt8dR"
+  };
 
-  testNotifyMe(uid) {
-    this.afDb.collection('subscribers').add({
-      userId: uid,
-      subscriberId: uid + '1'
-    })
+  constructor(
+    public afs: AngularFirestore,
+    public _auth: AuthService) {
 
-    let n = {
-      "collapse_key": "do_not_collapse",
-      "from": "418827577592",
-      "notification": {
-        "title": "New Subscriber",
-        "body": "JnrfPZIbXvcU3QjVfywidjZlBZJ31 is following your content!",
-        "icon": "https://skaoss.blob.core.windows.net/brand/icon512.png"
-      }
+    if (firebase.messaging.isSupported()) {
+      this.messaging = firebase.messaging();
     }
   }
 
-  getPermission(user) {
-    this.messaging.requestPermission()
-      .then(() => {
-        console.log('[fcm] notification permission granted.')
-        return this.messaging.getToken()
-      })
-      .then(token => {
-        console.log('[fcm] pwa token saved', token.substring(0, 5))
-        this.saveToken(user, token)
-      })
-      .catch((err) => {
-        console.log('Unable to get permission to notify.', err)
-      })
+  async setupFCMToken(user) {
+    try {
+      if (!firebase.messaging.isSupported()) {
+        return;
+      }
+
+      let app = !document.URL.startsWith('http')
+      if (!app) {
+        let registration = await navigator.serviceWorker.register('firebase-messaging-sw.js')
+        this.messaging.useServiceWorker(registration)
+
+        await this.messaging.requestPermission()
+        const token = await this.messaging.getToken()
+        this.upsertToken(user, token)
+
+        //update token on refresh
+        this.messaging.onTokenRefresh(async () => {
+          const token = await this.messaging.getToken()
+          this.upsertToken(user, token)
+        })
+      }
+    } catch (error) {
+      console.error('[fcm] get & save token', error)
+    }
   }
-  receiveMessages() {
+
+  listenToNotifications() {
+    if (!firebase.messaging.isSupported()) {
+      return;
+    }
+
     this.messaging.onMessage((payload) => {
-      console.log("Message received", payload)
+      console.log('[fcm] notification recived', payload)
       this.messageSource.next(payload)
     })
   }
-  private saveToken(user, token): void {
+
+  private upsertToken(user, token): void {
+    if (!user) return;
 
     const currentTokens = user.fcmTokens || {}
 
-    // If token does not exist in firestore, update db
     if (!currentTokens[token]) {
-      const userRef = this.afDb.collection('users').doc(user.uid)
+      const userRef = this.afs.doc(`users/${user.uid}`)
       const tokens = { ...currentTokens, [token]: true }
+
       userRef.update({ fcmTokens: tokens })
 
       console.log('[fcm] token saved', token.substring(0, 5))
     }
   }
-  monitorRefresh(user) {
-    this.messaging.onTokenRefresh(() => {
-      this.messaging.getToken()
-        .then(refreshedToken => {
-          console.log('Token refreshed.');
-          this.saveToken(user, refreshedToken)
-        })
-        .catch(err => console.log(err, 'Unable to retrieve new token'))
-    });
+
+  async saveNotification(user: User, data) {
+    const notifySnaps = await this.afs.collection(`notifications/${user.uid}`, q =>
+      q.orderBy('timestamp').limit(1))
+      .get().pipe(map(x => x.docs.map(d => d))).toPromise();
+
+    //Prevent duplicate entry - get last notification to compare to incoming
+    const last = notifySnaps[0].data()
+
+    if (last == null || (last && last.title != data.title)) { //&& o.body != data.body
+      data.timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+      this.afs.collection(`notifications/${user.uid}`).add(data);
+    }
   }
 }
 
-// async getToken() {
-//   let app = !document.URL.startsWith('http')
-//   if (!app) {
-//     navigator.serviceWorker.register('firebase-messaging-sw.js')
-//       .then((registration) => {
-//         this.messaging.useServiceWorker(registration)
-//         this.getPermission()
-//         this.receiveMessages()
-//         console.log('service worker installed')
-//       })
-//   }
-// }
-
-// saveNotification(data) {
-//   const notifyRef = firebase.database().ref('notifications/' + this.auth.identity.id)
-
-//   notifyRef.orderByKey().limitToLast(1).once('value', (snap) => {
-//     const last = snap.val()[0]
-
-//     if (last == null || (last && last.title != data.title)) { //&& o.body != data.body
-//       data.timestamp = firebase.database.ServerValue.TIMESTAMP;
-//       notifyRef.push(data);
-//     }
-//   })
-// }
-
+//Tutorial - https://angularfirebase.com/lessons/push-messages-with-firestore/
