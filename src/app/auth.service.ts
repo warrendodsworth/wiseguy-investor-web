@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../models/user';
 
@@ -20,7 +20,7 @@ export class AuthService {
       if (user) {
         return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
       } else {
-        return Observable.create(null)
+        return of(null)
       }
     }))
   }
