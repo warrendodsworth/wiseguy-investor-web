@@ -10,6 +10,7 @@ import { BlogService } from './blog.service';
 import { BlogComponent } from './blog/blog.component';
 import { PostComponent } from './post/post.component';
 import { PostsComponent } from './posts/posts.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { PostsComponent } from './posts/posts.component';
   declarations: [
     PostsComponent,
     PostComponent,
-    BlogComponent
+    BlogComponent,
+    PostDetailComponent
   ],
   providers: [
     BlogService

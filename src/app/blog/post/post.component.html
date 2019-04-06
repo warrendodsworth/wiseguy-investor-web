@@ -7,7 +7,7 @@
     <p class="card-text mb-auto">
       <span [innerHTML]="post.text | slice: 0: 100"></span>
     </p>
-    <a href="#" class="stretched-link">Continue reading</a>
+    <a [routerLink]="['/blog', post.id]" class="stretched-link">Continue reading</a>
   </div>
 
   <div class="col-auto d-none d-lg-block p-4">

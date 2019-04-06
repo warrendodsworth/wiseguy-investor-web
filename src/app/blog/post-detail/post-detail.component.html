@@ -1,0 +1,26 @@
+<header class="lead mb-0">
+  <a [routerLink]="['/blog']" class="btn btn-light">Back</a>
+</header>
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+
+    <div class="card p-3" *ngIf="!post">
+      <facebook-content-loader></facebook-content-loader>
+    </div>
+
+    <div class="card" *ngIf="post">
+      <div class="img-background rounded img-lg card-img-top" [hidden]="!post.photoURL"
+        [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
+      </div>
+
+      <div class="card-body">
+        <h1 class="display-5 card-title font-italic">{{post.title}}</h1>
+        <p class="lead my-3">
+          <span [innerHTML]="post.text | slice: 0: 100"></span>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

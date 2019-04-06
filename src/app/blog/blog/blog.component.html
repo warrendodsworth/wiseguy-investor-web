@@ -2,7 +2,7 @@
   <div class="text-center">
     <h2>Welcome to our blog</h2>
     <div *ngIf="user">
-      <a [routerLink]="['/blog/manage']" routerLinkActive="router-link-active" class="btn btn-light btn-sm">Manage</a>
+      <a [routerLink]="['/manage/blog']" class="btn btn-light btn-sm">Manage</a>
     </div>
   </div>
 </header>
@@ -12,7 +12,8 @@
     <h1 class="display-5 font-italic">{{featuredPost.title}}</h1>
     <p class="lead my-3"><span [innerHTML]="featuredPost.text | slice: 0: 100"></span></p>
     <p class="lead mb-0">
-      <a href="#" class="text-white font-weight-bold">Continue reading..</a>
+      <a [routerLink]="['/blog', featuredPost.id]" class="text-white font-weight-bold">Continue
+        reading..</a>
     </p>
   </div>
 </div>
