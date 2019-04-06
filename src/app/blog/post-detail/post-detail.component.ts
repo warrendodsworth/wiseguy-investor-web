@@ -12,12 +12,12 @@ import { Post } from '../post';
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.scss']
+  styleUrls: ['./post-detail.component.scss'],
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class PostDetailComponent implements OnInit {
   post: Post;
   user: User;
-  safePostText: any;
 
   constructor(
     public auth: AuthService,
@@ -35,8 +35,6 @@ export class PostDetailComponent implements OnInit {
       if (u) {
         this.user = u;
         this.post = await this.afs.doc(`posts/${postId}`).get().pipe(map(p => <Post>p.data())).toPromise()
-
-        this.safePostText = this._util.getSanitizedHtml(this.post.text)
       }
     })
   }

@@ -1,9 +1,5 @@
-<header class="lead mb-0">
-  <a [routerLink]="['/blog']" class="btn btn-light">Back</a>
-</header>
-
 <div class="row justify-content-center">
-  <div class="col-md-8">
+  <div class="col-lg-8">
 
     <div class="card p-3" *ngIf="!post">
       <facebook-content-loader></facebook-content-loader>
@@ -15,12 +11,16 @@
       </div>
 
       <div class="card-body">
-        <h1 class="display-5 card-title font-italic">{{post.title}}</h1>
-        <p class="lead my-3">
-          <span [innerHTML]="safePostText"></span>
-        </p>
+        <h1 class="card-title font-italic">{{post.title}}</h1>
+
+        <div class="my-3" [innerHTML]="_util.getSanitizedHtml(post.text)"></div>
       </div>
     </div>
 
   </div>
+</div>
+
+<div class="text-center my-4">
+  <a [routerLink]="['/blog']" class="btn btn-light mr-4">Return to Blog</a>
+  <a [routerLink]="['/blog']" class="btn btn-light">Home</a>
 </div>
