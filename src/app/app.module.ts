@@ -10,6 +10,7 @@ import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
 import { firebaseConfig } from 'src/environments/firebase.config';
+
 import { AccountModule } from './account/account.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { HomeComponent } from './home/home.component';
     ContentLoaderModule,
     ToastrModule.forRoot(),
     FacebookModule.forRoot(),
+    // FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
 
     BrowserModule,
     AppRoutingModule,

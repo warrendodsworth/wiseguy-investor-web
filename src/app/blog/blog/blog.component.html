@@ -10,9 +10,9 @@
 <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark" *ngIf="featuredPost">
   <div class="col-md-8 px-0">
     <h1 class="display-5 font-italic">{{featuredPost.title}}</h1>
-    <p class="lead my-3">{{featuredPost.text | slice: 0 : 100}}..</p>
+    <p class="lead my-3"><span [innerHTML]="featuredPost.text | slice: 0: 100"></span></p>
     <p class="lead mb-0">
-      <a href="#" class="text-white font-weight-bold">Continue reading...</a>
+      <a href="#" class="text-white font-weight-bold">Continue reading..</a>
     </p>
   </div>
 </div>

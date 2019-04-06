@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentLoaderModule } from '@netbasal/content-loader';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogService } from './blog.service';
 import { BlogComponent } from './blog/blog.component';
@@ -16,6 +18,8 @@ import { PostsComponent } from './posts/posts.component';
     FormsModule,
     ReactiveFormsModule,
     ContentLoaderModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    // FroalaEditorModule, FroalaViewModule,
 
     BlogRoutingModule
   ],

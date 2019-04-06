@@ -5,7 +5,7 @@
     <h3 class="mb-0">{{post.title}}</h3>
     <div class="mb-1 text-muted">{{post.createDate?.seconds * 1000 | date}}</div>
     <p class="card-text mb-auto">
-      {{post.text | slice: 0: 100}}..
+      <span [innerHTML]="post.text | slice: 0: 100"></span>
     </p>
     <a href="#" class="stretched-link">Continue reading</a>
   </div>

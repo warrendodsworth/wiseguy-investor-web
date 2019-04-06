@@ -26,7 +26,8 @@
 
         <div class="media-body">
           <h5 class="my-0">{{post.title}}</h5>
-          <span class="text-warning">{{post.draft ? 'Draft &middot; ' : ''}}</span>{{post.text | slice: 0: 100}}
+          <span class="text-warning">{{post.draft ? 'Draft &middot; ' : ''}}</span>
+          <span [innerHTML]="post.text | slice: 0: 100"></span>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
@@ -53,8 +54,9 @@
 
         <div class="form-group">
           <label>Text</label>
-          <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
-            class="form-control"></textarea>
+          <div [froalaEditor]="froalaOptions" [(froalaModel)]="post.text" name="text">Write your post here!</div>
+          <!-- <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
+            class="form-control"></textarea> -->
         </div>
 
         <div class="form-group">
