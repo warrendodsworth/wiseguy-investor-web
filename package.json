@@ -2,14 +2,14 @@
   "name": "web-wiseguyinvestor",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "deploy": "npm run build && firebase deploy --only hosting",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
     "install": "cd functions && npm i",
-    "deploy": "npm run build && firebase deploy --only hosting"
+    "ng": "ng",
+    "build": "ng build",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
