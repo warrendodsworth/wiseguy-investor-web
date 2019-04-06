@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FacebookService, InitParams } from 'ngx-facebook';
 import { ToastrService } from 'ngx-toastr';
+
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { FcmService } from './fcm.service';
@@ -14,6 +15,7 @@ import { FcmService } from './fcm.service';
 })
 export class AppComponent {
   title = 'WiseGuy Investor'
+  year = new Date().getFullYear()
   user: User
   isCollapsed = true
   notification: any
