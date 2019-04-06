@@ -17,7 +17,7 @@
       <div class="card-body">
         <h1 class="display-5 card-title font-italic">{{post.title}}</h1>
         <p class="lead my-3">
-          <span [innerHTML]="post.text | slice: 0: 100"></span>
+          <span [innerHTML]="safePostText"></span>
         </p>
       </div>
     </div>

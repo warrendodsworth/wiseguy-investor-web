@@ -10,11 +10,14 @@ export class UtilService {
     public toastr: ToastrService,
     private sani: DomSanitizer) { }
 
-  getSanitizedUrl(url) {
+  getSanitizedHtml(html: string) {
+    return this.sani.bypassSecurityTrustHtml(html);
+  }
+  getSanitizedUrl(url: string) {
     return this.sani.bypassSecurityTrustResourceUrl(url);
   }
-  getSanitizedStyle(url) {
-    return this.sani.bypassSecurityTrustStyle(`url(${url})`);
+  getSanitizedStyle(imageUrl: string) {
+    return this.sani.bypassSecurityTrustStyle(`url(${imageUrl})`);
   }
 
   objectClone(obj) {
