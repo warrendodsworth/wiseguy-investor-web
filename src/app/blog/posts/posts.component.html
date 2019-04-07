@@ -54,14 +54,18 @@
 
         <div class="form-group">
           <label>Text</label>
-          <div [froalaEditor]="froalaOptions" [(froalaModel)]="post.text" name="text">Write your post here!</div>
-          <!-- <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
-            class="form-control"></textarea> -->
+          <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
+            class="form-control"></textarea>
         </div>
 
         <div class="form-group">
           <label>Category</label>
           <input [(ngModel)]="post.category" name="category" placeholder="Add a tag" class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Video Embed Url</label>
+          <input [(ngModel)]="post.videoURL" name="videoURL" placeholder="eg. youtube" class="form-control" />
         </div>
 
         <div class="form-check">

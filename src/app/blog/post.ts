@@ -1,4 +1,4 @@
-import { Entity } from "../../models/entity";
+import { Entity } from '../../models/entity';
 
 export class Post extends Entity {
   id: string;
@@ -11,5 +11,6 @@ export class Post extends Entity {
   draft: boolean = false;
 
   photoURL: string = 'https://loremflickr.com/1080/1080/paris,girl';
+  videoURL: string;
   uid: string;
 }

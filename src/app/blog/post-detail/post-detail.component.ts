@@ -20,10 +20,10 @@ export class PostDetailComponent implements OnInit {
   user: User;
 
   constructor(
-    public auth: AuthService,
-    public afs: AngularFirestore,
+    public _auth: AuthService,
     public _util: UtilService,
     public _blog: BlogService,
+    public afs: AngularFirestore,
     public route: ActivatedRoute,
     public router: Router,
   ) { }
@@ -31,7 +31,7 @@ export class PostDetailComponent implements OnInit {
   ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('postId')
 
-    this.auth.user$.subscribe(async u => {
+    this._auth.user$.subscribe(async u => {
       if (u) {
         this.user = u;
         this.post = await this.afs.doc(`posts/${postId}`).get().pipe(map(p => <Post>p.data())).toPromise()

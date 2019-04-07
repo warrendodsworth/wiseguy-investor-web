@@ -33,7 +33,6 @@ import { HomeComponent } from './home/home.component';
     ContentLoaderModule,
     ToastrModule.forRoot(),
     FacebookModule.forRoot(),
-    // FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
 
     BrowserModule,
     AppRoutingModule,
