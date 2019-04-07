@@ -1,17 +1,10 @@
 <header class="mb-4">
   <h3>Blog Posts</h3>
   <button (click)="action = 'edit'" *ngIf="action == 'list'" class="btn btn-primary">Write post</button>
-  <button (click)="innerAction = !innerAction" *ngIf="action == 'list'" class="btn btn-light">See example
-    posts</button>
   <button (click)="action = 'list'" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
 </header>
 
 <div [hidden]="action != 'list'">
-  <div class="row" [hidden]="!innerAction">
-    <div class="col-md-6" *ngFor="let post of posts | async | slice: 0 : 2">
-      <app-post [post]="post"></app-post>
-    </div>
-  </div>
 
   <div class="row justify-content-center">
     <div class="col-md-10">
@@ -25,7 +18,7 @@
         </div>
 
         <div class="media-body">
-          <h5 class="my-0">{{post.title}}</h5>
+          <h5 class="my-0"><a [routerLink]="['/blog/', post.id]">{{post.title}}</a></h5>
           <span class="text-warning">{{post.draft ? 'Draft &middot; ' : ''}}</span>
           <span [innerHTML]="post.text | slice: 0: 100"></span>
         </div>
