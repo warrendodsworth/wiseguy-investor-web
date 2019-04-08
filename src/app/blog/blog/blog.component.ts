@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { User } from '../../../models/user';
 import { AuthService } from '../../auth.service';
 import { UtilService } from '../../util.service';
@@ -20,14 +21,14 @@ export class BlogComponent implements OnInit {
   featuredPost: Post;
 
   constructor(
-    public auth: AuthService,
+    public _auth: AuthService,
     public afs: AngularFirestore,
     public _util: UtilService,
     public _blog: BlogService,
     public router: Router) { }
 
   ngOnInit() {
-    this.auth.user$.subscribe(u => {
+    this._auth.user$.subscribe(u => {
       if (u) {
         this.user = u;
       }

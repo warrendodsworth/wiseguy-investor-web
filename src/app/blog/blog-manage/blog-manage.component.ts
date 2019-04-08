@@ -9,11 +9,11 @@ import { BlogService } from '../blog.service';
 import { Post } from '../post';
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  selector: 'app-blog-manage',
+  templateUrl: './blog-manage.component.html',
+  styleUrls: ['./blog-manage.component.scss']
 })
-export class PostsComponent implements OnInit {
+export class BlogManageComponent implements OnInit {
   posts: any;
   post: any = new Post();
   user: User;
