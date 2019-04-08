@@ -49,9 +49,13 @@ export class BlogManageComponent implements OnInit {
     })
 
     this.location.subscribe(val => {
-      console.log(val)
       if (val.url == '/manage/blog') this.action = 'list'
     })
+  }
+
+  backToList() {
+    this.action = 'list';
+    this.location.go('/manage/blog');
   }
 
   edit(post: Post) {
@@ -78,10 +82,6 @@ export class BlogManageComponent implements OnInit {
     await this._blog.deletePost(postId)
   }
 
-  backToList() {
-    this.action = 'list';
-    this.location.back()
-  }
 
   selectedFile: ImageSnippet;
   processFile(imageInput: any) {

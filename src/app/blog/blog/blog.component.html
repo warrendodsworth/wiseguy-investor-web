@@ -12,8 +12,7 @@
     <h1 class="display-5 font-italic">{{featuredPost.title}}</h1>
     <p class="lead my-3"><span [innerHTML]="featuredPost.text | slice: 0: 100"></span></p>
     <p class="lead mb-0">
-      <a [routerLink]="['/blog', featuredPost.id]" class="text-white font-weight-bold">Continue
-        reading..</a>
+      <a [routerLink]="['/blog', featuredPost.id]" class="text-white font-weight-bold">Continue reading..</a>
     </p>
   </div>
 </div>
@@ -28,3 +27,18 @@
     <app-post [post]="post"></app-post>
   </div>
 </div>
+
+
+<!-- <div class="card bg-dark mb-4 text-white" *ngIf="featuredPost">
+  <div class="img-background rounded" style="height:250px"
+    [style.backgroundImage]="_util.getSanitizedStyle(featuredPost.photoURL)">
+  </div>
+
+  <div class="card-img-overlay">
+    <h1 class="display-5 font-italic">{{featuredPost.title}}</h1>
+    <p class="lead my-3"><span [innerHTML]="featuredPost.text | slice: 0: 100"></span></p>
+    <p class="lead mb-0">
+      <a [routerLink]="['/blog', featuredPost.id]" class="text-white font-weight-bold">Continue reading..</a>
+    </p>
+  </div>
+</div> -->
