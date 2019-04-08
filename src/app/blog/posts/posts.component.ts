@@ -32,7 +32,7 @@ export class PostsComponent implements OnInit {
     this.auth.user$.subscribe(u => {
       if (u) {
         this.user = u;
-        this.posts = this.afs.collection('posts', q => q.where('uid', '==', this.user.uid)).valueChanges()
+        this.posts = this.afs.collection('posts', q => q.orderBy('createDate', 'desc')).valueChanges()
       }
     })
   }
