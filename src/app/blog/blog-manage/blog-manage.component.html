@@ -42,7 +42,7 @@
       <div class="col-lg-8">
 
         <div class="card">
-          <div class="img-background rounded img-lg card-img-top" [hidden]="!selectedFile || !post.photoURL"
+          <div class="img-background rounded img-lg card-img-top" [hidden]="!(selectedFile || post.photoURL)"
             [style.backgroundImage]="_util.getSanitizedStyle(selectedFile?.src || post.photoURL)">
           </div>
 
