@@ -21,7 +21,7 @@
         <div class="my-3" [innerHTML]="_util.getSanitizedHtml(post.text)"></div>
 
         <div class="text-right" *ngIf="_auth.canEdit(user)">
-          <a [routerLink]="['/manage/blog']" class="btn btn-outline-secondary btn-sm">Edit</a>
+          <a [routerLink]="['/manage/blog', post.id]" class="btn btn-outline-secondary btn-sm">Edit</a>
         </div>
       </div>
 

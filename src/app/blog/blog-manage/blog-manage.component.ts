@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { PhotoService } from 'src/app/photo.service';
 
 import { User } from '../../../models/user';
@@ -27,36 +29,35 @@ export class BlogManageComponent implements OnInit {
     public _util: UtilService,
     public _blog: BlogService,
     public _photo: PhotoService,
+    public route: ActivatedRoute,
     public router: Router,
+    public location: Location
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const postId = this.route.snapshot.paramMap.get('postId')
+    if (postId) {
+      this.action = 'edit';
+      this.post = await this._blog.post_(postId).get().pipe(map(p => p.data())).toPromise()
+    }
+
     this.auth.user$.subscribe(u => {
       if (u) {
         this.user = u;
         this.posts = this.afs.collection('posts', q => q.orderBy('createDate', 'desc')).valueChanges()
       }
     })
-  }
 
-  selectedFile: ImageSnippet;
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-
-      console.log('file', this.selectedFile)
-    });
-
-    reader.readAsDataURL(file);
+    this.location.subscribe(val => {
+      console.log(val)
+      if (val.url == '/manage/blog') this.action = 'list'
+    })
   }
 
   edit(post: Post) {
     this.post = post;
     this.action = 'edit';
+    this.location.go('/manage/blog/', post.id);
   }
   async save(post: Post) {
     this.action = 'list';
@@ -77,6 +78,25 @@ export class BlogManageComponent implements OnInit {
     await this._blog.deletePost(postId)
   }
 
+  backToList() {
+    this.action = 'list';
+    this.location.back()
+  }
+
+  selectedFile: ImageSnippet;
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+
+      console.log('file', this.selectedFile)
+    });
+
+    reader.readAsDataURL(file);
+  }
 }
 
 class ImageSnippet {

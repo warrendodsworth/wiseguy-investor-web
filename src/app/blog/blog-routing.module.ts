@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'blog/:postId', component: PostDetailComponent },
 
   { path: 'manage/blog', component: BlogManageComponent, canActivate: [EditGuard] },
+  { path: 'manage/blog/:postId', component: BlogManageComponent, canActivate: [EditGuard] },
 ]
 
 

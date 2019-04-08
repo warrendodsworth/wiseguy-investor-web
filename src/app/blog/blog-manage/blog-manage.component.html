@@ -1,7 +1,7 @@
 <header class="mb-4">
   <h3>Blog Posts</h3>
   <button (click)="action = 'edit'" *ngIf="action == 'list'" class="btn btn-primary">Write post</button>
-  <button (click)="action = 'list'" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
+  <button (click)="backToList()" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
 </header>
 
 <div [hidden]="action != 'list'">
@@ -42,7 +42,7 @@
       <div class="col-lg-8">
 
         <div class="card">
-          <div class="img-background rounded img-lg card-img-top shadow-sm" [hidden]="!selectedFile || !post.photoURL"
+          <div class="img-background rounded img-lg card-img-top" [hidden]="!selectedFile || !post.photoURL"
             [style.backgroundImage]="_util.getSanitizedStyle(selectedFile?.src || post.photoURL)">
           </div>
 

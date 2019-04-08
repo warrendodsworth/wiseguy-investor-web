@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Chance } from 'chance';
+
 import { AuthService } from '../auth.service';
 import { Post } from './post';
 
@@ -8,10 +9,14 @@ import { Post } from './post';
 @Injectable()
 export class BlogService {
   chance = new Chance();
+  post_: (postId: string) => AngularFirestoreDocument<{}>;
 
   constructor(
     public auth: AuthService,
-    public afs: AngularFirestore) { }
+    public afs: AngularFirestore) {
+
+    this.post_ = (postId) => this.afs.doc(`/posts/${postId}`)
+  }
 
 
   upsertPost(post: Post) {
