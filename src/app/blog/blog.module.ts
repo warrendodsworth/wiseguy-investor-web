@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 
+import { PhotoService } from '../photo.service';
 import { BlogManageComponent } from './blog-manage/blog-manage.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogService } from './blog.service';
@@ -23,12 +24,13 @@ import { PostComponent } from './post/post.component';
   ],
   declarations: [
     BlogManageComponent,
-    PostComponent,
     BlogComponent,
+    PostComponent,
     PostDetailComponent
   ],
   providers: [
-    BlogService
+    BlogService,
+    PhotoService
   ],
   exports: [
     PostComponent
