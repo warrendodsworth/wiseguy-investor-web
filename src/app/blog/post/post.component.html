@@ -1,17 +1,25 @@
-<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+<div class="row no-gutters overflow-hidden flex-md-row mb-3 position-relative"
+  [ngClass]="{'border rounded shadow-sm': !admin}">
 
   <div class="col p-4 d-flex flex-column position-static">
-    <strong class="d-inline-block mb-2 text-secondary">{{post.tags}}</strong>
+    <strong class="d-inline-block mb-2 text-secondary">{{post.category}}</strong>
     <h3 class="mb-0">{{post.title}}</h3>
-    <div class="mb-1 text-muted">{{post.createDate?.seconds * 1000 | date}}</div>
-    <p class="card-text mb-auto">
-      <span [innerHTML]="post.text | slice: 0: 100"></span>
+    <p class="mb-1">
+      <span class="text-warning" *ngIf="admin">{{post.draft ? 'Draft &middot; ' : ''}}</span>
+      <span class="text-muted">{{post.createDate?.seconds * 1000 | date}}</span>
     </p>
-    <a [routerLink]="['/blog', post.id]" class="stretched-link">Continue reading</a>
+    <p class="mb-1" [innerHTML]="post.text | slice: 0: 100"></p>
+    <a [routerLink]="['/blog', post.id]" class="stretched-link" *ngIf="!admin">Continue reading</a>
+
+    <div class="btn-group d-inline" *ngIf="admin">
+      <a [routerLink]="['/blog', post.id]" class="btn btn-sm btn-outline-secondary">View</a>
+      <a [routerLink]="['/blog', post.id, 'edit']" class="btn btn-sm btn-outline-secondary">Edit</a>
+      <button (click)="delete(post.id)" class="btn btn-sm btn-outline-medium">Delete</button>
+    </div>
   </div>
 
-  <div class="col-auto d-none d-lg-block p-4">
-    <div class="img-background rounded img-lg" [hidden]="!post.photoURL"
+  <div class="col-auto p-4 d-none d-lg-block">
+    <div class="img-background rounded img-lg" style="height: 100%" [hidden]="!post.photoURL"
       [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
     </div>
   </div>

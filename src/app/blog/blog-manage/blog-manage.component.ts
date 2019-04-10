@@ -80,6 +80,7 @@ export class BlogManageComponent implements OnInit {
 
   async delete(postId: string) {
     await this._blog.deletePost(postId)
+    this._util.toastr.info('Post deleted')
   }
 
 

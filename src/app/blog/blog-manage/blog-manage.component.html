@@ -13,7 +13,9 @@
     </div>
     <div class="col-md-10" *ngFor="let post of posts | async">
 
-      <div class="media mb-3">
+      <app-post [post]="post" [admin]="true"></app-post>
+
+      <!-- <div class="media mb-3">
         <div class="img-background rounded img-m mr-3" [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
         </div>
 
@@ -23,13 +25,13 @@
           <span [innerHTML]="post.text | slice: 0: 100"></span>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <div class="btn-group">
             <button (click)="edit(post)" class="btn btn-sm btn-outline-secondary">Edit</button>
             <button (click)="delete(post.id)" class="btn btn-sm btn-outline-danger">Delete</button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 

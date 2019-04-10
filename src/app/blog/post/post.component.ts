@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { UtilService } from '../../util.service';
+import { BlogService } from '../blog.service';
 import { Post } from '../post';
 
 @Component({
@@ -9,10 +11,18 @@ import { Post } from '../post';
 })
 export class PostComponent implements OnInit {
   @Input() post: Post;
+  @Input() admin: boolean = false;
 
-  constructor(public _util: UtilService) { }
+  constructor(
+    public _blog: BlogService,
+    public _util: UtilService) { }
 
   ngOnInit() {
+  }
+
+  async delete(postId: string) {
+    await this._blog.deletePost(postId)
+    this._util.toastr.info('Post deleted')
   }
 
 }
