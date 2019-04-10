@@ -30,6 +30,7 @@
     "firebase": "^5.8.5",
     "luxon": "^1.11.4",
     "ngx-facebook": "^2.4.0",
+    "ngx-parallax": "^4.0.0",
     "ngx-toastr": "^10.0.2",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

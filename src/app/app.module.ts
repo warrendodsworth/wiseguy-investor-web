@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
+import { ParallaxModule } from 'ngx-parallax';
 import { ToastrModule } from 'ngx-toastr';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
@@ -19,11 +20,10 @@ import { BlogModule } from './blog/blog.module';
 import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig),
@@ -31,8 +31,9 @@ import { HomeComponent } from './home/home.component';
     AngularFireAuthModule,
     AngularFireStorageModule,
     ContentLoaderModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-left', timeOut: 3000 }),
     FacebookModule.forRoot(),
+    ParallaxModule.forRoot(),
 
     BrowserModule,
     AppRoutingModule,

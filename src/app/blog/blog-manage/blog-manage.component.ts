@@ -75,7 +75,7 @@ export class BlogManageComponent implements OnInit {
     }
 
     await this._blog.upsertPost(post)
-    this._util.toastr.info('Post saved')
+    this._util.toastr.success('Post saved')
   }
 
   async delete(postId: string) {
