@@ -1,11 +1,11 @@
 <div class="row justify-content-center">
   <div class="col-lg-8">
 
-    <div class="card p-3" *ngIf="!post">
+    <div class="card p-3" *ngIf="!(post$ | async)">
       <facebook-content-loader></facebook-content-loader>
     </div>
 
-    <div class="card" *ngIf="post">
+    <div class="card" *ngIf="post$ | async as post">
       <div class="img-background rounded img-lg card-img-top" [hidden]="!post.photoURL"
         [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
       </div>
@@ -21,7 +21,7 @@
         <div class="my-3" [innerHTML]="_util.getSanitizedHtml(post.text)"></div>
 
         <div class="text-right" *ngIf="_auth.canEdit(user)">
-          <a [routerLink]="['/manage/blog', post.id]" class="btn btn-outline-secondary btn-sm">Edit</a>
+          <a [routerLink]="['/blog', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
         </div>
       </div>
 

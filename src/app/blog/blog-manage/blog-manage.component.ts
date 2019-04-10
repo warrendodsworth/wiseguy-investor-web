@@ -49,19 +49,19 @@ export class BlogManageComponent implements OnInit {
     })
 
     this.location.subscribe(val => {
-      if (val.url == '/manage/blog') this.action = 'list'
+      if (val.url == '/blog/manage') this.action = 'list'
     })
   }
 
   backToList() {
     this.action = 'list';
-    this.location.go('/manage/blog');
+    this.location.go('/blog/manage');
   }
 
   edit(post: Post) {
     this.post = post;
     this.action = 'edit';
-    this.location.go('/manage/blog/', post.id);
+    this.location.go(`/blog/${post.id}/edit`);
   }
   async save(post: Post) {
     this.action = 'list';
@@ -98,6 +98,7 @@ export class BlogManageComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 }
+
 
 class ImageSnippet {
   pending: boolean = false;

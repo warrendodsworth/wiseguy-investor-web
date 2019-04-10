@@ -10,11 +10,15 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 
 
 const routes: Routes = [
-  { path: 'blog', component: BlogComponent },
-  { path: 'blog/:postId', component: PostDetailComponent },
+  {
+    path: 'blog', children: [
+      { path: '', component: BlogComponent },
+      { path: 'manage', component: BlogManageComponent, canActivate: [EditGuard] },
+      { path: ':postId', component: PostDetailComponent },
+      { path: ':postId/edit', component: BlogManageComponent, canActivate: [EditGuard] },
+    ]
+  },
 
-  { path: 'manage/blog', component: BlogManageComponent, canActivate: [EditGuard] },
-  { path: 'manage/blog/:postId', component: BlogManageComponent, canActivate: [EditGuard] },
 ]
 
 

@@ -2,7 +2,7 @@
   <div class="text-center">
     <h2>Welcome to our blog</h2>
     <div *ngIf="user && _auth.canEdit(user)">
-      <a [routerLink]="['/manage/blog']" class="btn btn-light btn-sm">Manage</a>
+      <a [routerLink]="['/blog/manage']" class="btn btn-light btn-sm">Manage</a>
     </div>
   </div>
 </header>
@@ -27,6 +27,7 @@
     <app-post [post]="post"></app-post>
   </div>
 </div>
+
 
 
 <!-- <div class="card bg-dark mb-4 text-white" *ngIf="featuredPost">
