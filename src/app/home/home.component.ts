@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.posts = this.afs.collection('posts', q => q.where('draft', '==', false)).valueChanges()
+    this.posts = this.afs.collection('posts', q => q.where('draft', '==', false).orderBy('createDate', 'desc')).valueChanges()
   }
 
 }
