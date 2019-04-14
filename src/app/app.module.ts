@@ -19,11 +19,13 @@ import { AuthService } from './auth.service';
 import { BlogModule } from './blog/blog.module';
 import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    AboutComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig),

@@ -35,12 +35,6 @@ export class BlogManageComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    const postId = this.route.snapshot.paramMap.get('postId')
-    if (postId) {
-      this.action = 'edit';
-      this.post = await this._blog.post_(postId).get().pipe(map(p => p.data())).toPromise()
-    }
-
     this.auth.user$.subscribe(u => {
       if (u) {
         this.user = u;
@@ -48,8 +42,14 @@ export class BlogManageComponent implements OnInit {
       }
     })
 
-    this.location.subscribe(val => {
-      if (val.url == '/blog/manage') this.action = 'list'
+    this.route.paramMap.subscribe(async params => {
+      let postId = params.get('postId')
+      this.action = postId ? 'edit' : 'list';
+
+      if (postId) {
+        this.post = {};
+        this.post = await this._blog.post_(postId).get().pipe(map(p => p.data())).toPromise()
+      }
     })
   }
 
@@ -58,14 +58,9 @@ export class BlogManageComponent implements OnInit {
     this.location.go('/blog/manage');
   }
 
-  edit(post: Post) {
-    this.post = post;
-    this.action = 'edit';
-    this.location.go(`/blog/${post.id}/edit`);
-  }
   async save(post: Post) {
     this.action = 'list';
-    this.post = {};
+    this.location.go(`/blog/manage`);
 
     post.uid = this.user.uid;
 
@@ -75,12 +70,8 @@ export class BlogManageComponent implements OnInit {
     }
 
     await this._blog.upsertPost(post)
+    this.post = {};
     this._util.toastr.success('Post saved')
-  }
-
-  async delete(postId: string) {
-    await this._blog.deletePost(postId)
-    this._util.toastr.info('Post deleted')
   }
 
 
