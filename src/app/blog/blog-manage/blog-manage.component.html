@@ -1,6 +1,7 @@
 <header class="mb-4">
   <h3>Blog Posts</h3>
-  <button (click)="action = 'edit'" *ngIf="action == 'list'" class="btn btn-primary">Write post</button>
+  <button (click)="newPost()" *ngIf="action == 'list'" class="btn btn-primary">Write
+    post</button>
   <button (click)="backToList()" *ngIf="action == 'edit'" class="btn btn-light">Back</button>
 </header>
 
@@ -39,9 +40,10 @@
             </div>
 
             <div class="form-group">
-              <label>Text</label>
-              <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
-                class="form-control"></textarea>
+              <!-- <label>Text</label> -->
+              <ckeditor [(ngModel)]="post.text" [editor]="Editor" name="text"></ckeditor>
+              <!-- <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
+                class="form-control"></textarea> -->
             </div>
 
             <div class="form-row">

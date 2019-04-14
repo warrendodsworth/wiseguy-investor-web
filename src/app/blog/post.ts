@@ -3,7 +3,7 @@ import { Entity } from '../../models/entity';
 export class Post extends Entity {
   id: string;
   title: string;
-  text: string;
+  text: string = '';
 
   category: string;
   tags: string[];

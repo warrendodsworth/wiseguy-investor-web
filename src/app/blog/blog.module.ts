@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 
 import { PhotoService } from '../photo.service';
@@ -19,6 +20,7 @@ import { PostComponent } from './post/post.component';
     FormsModule,
     ReactiveFormsModule,
     ContentLoaderModule,
+    CKEditorModule,
 
     BlogRoutingModule
   ],

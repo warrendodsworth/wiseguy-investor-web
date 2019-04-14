@@ -12,6 +12,7 @@ import { ParallaxModule } from 'ngx-parallax';
 import { ToastrModule } from 'ngx-toastr';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
+import { AboutComponent } from './about/about.component';
 import { AccountModule } from './account/account.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +20,6 @@ import { AuthService } from './auth.service';
 import { BlogModule } from './blog/blog.module';
 import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +36,7 @@ import { AboutComponent } from './about/about.component';
     ToastrModule.forRoot({ positionClass: 'toast-bottom-left', timeOut: 3000 }),
     FacebookModule.forRoot(),
     ParallaxModule.forRoot(),
+
 
     BrowserModule,
     AppRoutingModule,

@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { map } from 'rxjs/operators';
 import { PhotoService } from 'src/app/photo.service';
 
@@ -10,6 +11,7 @@ import { AuthService } from '../../auth.service';
 import { UtilService } from '../../util.service';
 import { BlogService } from '../blog.service';
 import { Post } from '../post';
+
 
 @Component({
   selector: 'app-blog-manage',
@@ -21,7 +23,7 @@ export class BlogManageComponent implements OnInit {
   post: any = new Post();
   user: User;
   action = 'list';
-  innerAction = false;
+  Editor = ClassicEditor;
 
   constructor(
     public auth: AuthService,
@@ -47,12 +49,16 @@ export class BlogManageComponent implements OnInit {
       this.action = postId ? 'edit' : 'list';
 
       if (postId) {
-        this.post = {};
+        this.post = new Post();
         this.post = await this._blog.post_(postId).get().pipe(map(p => p.data())).toPromise()
       }
     })
   }
 
+  newPost() {
+    this.post = new Post();
+    this.action = 'edit';
+  }
   backToList() {
     this.action = 'list';
     this.location.go('/blog/manage');
@@ -70,7 +76,7 @@ export class BlogManageComponent implements OnInit {
     }
 
     await this._blog.upsertPost(post)
-    this.post = {};
+    this.post = new Post();
     this._util.toastr.success('Post saved')
   }
 
