@@ -14,6 +14,7 @@ import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { AboutComponent } from './about/about.component';
 import { AccountModule } from './account/account.module';
+import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth.service';
@@ -44,6 +45,7 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     ReactiveFormsModule,
 
+    AdminModule,
     AccountModule,
     BlogModule,
   ],

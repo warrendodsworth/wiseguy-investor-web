@@ -5,6 +5,9 @@
   <li class="nav-item">
     <a class="nav-link active" [routerLink]="['/blog/manage']" routerLinkActive="router-link-active">Blog</a>
   </li>
+  <li class="nav-item" *ngIf="user?.roles.admin">
+    <a class="nav-link active" [routerLink]="['/users/manage']" routerLinkActive="router-link-active">Users</a>
+  </li>
 </ul>
 
 <div class="card" *ngIf="user">
