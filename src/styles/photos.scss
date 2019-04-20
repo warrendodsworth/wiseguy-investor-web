@@ -5,6 +5,12 @@
   background-color: #fafafa;
 }
 
+.img-blur:before{
+  content: "";
+  position: fixed;
+  filter: blur(5px);
+}
+
 .img-xs {
   height: 30px;
   width: 30px;
@@ -29,3 +35,4 @@
   margin-left: calc(50% - 48vw);
   margin-right: calc(50% - 48vw);
 }
+

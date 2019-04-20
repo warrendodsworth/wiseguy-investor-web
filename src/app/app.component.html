@@ -13,31 +13,22 @@
       <ul class="navbar-nav mr-auto"></ul>
 
       <!-- AUTH -->
-      <ul *ngIf="user" class="navbar-nav ml-auto">
+      <nav *ngIf="user" class="navbar-nav ml-auto">
+        <a class="nav-link" [routerLink]="['/about']">About me</a>
+        <!-- <a class="nav-link" routerLink="/about">Support us</a> -->
 
-        <li class="nav-item">
-          <a routerLink="/" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/blog" class="nav-link">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/accounts/edit" style="padding-top: 7px">
-            <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle mr-2">
-            <span class="d-inline d-md-none">{{user?.displayName}}</span>
-          </a>
-        </li>
-      </ul>
+        <a class="nav-link" [routerLink]="['/blog']">Blog</a>
+        <a class="nav-link" routerLink="/accounts/edit" style="padding-top: 7px">
+          <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle mr-2">
+          <span class="d-inline d-md-none">{{user?.displayName}}</span>
+        </a>
+      </nav>
 
       <!-- ANONYMOUS -->
-      <ul *ngIf="!user" class="navbar-nav ml-auto no-select">
-        <li class="nav-item">
-          <a routerLink="/blog" class="nav-link">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" (click)="loginGoogle()">Login</a>
-        </li>
-      </ul>
+      <nav *ngIf="!user" class="navbar-nav ml-auto no-select">
+        <a class="nav-link" [routerLink]="['/about']">About me</a>
+        <!-- <a class="nav-link" routerLink="/about">Support us</a> -->
+      </nav>
     </div>
   </div>
 </nav>
@@ -68,7 +59,8 @@
     <div class="col-6 col-md">
       <h5>About</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-muted" [routerLink]="['/about']" routerLinkActive="router-link-active">About</a></li>
+        <li><a class="text-muted" [routerLink]="['/about']">About</a></li>
+        <li><a class="text-muted" (click)="loginGoogle()">Login</a></li>
       </ul>
     </div>
   </div>

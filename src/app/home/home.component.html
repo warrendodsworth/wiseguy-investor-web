@@ -1,14 +1,13 @@
-<div class="full-width landing-img mb-5" style="margin-top: -1rem; background-size: cover;" parallax>
-  <div class=" row text-center align-items-center justify-content-center overflow-hidden" style="height: 350px">
+<header class="full-width img-background mb-5 mt-n3" [style.backgroundImage]="'url(./assets/home2.jpg)'" parallax>
+  <div class="row text-center align-items-center justify-content-center overflow-hidden" style="height: 350px;">
 
     <div class="col-md-8">
-      <h1 class="display-3 mb-0 text-secondary">Wise Guy Investor</h1>
-      <h2 class="display-5 mb-4 text-muted">Financial Learning Simplified</h2>
-      <a class="btn btn-secondary text-light" href="#">Coming soon</a>
+      <h1 class="display-3 mb-0 text-white font-weight-bold" style="filter: blur(0)">Wise Guy Investor</h1>
+      <h2 class="display-5 mb-4 text-white">Financial Learning Simplified</h2>
     </div>
 
   </div>
-</div>
+</header>
 
 
 <div class="row">
@@ -20,4 +19,8 @@
   <div class="col-md-6" *ngFor="let post of posts | async | slice: 0 : 2">
     <app-post [post]="post"></app-post>
   </div>
+</div>
+
+<div class="text-center mt-4">
+  <a class="btn btn-secondary text-light" [routerLink]="['/blog']">See more episodes</a>
 </div>
