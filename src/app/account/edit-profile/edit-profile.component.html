@@ -1,12 +1,12 @@
-<ul class="nav justify-content-start mb-3" *ngIf="user?.roles?.admin">
-  <li class="nav-item">
-    <a class="nav-item nav-link disabled">ADMIN</a>
-  </li>
+<ul class="nav justify-content-end mb-3" *ngIf="user?.roles?.admin">
   <li class="nav-item">
     <a class="nav-link active" [routerLink]="['/blog/manage']" routerLinkActive="router-link-active">Blog</a>
   </li>
   <li class="nav-item" *ngIf="user?.roles.admin">
     <a class="nav-link active" [routerLink]="['/users/manage']" routerLinkActive="router-link-active">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-item nav-link disabled">Admin</a>
   </li>
 </ul>
 
