@@ -30,7 +30,7 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AngularFireStorageModule,
     ContentLoaderModule,

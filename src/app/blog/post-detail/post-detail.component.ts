@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth.service';
 import { UtilService } from 'src/app/util.service';
 import { User } from 'src/models/user';
@@ -36,8 +36,12 @@ export class PostDetailComponent implements OnInit {
         this.user = u;
 
         this.post$ = this.route.paramMap.pipe(switchMap(params => {
-          let postId = params.get('postId');
-          return this.afs.doc(`posts/${postId}`).get().pipe(map(p => <Post>p.data()))
+          return this.afs.doc(`posts/${params.get('postId')}`).get().pipe(
+            tap(p => {
+              if (!p.exists)
+                this.router.navigateByUrl('/blog')
+            }),
+            map(p => <Post>p.data()))
         }))
       }
     })
@@ -45,7 +49,4 @@ export class PostDetailComponent implements OnInit {
 
 }
 
-// post: Post;
-// let postId = this.route.snapshot.paramMap.get('postId')
-// this.post = await this.afs.doc(`posts/${postId}`).get().pipe(map(p => <Post>p.data())).toPromise()
 
