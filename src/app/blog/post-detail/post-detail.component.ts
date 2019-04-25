@@ -32,18 +32,16 @@ export class PostDetailComponent implements OnInit {
   ngOnInit() {
 
     this._auth.user$.subscribe(async u => {
-      if (u) {
-        this.user = u;
+      this.user = u;
 
-        this.post$ = this.route.paramMap.pipe(switchMap(params => {
-          return this.afs.doc(`posts/${params.get('postId')}`).get().pipe(
-            tap(p => {
-              if (!p.exists)
-                this.router.navigateByUrl('/blog')
-            }),
-            map(p => <Post>p.data()))
-        }))
-      }
+      this.post$ = this.route.paramMap.pipe(switchMap(params => {
+        return this.afs.doc(`posts/${params.get('postId')}`).get().pipe(
+          tap(p => {
+            if (!p.exists)
+              this.router.navigateByUrl('/blog')
+          }),
+          map(p => <Post>p.data()))
+      }))
     })
   }
 
