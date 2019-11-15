@@ -41,7 +41,7 @@ export class FcmService {
 
       const app = !document.URL.startsWith('http');
       if (!app) {
-        const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+        const registration = await navigator.serviceWorker.register('sw-fcm.js');
         this.messaging.useServiceWorker(registration);
 
         await this.messaging.requestPermission();
