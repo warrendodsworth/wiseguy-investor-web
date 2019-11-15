@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { UtilService } from '../../shared/services/util.service';
-import { BlogService } from '../blog.service';
-import { Post } from '../post';
+import { UtilService } from '../../../shared/services/util.service';
+import { BlogService } from '../../blog.service';
+import { Post } from '../../post';
 
 @Component({
   selector: 'app-post',

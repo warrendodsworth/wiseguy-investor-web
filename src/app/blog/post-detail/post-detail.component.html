@@ -1,22 +1,29 @@
 <div class="row justify-content-center">
   <div class="col-lg-8">
-
     <div class="card p-3" *ngIf="!(post$ | async)">
       <facebook-content-loader></facebook-content-loader>
     </div>
 
     <div class="card" *ngIf="post$ | async as post">
-      <div class="img-background rounded img-lg card-img-top" [hidden]="!post.photoURL"
-        [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)">
-      </div>
+      <div
+        class="img-background rounded-top card-img-top"
+        style="height: 50px"
+        [hidden]="!post.photoURL"
+        [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)"
+      ></div>
 
       <div class="card-body">
         <div class="fr-video mb-3" *ngIf="post.videoURL">
-          <iframe [src]="_util.getSanitizedUrl(post.videoURL)" width="640" height="360" frameborder="0"
-            allowfullscreen=""></iframe>
+          <iframe
+            [src]="_util.getSanitizedUrl(post.videoURL)"
+            width="640"
+            height="360"
+            frameborder="0"
+            allowfullscreen=""
+          ></iframe>
         </div>
 
-        <h1 class="card-title font-italic">{{post.title}}</h1>
+        <h1 class="card-title font-italic">{{ post.title }}</h1>
 
         <div class="my-3" [innerHTML]="_util.getSanitizedHtml(post.text)"></div>
 
@@ -25,7 +32,6 @@
           <a [routerLink]="['/blog', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
         </div>
       </div>
-
     </div>
   </div>
 </div>

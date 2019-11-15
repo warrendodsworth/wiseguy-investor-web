@@ -9,8 +9,8 @@ import { BlogManageComponent } from './blog-manage/blog-manage.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogService } from './blog.service';
 import { BlogComponent } from './blog/blog.component';
+import { PostComponent } from './components/post/post.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
-import { PostComponent } from './post/post.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, CKEditorModule, SharedModule, BlogRoutingModule],
