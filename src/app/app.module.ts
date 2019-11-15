@@ -17,18 +17,18 @@ import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthService } from './auth.service';
 import { BlogModule } from './blog/blog.module';
-import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    AboutComponent,
-  ],
+  declarations: [AppComponent, HomeComponent, AboutComponent],
   imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
@@ -38,21 +38,11 @@ import { HomeComponent } from './home/home.component';
     FacebookModule.forRoot(),
     ParallaxModule.forRoot(),
 
-
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-
     AdminModule,
     AccountModule,
     BlogModule,
   ],
-  providers: [
-    AuthService,
-    FcmService,
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

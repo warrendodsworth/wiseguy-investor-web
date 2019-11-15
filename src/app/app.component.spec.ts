@@ -12,12 +12,13 @@ import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
 import { firebaseConfig } from 'src/environments/firebase.config';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthService } from './auth.service';
 import { BlogModule } from './blog/blog.module';
-import { FcmService } from './fcm.service';
 import { HomeComponent } from './home/home.component';
+import { AuthService } from './shared/services/auth.service';
+import { FcmService } from './shared/services/fcm.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -40,16 +41,10 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
 
         AppRoutingModule,
-        BlogModule
+        BlogModule,
       ],
-      declarations: [
-        AppComponent,
-        HomeComponent
-      ],
-      providers: [
-        AuthService,
-        FcmService
-      ]
+      declarations: [AppComponent, HomeComponent],
+      providers: [AuthService, FcmService],
     }).compileComponents();
   }));
 

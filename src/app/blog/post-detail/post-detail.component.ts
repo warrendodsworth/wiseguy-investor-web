@@ -3,9 +3,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { AuthService } from 'src/app/auth.service';
-import { UtilService } from 'src/app/util.service';
-import { User } from 'src/models/user';
+import { User } from 'src/app/shared/models/user';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { UtilService } from 'src/app/shared/services/util.service';
 
 import { BlogService } from '../blog.service';
 import { Post } from '../post';
@@ -26,25 +26,28 @@ export class PostDetailComponent implements OnInit {
     public _blog: BlogService,
     public afs: AngularFirestore,
     public route: ActivatedRoute,
-    public router: Router,
-  ) { }
+    public router: Router
+  ) {}
 
   ngOnInit() {
-
-    this._auth.user$.subscribe(async u => {
+    this._auth.currentUser$.subscribe(async u => {
       this.user = u;
 
-      this.post$ = this.route.paramMap.pipe(switchMap(params => {
-        return this.afs.doc(`posts/${params.get('postId')}`).get().pipe(
-          tap(p => {
-            if (!p.exists)
-              this.router.navigateByUrl('/blog')
-          }),
-          map(p => <Post>p.data()))
-      }))
-    })
+      this.post$ = this.route.paramMap.pipe(
+        switchMap(params => {
+          return this.afs
+            .doc(`posts/${params.get('postId')}`)
+            .get()
+            .pipe(
+              tap(p => {
+                if (!p.exists) {
+                  this.router.navigateByUrl('/blog');
+                }
+              }),
+              map(p => <Post>p.data())
+            );
+        })
+      );
+    });
   }
-
 }
-
-

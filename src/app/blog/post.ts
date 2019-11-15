@@ -1,16 +1,16 @@
-import { Entity } from '../../models/entity';
+import { Entity } from '../shared/models/entity';
 
 export class Post extends Entity {
   id: string;
   title: string;
-  text: string = '';
+  text = '';
 
   category: string;
   tags: string[];
   featured: boolean;
-  draft: boolean = false;
+  draft = false;
 
-  photoURL: string = 'https://loremflickr.com/1080/1080/paris,girl';
+  photoURL = 'https://loremflickr.com/1080/1080/paris,girl';
   videoURL: string;
   uid: string;
 }

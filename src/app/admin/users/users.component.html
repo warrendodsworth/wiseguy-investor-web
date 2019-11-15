@@ -3,10 +3,10 @@
 </header>
 
 <div *ngFor="let user of users$ | async" class="media mb-3">
-  <img [src]="user.photoURL" class="rounded-circle img-sm mr-3" alt="">
+  <img [src]="user.photoURL" class="rounded-circle img-sm mr-3" alt="" />
 
   <div class="media-body">
-    <p class="lead mb-0">{{user.displayName}}</p>
-    <p>{{user.email}}</p>
+    <p class="lead mb-0">{{ user.displayName }}</p>
+    <p>{{ user.email }}</p>
   </div>
 </div>

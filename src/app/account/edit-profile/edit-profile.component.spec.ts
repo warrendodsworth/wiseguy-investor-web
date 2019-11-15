@@ -10,11 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
+
 import { AccountRoutingModule } from '../account-routing.module';
 import { EditProfileComponent } from './edit-profile.component';
-
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
@@ -39,14 +39,9 @@ describe('EditProfileComponent', () => {
 
         AccountRoutingModule,
       ],
-      declarations: [
-        EditProfileComponent
-      ],
-      providers: [
-        AuthService
-      ]
-    })
-      .compileComponents();
+      declarations: [EditProfileComponent],
+      providers: [AuthService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

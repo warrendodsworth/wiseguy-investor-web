@@ -10,11 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
+
 import { BlogRoutingModule } from '../blog-routing.module';
 import { BlogManageComponent } from './blog-manage.component';
-
 
 describe('BlogManageComponent', () => {
   let component: BlogManageComponent;
@@ -39,14 +39,9 @@ describe('BlogManageComponent', () => {
 
         BlogRoutingModule,
       ],
-      declarations: [
-        BlogManageComponent
-      ],
-      providers: [
-        AuthService
-      ]
-    })
-      .compileComponents();
+      declarations: [BlogManageComponent],
+      providers: [AuthService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,15 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { EditGuard } from './edit.guard';
 
 describe('EditGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        AuthService,
-        EditGuard
-      ]
+      providers: [AuthService, EditGuard],
     });
   });
 

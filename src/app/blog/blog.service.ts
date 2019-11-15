@@ -2,39 +2,37 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Chance } from 'chance';
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { Post } from './post';
 
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BlogService {
   chance = new Chance();
   post_: (postId: string) => AngularFirestoreDocument<{}>;
 
-  constructor(
-    public auth: AuthService,
-    public afs: AngularFirestore) {
-
-    this.post_ = (postId) => this.afs.doc(`/posts/${postId}`)
+  constructor(public auth: AuthService, public afs: AngularFirestore) {
+    this.post_ = postId => this.afs.doc(`/posts/${postId}`);
   }
 
-
   upsertPost(post: Post) {
-    if (!post.id)
+    if (!post.id) {
       post.id = this.afs.createId();
-    if (!post.text)
+    }
+    if (!post.text) {
       post.text = this.chance.sentence();
-    if (!post.photoURL)
+    }
+    if (!post.photoURL) {
       post.photoURL = 'https://loremflickr.com/1080/1080/' + this.chance.country() + ',girl';
-    if (post.id)
+    }
+    if (post.id) {
       post.editDate = new Date();
+    }
 
-
-    return this.afs.doc(`posts/${post.id}`).set(Object.assign({}, post), { merge: true })
+    return this.afs.doc(`posts/${post.id}`).set(Object.assign({}, post), { merge: true });
   }
 
   async deletePost(postId) {
-    await this.afs.doc(`posts/${postId}`).delete()
+    await this.afs.doc(`posts/${postId}`).delete();
 
     const batch = this.afs.firestore.batch();
     const hearts = await this.afs.collection('hearts', r => r.where('postId', '==', postId)).ref.get();
@@ -48,14 +46,13 @@ export class BlogService {
     const heartRef = this.afs.doc(`hearts/${heartId}`);
 
     if (!hearted) {
-      heartRef.set({ userId: uid, postId: post.id })
-      post.likes++
+      heartRef.set({ userId: uid, postId: post.id });
+      post.likes++;
     } else {
-      heartRef.delete()
-      post.likes--
+      heartRef.delete();
+      post.likes--;
     }
 
     post.hearted = !hearted;
   }
-
 }

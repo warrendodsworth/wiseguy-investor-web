@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 
-import { PhotoService } from '../photo.service';
+import { PhotoService } from '../shared/services/photo.service';
 import { BlogManageComponent } from './blog-manage/blog-manage.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogService } from './blog.service';
@@ -22,20 +22,10 @@ import { PostComponent } from './post/post.component';
     ContentLoaderModule,
     CKEditorModule,
 
-    BlogRoutingModule
+    BlogRoutingModule,
   ],
-  declarations: [
-    BlogManageComponent,
-    BlogComponent,
-    PostComponent,
-    PostDetailComponent
-  ],
-  providers: [
-    BlogService,
-    PhotoService
-  ],
-  exports: [
-    PostComponent
-  ]
+  declarations: [BlogManageComponent, BlogComponent, PostComponent, PostDetailComponent],
+  providers: [BlogService, PhotoService],
+  exports: [PostComponent],
 })
-export class BlogModule { }
+export class BlogModule {}

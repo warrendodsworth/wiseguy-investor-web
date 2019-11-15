@@ -8,17 +8,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { UsersComponent } from './users/users.component';
 
 @NgModule({
-  declarations: [
-    UsersComponent
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ContentLoaderModule,
-
-    AdminRoutingModule,
-  ]
+  declarations: [UsersComponent],
+  imports: [CommonModule, BrowserModule, FormsModule, ReactiveFormsModule, ContentLoaderModule, AdminRoutingModule],
 })
-export class AdminModule { }
+export class AdminModule {}
