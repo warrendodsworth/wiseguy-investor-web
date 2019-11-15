@@ -8,6 +8,7 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { FacebookModule } from 'ngx-facebook';
@@ -16,18 +17,18 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { environment } from '../environments/environment';
 import { firebaseConfig } from '../environments/firebase.config';
-import { AboutComponent } from './about/about.component';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
-import { HomeComponent } from './home/home.component';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AboutComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -47,6 +48,7 @@ import { HomeComponent } from './home/home.component';
     ParallaxModule.forRoot(),
 
     AdminModule,
+    HomeModule,
     AccountModule,
     BlogModule,
   ],

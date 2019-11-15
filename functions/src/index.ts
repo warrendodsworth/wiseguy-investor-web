@@ -1,63 +1,72 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-admin.initializeApp()
-// https://firebase.google.com/docs/functions/typescript
+
+admin.initializeApp();
 
 export const heartCount = functions.firestore.document('hearts/{heartId}').onCreate((snap, context) => {
-  let postId = snap.get('postId');
+  const postId = snap.get('postId');
 
-  admin.firestore().collection('hearts').where('postId', '==', postId).onSnapshot(snap => {
-    admin.firestore().doc(`posts/${postId}`).onSnapshot(snap1 => {
-      if (snap1.exists) {
-        snap1.ref.update({ likes: snap.size })
-      }
-    })
-  })
-})
-
-export const notifyNewSubscriber = functions.firestore.document('subscribers/{subscriptionId}').onCreate(async (snap, context) => {
-  const data = snap.data()
-
-  const userId = data.userId
-  const subscriber = data.subscriberId
-
-  // Notification content
-  const payload = {
-    notification: {
-      title: 'New Subscriber',
-      body: `${subscriber} is following your content!`,
-      icon: 'https://skaoss.blob.core.windows.net/brand/icon512.png'
-    }
-  }
-
-  return await notifyTokens(userId, payload)
+  admin
+    .firestore()
+    .collection('hearts')
+    .where('postId', '==', postId)
+    .onSnapshot(snap => {
+      admin
+        .firestore()
+        .doc(`posts/${postId}`)
+        .onSnapshot(snap1 => {
+          if (snap1.exists) {
+            snap1.ref.update({ likes: snap.size });
+          }
+        });
+    });
 });
 
+export const notifyNewSubscriber = functions.firestore
+  .document('subscribers/{subscriptionId}')
+  .onCreate(async (snap, context) => {
+    const data = snap.data();
 
-async function notifyTokens(uid, payload) {
-  const db = admin.firestore()
-  const userRef = db.collection('users').doc(uid)
+    if (!data) {
+      return;
+    }
 
-  // get the user's tokens and send notifications
-  const tokens = [];
-  const devices = await userRef.get()
+    const userId = data.userId;
+    const subscriber = data.subscriberId;
 
-  for (const token in devices.data().fcmTokens) {
-    if (devices.data().fcmTokens.hasOwnProperty(token)) {
-      tokens.push(token)
+    const notification: admin.messaging.Notification = {
+      title: 'New Subscriber',
+      body: `${subscriber} is following your content!`,
+      imageUrl: 'https://picsum.photos/50',
+    };
+
+    const payload: admin.messaging.Message = {
+      notification,
+      topic: data.topic || 'events',
+    };
+
+    return admin.messaging().send(payload);
+  });
+
+async function notifyTokens(uid: string, payload: admin.messaging.MessagingPayload) {
+  const db = admin.firestore();
+  const userRef = db.collection('users').doc(uid);
+
+  const deviceTokens = [];
+  const devicesSnap = await userRef.get();
+  const devices = devicesSnap.data();
+  if (!devices) {
+    return;
+  }
+
+  for (const token in devices.fcmTokens) {
+    if (devices.fcmTokens.hasOwnProperty(token)) {
+      deviceTokens.push(token);
     }
   }
 
-  const testRef = db.doc(`testLastNotified/${uid}`)
-  testRef.set({ lastNotifiedAt: new Date().toTimeString() })
+  const testRef = db.doc(`users/${uid}`);
+  testRef.set({ lastNotified: new Date().toTimeString() }, { merge: true });
 
-  // send a notification to each device token
-  return admin.messaging().sendToDevice(tokens, payload)
+  return admin.messaging().sendToDevice(deviceTokens, payload);
 }
-
-
-
-
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// })

@@ -1,14 +1,11 @@
 <header class="full-width img-background mb-5 mt-n3" [style.backgroundImage]="'url(./assets/home2.jpg)'" parallax>
   <div class="row text-center align-items-center justify-content-center overflow-hidden" style="height: 350px;">
-
     <div class="col-md-8">
       <h1 class="display-3 mb-0 text-white font-weight-bold" style="filter: blur(0)">Wise Guy Investor</h1>
-      <h2 class="display-5 mb-4 text-white">Financial Learning Simplified</h2>
+      <p class="display-4 mb-4 text-white">{{ 'Financial Learning Simplified' | uppercase }}</p>
     </div>
-
   </div>
 </header>
-
 
 <div class="row">
   <div class="col-md-6" *ngIf="!(posts | async)">
@@ -16,7 +13,7 @@
       <facebook-content-loader></facebook-content-loader>
     </div>
   </div>
-  <div class="col-md-6" *ngFor="let post of posts | async | slice: 0 : 2">
+  <div class="col-md-6" *ngFor="let post of posts | async | slice: 0:2">
     <app-post [post]="post"></app-post>
   </div>
 </div>

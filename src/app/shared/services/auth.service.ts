@@ -1,22 +1,42 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
 import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  readonly loginUrl = '/login';
   currentUser$: Observable<User>;
+  currentUser: User;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  userRef = (uid: string) => this.afs.doc<User>(`users/${uid}`);
+  user$ = (uid: string) =>
+    this.userRef(uid)
+      .get()
+      .pipe(map(x => x.data() as User));
+
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
     this.currentUser$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          return this.userRef(user.uid)
+            .valueChanges()
+            .pipe(
+              map(u => {
+                u.photoURL = u.photoURL || environment.gravatarUrl;
+                this.currentUser = u;
+                return u;
+              })
+            );
         } else {
+          this.currentUser = null;
+          this.router.navigateByUrl(this.loginUrl);
           return of(null);
         }
       })
@@ -27,21 +47,26 @@ export class AuthService {
     const provider = new firebase.auth.FacebookAuthProvider();
     return this.oAuthLogin(provider);
   }
+
   loginGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.oAuthLogin(provider);
   }
-  logout() {
-    return this.afAuth.auth.signOut();
+
+  async logout() {
+    await this.afAuth.auth.signOut();
+    return this.router.navigateByUrl(this.loginUrl);
   }
+
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider).then(credential => {
       console.log(credential);
-      this.updateUserData(credential.user);
+      this.updateUser(credential.user);
     });
   }
-  updateUserData(user: any) {
-    const userRef = this.afs.doc(`users/${user.uid}`);
+
+  updateUser(user: any) {
+    const userRef = this.userRef(user.uid);
 
     const data: any = {
       uid: user.uid,

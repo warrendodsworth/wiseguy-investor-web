@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FacebookService, InitParams } from 'ngx-facebook';
-import { ToastrService } from 'ngx-toastr';
+import { FacebookService } from 'ngx-facebook';
 
 import { User } from './shared/models/user';
 import { AuthService } from './shared/services/auth.service';
 import { FcmService } from './shared/services/fcm.service';
+import { UtilService } from './shared/services/util.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'WiseGuy Investor';
+export class AppComponent implements OnInit {
+  appTitle = 'Wise Guy Investor';
   year = new Date().getFullYear();
   user: User;
   isCollapsed = true;
@@ -22,34 +23,26 @@ export class AppComponent {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public _auth: AuthService,
-    public _fcm: FcmService,
+    public title: Title,
+    public authService: AuthService,
     public facebookService: FacebookService,
-    public toastr: ToastrService
+    public fcm: FcmService,
+    public util: UtilService
   ) {}
 
   ngOnInit() {
-    this._auth.currentUser$.subscribe(user => {
+    this.title.setTitle(this.appTitle);
+    this.fcm.showMessages();
+
+    this.authService.currentUser$.subscribe(user => {
       this.user = user;
+
       if (user) {
-        this._fcm.setupFCMToken(user);
-        this._fcm.listenToNotifications();
+        this.fcm.requestPermission();
       }
     });
 
-    this._fcm.currentMessage.subscribe(msg => {
-      if (msg) {
-        this.notification = (<any>msg).notification;
-        this.toastr.info(this.notification.body, this.notification.title);
-      }
-    });
-
-    const initParams: InitParams = { xfbml: true, version: 'v3.2' };
-    this.facebookService.init(initParams);
-  }
-
-  loginGoogle() {
-    this._auth.loginGoogle();
+    this.facebookService.init({ xfbml: true, version: 'v3.2' });
   }
 }
 
@@ -62,16 +55,4 @@ export class AppComponent {
 //       console.log(data)
 //       this.subscriber = {};
 //     });
-// }
-
-// adminMenu = false
-// toggleAdminMenu() {
-//   this.adminMenu = !this.adminMenu
-//   localStorage.setItem('adminMenu', this.adminMenu.toString())
-// }
-
-// isView(name) {
-//   var path = this.route.pathFromRoot.join('/')
-//   path = path.substring(1, path.length).trim()
-//   return path.indexOf(name) > -1;
 // }

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 
 import { PhotoService } from '../shared/services/photo.service';
+import { SharedModule } from '../shared/shared.module';
 import { BlogManageComponent } from './blog-manage/blog-manage.component';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogService } from './blog.service';
@@ -14,16 +13,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { PostComponent } from './post/post.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ContentLoaderModule,
-    CKEditorModule,
-
-    BlogRoutingModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, CKEditorModule, SharedModule, BlogRoutingModule],
   declarations: [BlogManageComponent, BlogComponent, PostComponent, PostDetailComponent],
   providers: [BlogService, PhotoService],
   exports: [PostComponent],

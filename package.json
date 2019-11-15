@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "deploy": "ng build --prod && firebase deploy --only hosting",
-    "test": "ng test",
+    "publish:web": "ng build --prod && firebase deploy --only hosting",
+    "publish:functions": "npm run deploy --prefix functions",
+    "publish:rules": "firebase deploy --only firestore:rules",
     "install": "cd functions && npm i",
-    "ng": "ng",
+    "test": "ng test",
     "build": "ng build",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ng": "ng"
   },
   "husky": {
     "hooks": {

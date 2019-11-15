@@ -1,15 +1,21 @@
 <nav class="navbar navbar-expand-md sticky-top navbar-light bg-white justify-content-between">
   <div class="container">
     <a routerLink="/" class="navbar-brand text-muted">
-      Wise Guy Investor
+      {{ appTitle }}
     </a>
 
-    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="isCollapsed = !isCollapsed"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" [ngClass]="{'show' : !isCollapsed}">
+    <div class="collapse navbar-collapse" [ngClass]="{ show: !isCollapsed }">
       <ul class="navbar-nav mr-auto"></ul>
 
       <!-- AUTH -->
@@ -19,8 +25,8 @@
 
         <a class="nav-link" [routerLink]="['/blog']">Blog</a>
         <a class="nav-link" routerLink="/accounts/edit" style="padding-top: 7px">
-          <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle mr-2">
-          <span class="d-inline d-md-none">{{user?.displayName}}</span>
+          <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle mr-2" />
+          <span class="d-inline d-md-none">{{ user?.displayName }}</span>
         </a>
       </nav>
 
@@ -34,40 +40,47 @@
 </nav>
 
 <main class="container pt-3">
-
   <router-outlet></router-outlet>
-
 </main>
 
 <footer class="my-5 py-5 border-top container">
   <div class="row">
     <div class="col-12 col-md">
       <h3>WiseGuy Investor</h3>
-      <small class="d-block mb-3 text-muted">©{{year}}</small>
+      <small class="d-block mb-3 text-muted">©{{ year }}</small>
     </div>
     <div class="col-6 col-md">
       <h5>Social</h5>
       <ul class="list-unstyled text-small">
-        <li><a class="text-muted" href="https://www.youtube.com/channel/UCPdod6Qvi-0t_l-qJrLDl0w" target="_blank"><i
-              class="fa fa-fw fa-youtube"></i> Youtube Channel</a></li>
-        <li><a class="text-muted" href="https://www.facebook.com/wiseguyinvestor" target="_blank"><i
-              class="fa fa-fw fa-facebook"></i> Facebook</a></li>
-        <li><a class="text-muted" href="https://www.instagram.com/wiseguyinvestor/" target="_blank"><i
-              class="fa fa-fw fa-instagram"></i> Instagram</a></li>
+        <li>
+          <a class="text-muted" href="https://www.youtube.com/channel/UCPdod6Qvi-0t_l-qJrLDl0w" target="_blank">
+            <i class="fa fa-fw fa-youtube"></i> Youtube Channel
+          </a>
+        </li>
+        <li>
+          <a class="text-muted" href="https://www.facebook.com/wiseguyinvestor" target="_blank">
+            <i class="fa fa-fw fa-facebook"></i> Facebook
+          </a>
+        </li>
+        <li>
+          <a class="text-muted" href="https://www.instagram.com/wiseguyinvestor/" target="_blank">
+            <i class="fa fa-fw fa-instagram"></i>
+            Instagram
+          </a>
+        </li>
       </ul>
     </div>
     <div class="col-6 col-md">
       <h5>About</h5>
       <ul class="list-unstyled text-small">
         <li><a class="text-muted" [routerLink]="['/about']">About</a></li>
-        <li><a class="text-muted" (click)="loginGoogle()">Login</a></li>
+        <li><a class="text-muted" (click)="authService.loginGoogle()">Login</a></li>
       </ul>
     </div>
   </div>
 </footer>
 
 <div class="fb-customerchat" page_id="317671382361672"></div>
-
 
 <!-- <img class="mb-2" src="../../assets/brand/bootstrap-solid.svg" alt="" width="24" height="24"> -->
 

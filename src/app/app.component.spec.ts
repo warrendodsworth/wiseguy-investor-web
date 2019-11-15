@@ -16,7 +16,7 @@ import { firebaseConfig } from 'src/environments/firebase.config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home/home/home.component';
 import { AuthService } from './shared/services/auth.service';
 import { FcmService } from './shared/services/fcm.service';
 

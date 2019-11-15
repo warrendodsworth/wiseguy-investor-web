@@ -24,7 +24,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   async update(user: User) {
-    await this._auth.updateUserData(user);
+    await this._auth.updateUser(user);
 
     this._util.toastr.success(null, 'Saved');
   }

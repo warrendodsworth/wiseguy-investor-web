@@ -6,6 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 export class UtilService {
   constructor(public toastr: ToastrService, private sani: DomSanitizer) {}
 
+  newToast(message: string) {
+    const toast = this.toastr.show(message);
+    return toast;
+  }
+
   getSanitizedHtml(html: string) {
     return this.sani.bypassSecurityTrustHtml(html);
   }

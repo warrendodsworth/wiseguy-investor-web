@@ -7,28 +7,20 @@ import { BlogComponent } from './blog/blog.component';
 import { EditGuard } from './edit.guard';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 
-
-
 const routes: Routes = [
   {
-    path: 'blog', children: [
+    path: 'blog',
+    children: [
       { path: '', component: BlogComponent },
       { path: 'manage', component: BlogManageComponent, canActivate: [EditGuard] },
       { path: ':postId', component: PostDetailComponent },
       { path: ':postId/edit', component: BlogManageComponent, canActivate: [EditGuard] },
-    ]
+    ],
   },
-
-]
-
+];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [CommonModule, RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class BlogRoutingModule { }
+export class BlogRoutingModule {}
