@@ -13,16 +13,16 @@ import { BlogService } from '../blog.service';
 import { Post } from '../post';
 
 @Component({
-  selector: 'app-blog-manage',
-  templateUrl: './blog-manage.component.html',
-  styleUrls: ['./blog-manage.component.scss'],
+  selector: 'app-posts',
+  templateUrl: './posts.component.html',
+  styleUrls: ['./posts.component.scss'],
 })
-export class BlogManageComponent implements OnInit {
+export class PostsComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public afs: AngularFirestore,
-    public _util: UtilService,
-    public _blog: BlogService,
+    public util: UtilService,
+    public blogService: BlogService,
     public _photo: PhotoService,
     public route: ActivatedRoute,
     public router: Router,
@@ -50,56 +50,12 @@ export class BlogManageComponent implements OnInit {
 
       if (postId) {
         this.post = new Post();
-        this.post = await this._blog
-          .post_(postId)
+        this.post = await this.blogService
+          .postRef(postId)
           .get()
           .pipe(map(p => p.data()))
           .toPromise();
       }
     });
   }
-
-  newPost() {
-    this.post = new Post();
-    this.action = 'edit';
-  }
-  backToList() {
-    this.action = 'list';
-    this.location.go('/blog/manage');
-  }
-
-  async save(post: Post) {
-    this.action = 'list';
-    this.location.go(`/blog/manage`);
-
-    post.uid = this.user.uid;
-
-    if (this.selectedFile) {
-      const uploadSnap = await this._photo.uploadPhotoToFirebase(this.selectedFile.src, post.id);
-      post.photoURL = await uploadSnap.ref.getDownloadURL();
-    }
-
-    await this._blog.upsertPost(post);
-    this.post = new Post();
-    this._util.toastr.success('Post saved');
-  }
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-
-      console.log('file', this.selectedFile);
-    });
-
-    reader.readAsDataURL(file);
-  }
-}
-
-class ImageSnippet {
-  pending = false;
-  status = 'init';
-
-  constructor(public src: string, public file: File) {}
 }

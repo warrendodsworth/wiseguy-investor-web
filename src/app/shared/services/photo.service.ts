@@ -6,7 +6,22 @@ import { UtilService } from './util.service';
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
-  constructor(public _util: UtilService) {}
+  constructor(public util: UtilService) {}
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    let selectedFile: ImageSnippet;
+
+    reader.addEventListener('load', (event: any) => {
+      selectedFile = new ImageSnippet(event.target.result, file);
+    });
+
+    reader.readAsDataURL(file);
+
+    return selectedFile;
+  }
 
   uploadPhotoToFirebase(dataUrl: string, fileName: string = null) {
     fileName = !fileName ? DateTime.local().toISO() + '.jpg' : fileName;

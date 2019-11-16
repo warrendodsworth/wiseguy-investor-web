@@ -8,7 +8,7 @@ import { UsersComponent } from './users/users.component';
 const routes: Routes = [
   {
     path: 'users',
-    children: [{ path: 'manage', component: UsersComponent, canActivate: [AdminGuard] }],
+    children: [{ path: '', component: UsersComponent, canActivate: [AdminGuard] }],
   },
 ];
 

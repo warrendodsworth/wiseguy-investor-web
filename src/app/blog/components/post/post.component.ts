@@ -13,7 +13,7 @@ export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() admin = false;
 
-  constructor(public _blog: BlogService, public _util: UtilService) {}
+  constructor(public _blog: BlogService, public util: UtilService) {}
 
   ngOnInit() {}
 
@@ -21,7 +21,7 @@ export class PostComponent implements OnInit {
     const res = confirm('Are you sure?');
     if (res) {
       await this._blog.deletePost(postId);
-      this._util.toastr.info('Post deleted');
+      this.util.toastr.info('Post deleted');
     }
   }
 }

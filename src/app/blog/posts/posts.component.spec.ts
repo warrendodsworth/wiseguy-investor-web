@@ -14,11 +14,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { BlogRoutingModule } from '../blog-routing.module';
-import { BlogManageComponent } from './blog-manage.component';
+import { PostsComponent } from './posts.component';
 
 describe('BlogManageComponent', () => {
-  let component: BlogManageComponent;
-  let fixture: ComponentFixture<BlogManageComponent>;
+  let component: PostsComponent;
+  let fixture: ComponentFixture<PostsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,13 +39,13 @@ describe('BlogManageComponent', () => {
 
         BlogRoutingModule,
       ],
-      declarations: [BlogManageComponent],
+      declarations: [PostsComponent],
       providers: [AuthService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BlogManageComponent);
+    fixture = TestBed.createComponent(PostsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

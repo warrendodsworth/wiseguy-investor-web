@@ -21,16 +21,16 @@ export class PostDetailComponent implements OnInit {
   post$: Observable<Post>;
 
   constructor(
-    public _auth: AuthService,
-    public _util: UtilService,
-    public _blog: BlogService,
     public afs: AngularFirestore,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public authService: AuthService,
+    public blogService: BlogService,
+    public util: UtilService
   ) {}
 
   ngOnInit() {
-    this._auth.currentUser$.subscribe(async u => {
+    this.authService.currentUser$.subscribe(async u => {
       this.user = u;
 
       this.post$ = this.route.paramMap.pipe(
@@ -44,7 +44,7 @@ export class PostDetailComponent implements OnInit {
                   this.router.navigateByUrl('/blog');
                 }
               }),
-              map(p => <Post>p.data())
+              map(p => p.data() as Post)
             );
         })
       );

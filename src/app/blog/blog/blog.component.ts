@@ -23,7 +23,7 @@ export class BlogComponent implements OnInit {
   constructor(
     public _auth: AuthService,
     public afs: AngularFirestore,
-    public _util: UtilService,
+    public util: UtilService,
     public _blog: BlogService,
     public router: Router
   ) {}

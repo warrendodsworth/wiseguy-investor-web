@@ -15,7 +15,7 @@ export class EditProfileComponent implements OnInit {
   user: User;
   showCropper = false;
 
-  constructor(public _auth: AuthService, public _util: UtilService, public afs: AngularFirestore, public router: Router) {}
+  constructor(public _auth: AuthService, public util: UtilService, public afs: AngularFirestore, public router: Router) {}
 
   ngOnInit() {
     this._auth.currentUser$.subscribe(u => {
@@ -26,7 +26,7 @@ export class EditProfileComponent implements OnInit {
   async update(user: User) {
     await this._auth.updateUser(user);
 
-    this._util.toastr.success(null, 'Saved');
+    this.util.toastr.success(null, 'Saved');
   }
 
   async logout() {

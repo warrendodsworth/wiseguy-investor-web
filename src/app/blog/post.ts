@@ -10,7 +10,10 @@ export class Post extends Entity {
   featured: boolean;
   draft = false;
 
-  photoURL = 'https://loremflickr.com/1080/1080/paris,girl';
+  photoURL = 'https://picsum.photos/1080';
   videoURL: string;
   uid: string;
+
+  likes: number;
+  hearted: boolean;
 }

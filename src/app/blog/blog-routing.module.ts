@@ -2,19 +2,24 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BlogManageComponent } from './blog-manage/blog-manage.component';
 import { BlogComponent } from './blog/blog.component';
 import { EditGuard } from './edit.guard';
 import { PostDetailComponent } from './post-detail/post-detail.component';
+import { PostEditComponent } from './post-edit/post-edit.component';
+import { PostsComponent } from './posts/posts.component';
 
 const routes: Routes = [
   {
     path: 'blog',
+    children: [{ path: '', component: BlogComponent }],
+  },
+  {
+    path: 'posts',
     children: [
-      { path: '', component: BlogComponent },
-      { path: 'manage', component: BlogManageComponent, canActivate: [EditGuard] },
+      { path: '', component: PostsComponent, canActivate: [EditGuard] },
+      { path: 'create', component: PostEditComponent, canActivate: [EditGuard] },
       { path: ':postId', component: PostDetailComponent },
-      { path: ':postId/edit', component: BlogManageComponent, canActivate: [EditGuard] },
+      { path: ':postId/edit', component: PostEditComponent, canActivate: [EditGuard] },
     ],
   },
 ];

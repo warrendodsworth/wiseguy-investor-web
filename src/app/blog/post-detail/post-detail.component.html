@@ -7,15 +7,15 @@
     <div class="card" *ngIf="post$ | async as post">
       <div
         class="img-background rounded-top card-img-top"
-        style="height: 50px"
+        style="height: 64px"
         [hidden]="!post.photoURL"
-        [style.backgroundImage]="_util.getSanitizedStyle(post.photoURL)"
+        [style.backgroundImage]="util.getSanitizedStyle(post.photoURL)"
       ></div>
 
       <div class="card-body">
         <div class="fr-video mb-3" *ngIf="post.videoURL">
           <iframe
-            [src]="_util.getSanitizedUrl(post.videoURL)"
+            [src]="util.getSanitizedUrl(post.videoURL)"
             width="640"
             height="360"
             frameborder="0"
@@ -25,11 +25,11 @@
 
         <h1 class="card-title font-italic">{{ post.title }}</h1>
 
-        <div class="my-3" [innerHTML]="_util.getSanitizedHtml(post.text)"></div>
+        <div class="my-3" [innerHTML]="util.getSanitizedHtml(post.text)"></div>
 
-        <div class="text-right btn-group" *ngIf="_auth.canEdit(user)">
-          <a [routerLink]="['/blog/manage']" class="btn btn-outline-dark btn-sm">Manage</a>
-          <a [routerLink]="['/blog', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" *ngIf="authService.canEdit(user)">
+          <a [routerLink]="['/posts']" class="btn btn-outline-dark btn-sm">Manage</a>
+          <a [routerLink]="['/posts', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
         </div>
       </div>
     </div>

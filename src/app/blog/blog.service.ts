@@ -1,37 +1,55 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Chance } from 'chance';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
+import { PhotoService } from '../shared/services/photo.service';
+import { UtilService } from '../shared/services/util.service';
 import { Post } from './post';
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
   chance = new Chance();
-  post_: (postId: string) => AngularFirestoreDocument<{}>;
+  postRef = (postId: string) => this.afs.doc(`posts/${postId}`);
+  post$ = (uid: string) =>
+    this.postRef(uid)
+      .get()
+      .pipe(map(x => x.data() as Post));
 
-  constructor(public auth: AuthService, public afs: AngularFirestore) {
-    this.post_ = postId => this.afs.doc(`/posts/${postId}`);
-  }
+  constructor(
+    public authService: AuthService,
+    public afs: AngularFirestore,
+    public photoService: PhotoService,
+    public util: UtilService
+  ) {}
 
-  upsertPost(post: Post) {
+  async upsertPost(post: Post, selectedFile?: ImageSnippet) {
     if (!post.id) {
       post.id = this.afs.createId();
+    } else {
+      post.editDate = new Date();
     }
+
+    post.uid = this.authService.currentUser.uid;
+
     if (!post.text) {
       post.text = this.chance.sentence();
     }
     if (!post.photoURL) {
-      post.photoURL = 'https://loremflickr.com/1080/1080/' + this.chance.country() + ',girl';
-    }
-    if (post.id) {
-      post.editDate = new Date();
+      post.photoURL = 'https://picsum.photos/1080';
     }
 
-    return this.afs.doc(`posts/${post.id}`).set(Object.assign({}, post), { merge: true });
+    if (selectedFile) {
+      const uploadSnap = await this.photoService.uploadPhotoToFirebase(selectedFile.src, post.id);
+      post.photoURL = await uploadSnap.ref.getDownloadURL();
+    }
+
+    await this.afs.doc<Post>(`posts/${post.id}`).set(Object.assign({}, post), { merge: true });
+    this.util.newToast('Post Saved');
   }
 
-  async deletePost(postId) {
+  async deletePost(postId: string) {
     await this.afs.doc(`posts/${postId}`).delete();
 
     const batch = this.afs.firestore.batch();
@@ -41,7 +59,7 @@ export class BlogService {
     batch.commit();
   }
 
-  heartPost(post, hearted, uid) {
+  heartPost(post: Post, hearted, uid) {
     const heartId = `${uid}_${post.id}`;
     const heartRef = this.afs.doc(`hearts/${heartId}`);
 
