@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 
+import { SharedModule } from '../shared/shared.module';
 import { AccountRoutingModule } from './account-routing.module';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ContentLoaderModule, AccountRoutingModule],
-  declarations: [EditProfileComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule, AccountRoutingModule],
+  declarations: [UserEditComponent],
 })
 export class AccountModule {}

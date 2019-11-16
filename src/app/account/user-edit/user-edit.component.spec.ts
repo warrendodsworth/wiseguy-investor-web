@@ -14,11 +14,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { AccountRoutingModule } from '../account-routing.module';
-import { EditProfileComponent } from './edit-profile.component';
+import { UserEditComponent } from './user-edit.component';
 
 describe('EditProfileComponent', () => {
-  let component: EditProfileComponent;
-  let fixture: ComponentFixture<EditProfileComponent>;
+  let component: UserEditComponent;
+  let fixture: ComponentFixture<UserEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,13 +39,13 @@ describe('EditProfileComponent', () => {
 
         AccountRoutingModule,
       ],
-      declarations: [EditProfileComponent],
+      declarations: [UserEditComponent],
       providers: [AuthService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditProfileComponent);
+    fixture = TestBed.createComponent(UserEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

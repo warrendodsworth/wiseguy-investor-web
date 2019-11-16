@@ -20,9 +20,10 @@ export class User implements UserInfo {
 }
 
 export class Roles {
-  subscriber?: boolean;
-  editor?: boolean;
-  admin?: boolean;
+  admin?: true | false = false;
+  editor?: true | false = false;
+  subscriber?: true | false = false;
+  user = true;
 }
 
 // stripe

@@ -14,7 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class UsersComponent implements OnInit {
   users$: Observable<User[]>;
 
-  constructor(public _auth: AuthService, public afs: AngularFirestore, public router: Router) {}
+  constructor(public router: Router, public afs: AngularFirestore, public authService: AuthService) {}
 
   ngOnInit() {
     this.users$ = this.afs.collection<User>('users').valueChanges();

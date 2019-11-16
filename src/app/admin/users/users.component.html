@@ -6,7 +6,13 @@
   <img [src]="user.photoURL" class="rounded-circle img-sm mr-3" alt="" />
 
   <div class="media-body">
-    <p class="lead mb-0">{{ user.displayName }}</p>
-    <p>{{ user.email }}</p>
+    <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+      <div>
+        <p class="lead mb-0">{{ user.displayName }}</p>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <button class="btn btn-sm btn-outline-secondary" [routerLink]="['/users', user.uid]">Edit</button>
+    </div>
   </div>
 </div>

@@ -9,10 +9,10 @@ import { AuthService } from '../shared/services/auth.service';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(public _auth: AuthService, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._auth.currentUser$.pipe(
+    return this.authService.currentUser$.pipe(
       map(u => u && u.roles.admin),
       tap(allowed => {
         if (!allowed) {

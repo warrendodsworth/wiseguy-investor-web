@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FacebookService } from 'ngx-facebook';
 
 import { User } from './shared/models/user';
@@ -42,17 +42,12 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isCollapsed = true;
+      }
+    });
+
     this.facebookService.init({ xfbml: true, version: 'v3.2' });
   }
 }
-
-// subscriber: any = {};
-// subscribeToMailingList(user) {
-//   var body = "FNAME=" + user.firstname + "&LNAME=" + user.lastname + "&EMAIL=" + user.email;
-
-//   this.http.post("https://skaoss.us14.list-manage.com/subscribe/post?u=f87d6e1ec58cd04830f6a367b&amp;id=e58a2a6af0", body)
-//     .subscribe((data) => {
-//       console.log(data)
-//       this.subscriber = {};
-//     });
-// }

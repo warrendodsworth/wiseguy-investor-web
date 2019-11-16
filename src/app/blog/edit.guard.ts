@@ -9,11 +9,11 @@ import { AuthService } from '../shared/services/auth.service';
   providedIn: 'root',
 })
 export class EditGuard implements CanActivate {
-  constructor(public _auth: AuthService, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._auth.currentUser$.pipe(
-      map(u => u && this._auth.canEdit(u)),
+    return this.authService.currentUser$.pipe(
+      map(u => u && this.authService.canEdit(u)),
       tap(allowed => {
         if (!allowed) {
           this.router.navigate(['/blog']);

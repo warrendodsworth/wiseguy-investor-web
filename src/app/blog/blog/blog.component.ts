@@ -21,7 +21,7 @@ export class BlogComponent implements OnInit {
   featuredPost: Post;
 
   constructor(
-    public _auth: AuthService,
+    public authService: AuthService,
     public afs: AngularFirestore,
     public util: UtilService,
     public _blog: BlogService,
@@ -29,7 +29,7 @@ export class BlogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this._auth.currentUser$.subscribe(u => {
+    this.authService.currentUser$.subscribe(u => {
       if (u) {
         this.user = u;
       }

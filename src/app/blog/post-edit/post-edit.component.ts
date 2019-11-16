@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { User } from '../../shared/models/user';
 import { PhotoService } from '../../shared/services/photo.service';
@@ -30,13 +31,18 @@ export class PostEditComponent implements OnInit, OnDestroy {
   post: Post;
 
   selectedFile: any;
+  working = true;
 
   async ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('postId');
     if (postId) {
-      this.post = await this.blogService.post$(postId).toPromise();
+      this.post = await this.blogService
+        .post$(postId)
+        .pipe(finalize(() => (this.working = false)))
+        .toPromise();
     } else {
       this.post = new Post();
+      this.working = false;
     }
   }
 

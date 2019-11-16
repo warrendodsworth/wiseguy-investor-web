@@ -1,14 +1,18 @@
-<ul class="nav justify-content-end mb-3" *ngIf="user?.roles?.admin">
-  <li class="nav-item">
-    <a class="nav-link active" [routerLink]="['/posts']" routerLinkActive="router-link-active">Posts</a>
-  </li>
-  <li class="nav-item" *ngIf="user?.roles.admin">
-    <a class="nav-link active" [routerLink]="['/users']" routerLinkActive="router-link-active">Users</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-item nav-link disabled">Admin</a>
-  </li>
-</ul>
+<header class="mb-3" fxLayout fxLayoutAlign="space-between center">
+  <button [routerLink]="['/users']" class="btn btn-light">Back</button>
+
+  <ul class="nav" *ngIf="currentUser?.roles?.admin">
+    <li class="nav-item">
+      <a class="nav-link active" [routerLink]="['/posts']" routerLinkActive="router-link-active">Posts</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" [routerLink]="['/users']" routerLinkActive="router-link-active">Users</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item nav-link disabled">Admin</a>
+    </li>
+  </ul>
+</header>
 
 <div class="card" *ngIf="user">
   <div class="card-body">
@@ -17,7 +21,7 @@
         <nav class="nav flex-column">
           <a class="nav-link active">Edit Profile</a>
 
-          <a routerLink="" (click)="logout()" class="nav-link mt-3">Logout</a>
+          <a routerLink="" *ngIf="currentUser?.uid == user?.uid" (click)="logout()" class="nav-link mt-3">Logout</a>
         </nav>
       </div>
 
@@ -46,9 +50,30 @@
                 <input type="tel" [(ngModel)]="user.phoneNumber" name="phone" placeholder="Phone number" class="form-control" />
               </div>
               <div class="form-group">
-                <label>About</label>
-                <input type="text" [(ngModel)]="user.about" name="about" placeholder="About" class="form-control" />
+                <label>Bio</label>
+                <input type="text" [(ngModel)]="user.bio" name="about" placeholder="Bio" class="form-control" />
               </div>
+
+              <ng-container *ngIf="user && user.roles && authService.currentUser?.roles?.admin">
+                <p class="lead">Roles</p>
+
+                <div *ngFor="let role of allRoles; let i = index">
+                  <div class="form-check">
+                    <input
+                      #inputEl
+                      class="form-check-input"
+                      type="checkbox"
+                      [id]="'role' + i"
+                      [checked]="user.roles[role]"
+                      (change)="user.roles[role] = inputEl.checked"
+                      name="role"
+                    />
+                    <label class="form-check-label" [for]="'role' + i">
+                      {{ role | titlecase }}
+                    </label>
+                  </div>
+                </div>
+              </ng-container>
 
               <button (click)="update(user)" class="btn btn-primary btn-block">Save</button>
             </div>
@@ -64,31 +89,3 @@
         <button class="btn btn-link text-dark" (click)="deactivate()">Temporarily disable my account</button>
       </div>
     </div> -->
-
-<!-- <div class="form-group has-feedback">
-            <label>Username</label>
-            <input type="text" [(ngModel)]="user.username" name="username" required placeholder="Username" class="form-control" />
-          </div> -->
-
-<!-- <ng-template #rt let-r="result" let-t="term">
-    <a class="cursor-pointer">
-      <div class="media">
-        <div class="media-left mr-2" *ngIf="r.photoUrl">
-          <img [src]="r.photoUrl" class="rounded-circle img-sm">
-        </div>
-        <div class="media-body">
-          <p [innerHtml]="r.name"></p>
-          <p>
-            {{r.value}}
-            <span *ngIf="r.category">&mdash; {{r.category}}</span>
-          </p>
-        </div>
-      </div>
-    </a>
-  </ng-template> -->
-
-<!-- <div class="form-group">
-    <label>Location</label>
-    <span class="text-muted">(drag the map marker to change)</span>
-    <google-map location="user.location" user="user" title="user.name" zoom="map.zoom" mode="edit" on-dragend="onDragend()" *ngIf="user.id"></google-map>
-  </div> -->

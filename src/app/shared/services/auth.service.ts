@@ -65,11 +65,12 @@ export class AuthService {
     });
   }
 
-  updateUser(user: any) {
+  updateUser(user: any | firebase.User) {
     const userRef = this.userRef(user.uid);
 
     const data: any = {
       uid: user.uid,
+      roles: user.roles || { user: true },
     };
     if (user.displayName) {
       data.displayName = user.displayName;
