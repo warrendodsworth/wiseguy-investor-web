@@ -62,7 +62,6 @@ export class AuthService {
 
   private oAuthLogin(provider: firebase.auth.AuthProvider) {
     return this.afAuth.auth.signInWithPopup(provider).then(credential => {
-      console.log(credential);
       this.analytics.setUserId(credential.user.uid);
       this.analytics.logEvent('login', { method: provider.providerId });
       this.updateUser(credential.user);
