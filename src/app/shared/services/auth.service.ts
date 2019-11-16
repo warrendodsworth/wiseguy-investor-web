@@ -57,6 +57,7 @@ export class AuthService {
 
   async logout() {
     await this.afAuth.auth.signOut();
+    this.analytics.logEvent('logout');
     return this.router.navigateByUrl(this.loginUrl);
   }
 
