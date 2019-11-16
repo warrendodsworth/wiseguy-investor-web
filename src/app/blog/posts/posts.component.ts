@@ -23,7 +23,7 @@ export class PostsComponent implements OnInit {
     public afs: AngularFirestore,
     public util: UtilService,
     public blogService: BlogService,
-    public _photo: PhotoService,
+    public photoService: PhotoService,
     public route: ActivatedRoute,
     public router: Router,
     public location: Location

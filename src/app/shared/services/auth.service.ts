@@ -27,12 +27,15 @@ export class AuthService {
     this.currentUser$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
+          this.analytics.setUserId(user.uid);
+
           return this.userRef(user.uid)
             .valueChanges()
             .pipe(
               map(u => {
                 u.photoURL = u.photoURL || environment.gravatarUrl;
                 this.currentUser = u;
+                this.analytics.setUserProperties({ subscriber: u.roles && u.roles.subscriber });
                 return u;
               })
             );
@@ -57,13 +60,11 @@ export class AuthService {
 
   async logout() {
     await this.afAuth.auth.signOut();
-    this.analytics.logEvent('logout');
     return this.router.navigateByUrl(this.loginUrl);
   }
 
   private oAuthLogin(provider: firebase.auth.AuthProvider) {
     return this.afAuth.auth.signInWithPopup(provider).then(credential => {
-      this.analytics.setUserId(credential.user.uid);
       this.analytics.logEvent('login', { method: provider.providerId });
       this.updateUser(credential.user);
     });
