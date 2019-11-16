@@ -11,9 +11,11 @@ import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly loginUrl = '/login';
+  readonly loginUrl = '/';
   currentUser$: Observable<User>;
   currentUser: User;
+
+  analytics = firebase.analytics();
 
   userRef = (uid: string) => this.afs.doc<User>(`users/${uid}`);
   user$ = (uid: string) =>
@@ -58,9 +60,11 @@ export class AuthService {
     return this.router.navigateByUrl(this.loginUrl);
   }
 
-  private oAuthLogin(provider) {
+  private oAuthLogin(provider: firebase.auth.AuthProvider) {
     return this.afAuth.auth.signInWithPopup(provider).then(credential => {
       console.log(credential);
+      this.analytics.setUserId(credential.user.uid);
+      this.analytics.logEvent('login', { method: provider.providerId });
       this.updateUser(credential.user);
     });
   }

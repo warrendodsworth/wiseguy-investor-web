@@ -5,4 +5,6 @@ export const firebaseConfig = {
   projectId: 'wiseguyapp',
   storageBucket: 'wiseguyapp.appspot.com',
   messagingSenderId: '423044829241',
+  appId: '1:423044829241:web:f316ee608676939bbf7de8',
+  measurementId: 'G-QNHVDDT3T6',
 };
