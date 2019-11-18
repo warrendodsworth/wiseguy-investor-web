@@ -6,6 +6,7 @@
     "publish:web": "ng build --prod && firebase deploy --only hosting",
     "publish:functions": "npm run deploy --prefix functions",
     "publish:rules": "firebase deploy --only firestore:rules",
+    "prettier": "prettier --write \"src/**/*.ts\"",
     "install": "cd functions && npm i",
     "test": "ng test",
     "build": "ng build",

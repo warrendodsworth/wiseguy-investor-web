@@ -9,7 +9,7 @@ import { UtilService } from '../shared/services/util.service';
 import { Post } from './post';
 
 @Injectable({ providedIn: 'root' })
-export class BlogService {
+export class PostService {
   chance = new Chance();
   postRef = (postId: string) => this.afs.doc(`posts/${postId}`);
   post$ = (uid: string) =>

@@ -1,26 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { UtilService } from '../../../shared/services/util.service';
-import { BlogService } from '../../blog.service';
 import { Post } from '../../post';
+import { PostService } from '../../post.service';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() admin = false;
 
-  constructor(public _blog: BlogService, public util: UtilService) {}
+  constructor(public blogService: PostService, public util: UtilService) {}
 
   ngOnInit() {}
 
   async delete(postId: string) {
     const res = confirm('Are you sure?');
     if (res) {
-      await this._blog.deletePost(postId);
+      await this.blogService.deletePost(postId);
       this.util.toastr.info('Post deleted');
     }
   }

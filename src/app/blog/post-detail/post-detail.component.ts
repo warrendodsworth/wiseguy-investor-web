@@ -7,8 +7,8 @@ import { User } from 'src/app/shared/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UtilService } from 'src/app/shared/services/util.service';
 
-import { BlogService } from '../blog.service';
 import { Post } from '../post';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -25,7 +25,7 @@ export class PostDetailComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public authService: AuthService,
-    public blogService: BlogService,
+    public blogService: PostService,
     public util: UtilService
   ) {}
 
