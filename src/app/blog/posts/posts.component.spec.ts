@@ -13,7 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
-import { BlogRoutingModule } from '../blog-routing.module';
+import { BlogRoutingModule } from '../posts.module';
 import { PostsComponent } from './posts.component';
 
 describe('BlogManageComponent', () => {

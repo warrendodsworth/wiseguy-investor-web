@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md sticky-top navbar-light bg-white justify-content-between">
+<nav class="navbar navbar-expand-md sticky-top navbar-light bg-white">
   <div class="container">
     <a routerLink="/" class="navbar-brand text-muted">
       {{ appTitle }}
@@ -20,11 +20,14 @@
 
       <!-- AUTH -->
       <nav *ngIf="user" class="navbar-nav ml-auto">
-        <a class="nav-link" [routerLink]="['/about']">About me</a>
-        <!-- <a class="nav-link" routerLink="/about">Support us</a> -->
-
+        <ng-container *ngIf="authService.currentUser?.roles?.editor">
+          <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
+          <a class="nav-link" routerLink="/accounts/users" routerLinkActive="active">Users</a>
+          <span class="navbar-text">|</span>
+        </ng-container>
+        <a class="nav-link" routerLink="/about" routerLinkActive="active">About me</a>
         <a class="nav-link" routerLink="/">Home</a>
-        <a class="nav-link" [routerLink]="['/blog']">Blog</a>
+        <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
         <a class="nav-link" routerLink="/accounts/edit" style="padding-top: 7px">
           <img *ngIf="user" [src]="user?.photoURL" alt="" class="img-xs rounded-circle mr-2" />
           <span class="d-inline d-md-none">{{ user?.displayName }}</span>
@@ -33,14 +36,13 @@
 
       <!-- ANONYMOUS -->
       <nav *ngIf="!user" class="navbar-nav ml-auto no-select">
-        <a class="nav-link" [routerLink]="['/about']">About me</a>
-        <!-- <a class="nav-link" routerLink="/about">Support us</a> -->
+        <a class="nav-link" routerLink="/about">About me</a>
       </nav>
     </div>
   </div>
 </nav>
 
-<main class="container pt-3">
+<main class="pt-3" [ngClass]="{ container: !layout.disableContainer }">
   <router-outlet></router-outlet>
 </main>
 
@@ -52,31 +54,25 @@
     </div>
     <div class="col-6 col-md">
       <h5>Social</h5>
-      <ul class="list-unstyled text-small">
-        <li>
-          <a class="text-muted" href="https://www.youtube.com/channel/UCPdod6Qvi-0t_l-qJrLDl0w" target="_blank">
-            <i class="fa fa-fw fa-youtube"></i> Youtube Channel
-          </a>
-        </li>
-        <li>
-          <a class="text-muted" href="https://www.facebook.com/wiseguyinvestor" target="_blank">
-            <i class="fa fa-fw fa-facebook"></i> Facebook
-          </a>
-        </li>
-        <li>
-          <a class="text-muted" href="https://www.instagram.com/wiseguyinvestor/" target="_blank">
-            <i class="fa fa-fw fa-instagram"></i>
-            Instagram
-          </a>
-        </li>
-      </ul>
+      <nav fxLayout="column" fxLayoutGap="8px">
+        <a class="text-muted" href="https://www.youtube.com/channel/UCPdod6Qvi-0t_l-qJrLDl0w" target="_blank">
+          <i class="fa fa-fw fa-youtube"></i> Youtube Channel
+        </a>
+        <a class="text-muted" href="https://www.facebook.com/wiseguyinvestor" target="_blank">
+          <i class="fa fa-fw fa-facebook"></i> Facebook
+        </a>
+        <a class="text-muted" href="https://www.instagram.com/wiseguyinvestor/" target="_blank">
+          <i class="fa fa-fw fa-instagram"></i>
+          Instagram
+        </a>
+      </nav>
     </div>
     <div class="col-6 col-md">
       <h5>About</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted" [routerLink]="['/about']">About</a></li>
-        <li><a class="text-muted" (click)="authService.loginGoogle()">Login</a></li>
-      </ul>
+      <nav class="nav" fxLayout="column" fxLayoutGap="8px">
+        <a class="text-muted" routerLink="/about">About</a>
+        <a class="text-muted" (click)="authService.loginGoogle()">Login</a>
+      </nav>
     </div>
   </div>
 </footer>

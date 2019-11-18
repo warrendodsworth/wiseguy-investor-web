@@ -18,8 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { environment } from '../environments/environment';
 import { firebaseConfig } from '../environments/firebase.config';
-import { AccountModule } from './account/account.module';
-import { AdminModule } from './admin/admin.module';
+import { AccountsModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
@@ -30,7 +29,6 @@ import { HomeModule } from './home/home.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,9 +47,9 @@ import { HomeModule } from './home/home.module';
     FacebookModule.forRoot(),
     ParallaxModule.forRoot(),
 
-    AdminModule,
+    AppRoutingModule,
+    AccountsModule,
     HomeModule,
-    AccountModule,
     BlogModule,
   ],
   providers: [],

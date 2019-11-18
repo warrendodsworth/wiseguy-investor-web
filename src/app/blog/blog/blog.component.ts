@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 import { User } from '../../shared/models/user';
 import { AuthService } from '../../shared/services/auth.service';
 import { UtilService } from '../../shared/services/util.service';
-import { BlogService } from '../blog.service';
 import { Post } from '../post';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-blog',
@@ -24,7 +24,7 @@ export class BlogComponent implements OnInit {
     public authService: AuthService,
     public afs: AngularFirestore,
     public util: UtilService,
-    public _blog: BlogService,
+    public blogService: PostService,
     public router: Router
   ) {}
 
@@ -39,7 +39,7 @@ export class BlogComponent implements OnInit {
 
     this.posts
       .pipe(
-        map(p => <Post[]>p),
+        map(p => p as Post[]),
         map(p => p.find(x => x.featured))
       )
       .subscribe(post => {

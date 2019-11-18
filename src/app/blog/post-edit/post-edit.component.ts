@@ -8,8 +8,8 @@ import { finalize } from 'rxjs/operators';
 import { User } from '../../shared/models/user';
 import { PhotoService } from '../../shared/services/photo.service';
 import { UtilService } from '../../shared/services/util.service';
-import { BlogService } from '../blog.service';
 import { Post } from '../post';
+import { PostService } from '../post.service';
 
 @Component({
   templateUrl: './post-edit.component.html',
@@ -19,7 +19,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public blogService: BlogService,
+    public blogService: PostService,
     public photoService: PhotoService,
     public util: UtilService
   ) {}

@@ -6,7 +6,7 @@ import { PhotoService } from 'src/app/shared/services/photo.service';
 import { User } from '../../shared/models/user';
 import { AuthService } from '../../shared/services/auth.service';
 import { UtilService } from '../../shared/services/util.service';
-import { BlogService } from '../blog.service';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-posts',
@@ -19,7 +19,7 @@ export class PostsComponent implements OnInit {
     public router: Router,
     public afs: AngularFirestore,
     public auth: AuthService,
-    public blogService: BlogService,
+    public blogService: PostService,
     public photoService: PhotoService,
     public util: UtilService
   ) {}

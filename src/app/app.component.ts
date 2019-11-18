@@ -6,6 +6,7 @@ import { FacebookService } from 'ngx-facebook';
 import { User } from './shared/models/user';
 import { AuthService } from './shared/services/auth.service';
 import { FcmService } from './shared/services/fcm.service';
+import { LayoutService } from './shared/services/layout.service';
 import { UtilService } from './shared/services/util.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     public authService: AuthService,
     public facebookService: FacebookService,
     public fcm: FcmService,
+    public layout: LayoutService,
     public util: UtilService
   ) {}
 
