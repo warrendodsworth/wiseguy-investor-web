@@ -93,28 +93,29 @@ export class AuthService {
     return userRef.set(Object.assign({}, data), { merge: true });
   }
 
-  canRead(user: User): boolean {
-    const allowed = ['admin', 'editor', 'subscriber'];
+  canRead(user?: User) {
+    const allowed = ['admin', 'editor', 'user'];
     return this.checkAuthorization(user, allowed);
   }
-  canEdit(user: User): boolean {
+  canEdit(user?: User) {
     const allowed = ['admin', 'editor'];
     return this.checkAuthorization(user, allowed);
   }
-  canDelete(user: User): boolean {
+  canDelete(user?: User) {
     const allowed = ['admin'];
     return this.checkAuthorization(user, allowed);
   }
-  private checkAuthorization(user: User, allowedroles: string[]): boolean {
+  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+    user = user || this.currentUser;
+
     if (!user) {
       return false;
     }
-    for (const role of allowedroles) {
+    for (const role of allowedRoles) {
       if (user.roles[role]) {
         return true;
       }
     }
-
     return false;
   }
 }
