@@ -32,7 +32,10 @@ export class AppComponent implements OnInit {
     public util: UtilService
   ) {}
 
+  disableContainer: boolean;
+
   ngOnInit() {
+    this.disableContainer = this.layout.disableContainer;
     this.title.setTitle(this.appTitle);
     this.fcm.showMessages();
 

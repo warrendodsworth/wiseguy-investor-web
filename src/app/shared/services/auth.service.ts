@@ -14,6 +14,7 @@ export class AuthService {
   readonly loginUrl = '/';
   currentUser$: Observable<User>;
   currentUser: User;
+  working: boolean;
 
   analytics = firebase.analytics();
 

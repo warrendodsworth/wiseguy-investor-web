@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
@@ -52,7 +53,17 @@ import { HomeModule } from './home/home.module';
     HomeModule,
     BlogModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_BASE_HREF,
+      useFactory: getBaseHref,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+function getBaseHref() {
+  const el = document.getElementsByTagName('base').item(0);
+  return el ? el.href : '/';
+}
