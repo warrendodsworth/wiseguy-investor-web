@@ -2,6 +2,7 @@
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rulesDirectory": ["codelyzer"],
   "rules": {
+    "curly": [true, "as-needed"],
     "triple-equals": [false],
     "array-type": false,
     "arrow-parens": false,

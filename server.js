@@ -15,7 +15,7 @@ server.use(virtualDirPath, express.static(path.join(__dirname, 'dist')));
 server.use(virtualDirPath + 'node_modules', express.static(path.join(__dirname, 'node_modules')));
 
 // Setup a route at the index of our app
-server.get(virtualDirPath + '*', (req, res) => {
+server.get(virtualDirPath, (req, res) => {
   return res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 

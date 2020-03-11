@@ -11,10 +11,10 @@ import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  working: boolean;
   readonly loginUrl = '/';
   currentUser$: Observable<User>;
   currentUser: User;
-  working: boolean;
 
   analytics = firebase.analytics();
 
@@ -34,9 +34,8 @@ export class AuthService {
             .valueChanges()
             .pipe(
               map(u => {
-                u.photoURL = u.photoURL || environment.gravatarUrl;
+                this.analytics.setUserProperties({ subscriber: u.roles?.subscriber });
                 this.currentUser = u;
-                this.analytics.setUserProperties({ subscriber: u.roles && u.roles.subscriber });
                 return u;
               })
             );
@@ -51,12 +50,12 @@ export class AuthService {
 
   loginFacebook() {
     const provider = new firebase.auth.FacebookAuthProvider();
-    return this.oAuthLogin(provider);
+    return this.socialLogin(provider);
   }
 
   loginGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider);
+    return this.socialLogin(provider);
   }
 
   async logout() {
@@ -64,10 +63,10 @@ export class AuthService {
     return this.router.navigateByUrl(this.loginUrl);
   }
 
-  private oAuthLogin(provider: firebase.auth.AuthProvider) {
-    return this.afAuth.auth.signInWithPopup(provider).then(credential => {
+  private socialLogin(provider: firebase.auth.AuthProvider) {
+    return this.afAuth.auth.signInWithPopup(provider).then(cred => {
       this.analytics.logEvent('login', { method: provider.providerId });
-      this.updateUser(credential.user);
+      this.updateUser(cred.user);
     });
   }
 
@@ -88,7 +87,7 @@ export class AuthService {
       data.email = user.email;
     }
     if (user.photoURL) {
-      data.photoURL = user.photoURL;
+      data.photoURL = user.photoURL || environment.gravatarUrl;
     }
 
     return userRef.set(Object.assign({}, data), { merge: true });

@@ -3,11 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <title></title>
-    <base href="/" />
-    <!-- 
+    <!-- <base href="/" /> -->
+
     <script>
-      document.write(`<base href="/vd/" />`);
-    </script> -->
+      const el = document.getElementsByTagName('base').item(0);
+      if (!el) {
+        document.write(`<base href="/" />`);
+      }
+      let __webpack_public_path__;
+      window['cdnUrl'] = '/vd/';
+      __webpack_public_path__ = window['cdnUrl'];
+      window.cdnUrl = location.origin + '/vd/';
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link
@@ -93,13 +100,27 @@
       }
     </style>
 
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-MJKDTWS');
+    </script>
+
     <!-- facebook -->
     <script src="https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js"></script>
 
     <!-- stripe elements -->
     <script src="https://js.stripe.com/v3/" async=""></script>
 
-    <!-- stripe subscriptions -->
+    <!-- stripe checkout -->
     <script src="https://checkout.stripe.com/checkout.js" async=""></script>
   </head>
 
@@ -114,6 +135,7 @@
       </div>
     </app-root>
 
+    <!-- mailchimp subscribe -->
     <script
       type="text/javascript"
       src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js"
