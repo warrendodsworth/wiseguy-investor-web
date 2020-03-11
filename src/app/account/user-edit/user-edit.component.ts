@@ -4,9 +4,9 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Roles, User } from '../../shared/models/user';
-import { AuthService } from '../../shared/services/auth.service';
-import { UtilService } from '../../shared/services/util.service';
+import { Roles, User } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
+import { UtilService } from '../../core/services/util.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -35,7 +35,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     const sub1 = this.authService.currentUser$.subscribe(async u => {
       this.currentUser = u;
 
-      this.user = !uid ? u : await this.authService.user$(uid).toPromise();
+      this.user = !uid ? u : await this.authService.getUser(uid);
     });
 
     this.allRoles = Object.keys(new Roles());

@@ -3,9 +3,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { User } from 'src/app/shared/models/user';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { UtilService } from 'src/app/shared/services/util.service';
+import { User } from 'src/app/core/models/user';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UtilService } from 'src/app/core/services/util.service';
 
 import { Post } from '../post';
 import { PostService } from '../post.service';

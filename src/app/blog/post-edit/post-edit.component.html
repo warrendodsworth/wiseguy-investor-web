@@ -1,6 +1,6 @@
 <header class="mb-4" *ngIf="!working" fxLayout fxLayoutAlign="start end" fxLayoutGap="1rem">
   <h3 class="mb-0">{{ post?.id ? 'Edit' : 'New' }} Post</h3>
-  <button [routerLink]="['/posts']" class="btn btn-light">Back</button>
+  <button [routerLink]="['/blog/posts']" class="btn btn-light">Back</button>
 </header>
 
 <form #editForm="ngForm" *ngIf="post">

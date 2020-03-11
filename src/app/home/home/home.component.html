@@ -9,12 +9,13 @@
 
 <section class="container">
   <div class="row">
-    <div class="col-md-6" *ngIf="!(posts | async)">
+    <div class="col-md-6" *ngIf="!(posts$ | async)">
       <div class="card p-3 shadow-sm">
         <facebook-content-loader></facebook-content-loader>
       </div>
     </div>
-    <div class="col-md-6" *ngFor="let post of posts | async | slice: 0:2">
+
+    <div class="col-md-6" *ngFor="let post of posts$ | async | slice: 0:2">
       <app-post [post]="post"></app-post>
     </div>
   </div>

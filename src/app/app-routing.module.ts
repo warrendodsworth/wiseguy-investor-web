@@ -1,10 +1,9 @@
-import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { blogRoutes } from './blog/blog.module';
-
 const routes: Routes = [
+  // { path: '', redirectTo: '', pathMatch: 'full' },
   {
     path: '',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
@@ -13,29 +12,16 @@ const routes: Routes = [
     path: 'accounts',
     loadChildren: () => import('./account/accounts.module').then(m => m.AccountsModule),
   },
+  {
+    path: 'blog',
+    loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule),
+  },
 
-  ...blogRoutes,
-
-  { path: '**', redirectTo: '/' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes, {
-      initialNavigation: false,
-    }),
-  ],
+  imports: [CommonModule, RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule],
-  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }],
 })
 export class AppRoutingModule {}
-
-// {
-//   path: 'blog',
-//   loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule),
-// },
-// {
-//   path: 'posts',
-//   loadChildren: () => import('./blog/posts.module').then(m => m.PostsModule),
-// },

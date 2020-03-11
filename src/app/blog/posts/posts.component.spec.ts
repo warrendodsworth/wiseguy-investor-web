@@ -8,12 +8,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentLoaderModule } from '@netbasal/content-loader';
-import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
-import { BlogRoutingModule } from '../posts.module';
+import { BlogModule } from '../blog.module';
 import { PostsComponent } from './posts.component';
 
 describe('BlogManageComponent', () => {
@@ -29,7 +28,6 @@ describe('BlogManageComponent', () => {
         AngularFireStorageModule,
         ContentLoaderModule,
         ToastrModule.forRoot(),
-        FacebookModule.forRoot(),
 
         CommonModule,
         BrowserAnimationsModule,
@@ -37,7 +35,7 @@ describe('BlogManageComponent', () => {
         FormsModule,
         ReactiveFormsModule,
 
-        BlogRoutingModule,
+        BlogModule,
       ],
       declarations: [PostsComponent],
       providers: [AuthService],

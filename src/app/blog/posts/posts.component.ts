@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PhotoService } from 'src/app/shared/services/photo.service';
+import { PhotoService } from 'src/app/core/services/photo.service';
 
-import { User } from '../../shared/models/user';
-import { AuthService } from '../../shared/services/auth.service';
-import { UtilService } from '../../shared/services/util.service';
+import { User } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
+import { UtilService } from '../../core/services/util.service';
 import { PostService } from '../post.service';
 
 @Component({

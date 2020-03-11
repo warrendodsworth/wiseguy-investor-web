@@ -5,9 +5,9 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { User } from '../../shared/models/user';
-import { PhotoService } from '../../shared/services/photo.service';
-import { UtilService } from '../../shared/services/util.service';
+import { User } from '../../core/models/user';
+import { PhotoService } from '../../core/services/photo.service';
+import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 

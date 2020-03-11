@@ -2,7 +2,7 @@
   <div class="text-center">
     <h2>Welcome to our blog</h2>
     <div *ngIf="user && authService.canEdit(user)">
-      <a [routerLink]="['/posts']" class="btn btn-light btn-sm">Manage</a>
+      <a [routerLink]="['/blog/posts']" class="btn btn-light btn-sm">Manage</a>
     </div>
   </div>
 </header>

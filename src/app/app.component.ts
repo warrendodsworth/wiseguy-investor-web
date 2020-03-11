@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { User } from './shared/models/user';
-import { AuthService } from './shared/services/auth.service';
-import { FcmService } from './shared/services/fcm.service';
-import { LayoutService } from './shared/services/layout.service';
-import { UtilService } from './shared/services/util.service';
+import { User } from './core/models/user';
+import { AuthService } from './core/services/auth.service';
+import { FcmService } from './core/services/fcm.service';
+import { LayoutService } from './core/services/layout.service';
+import { UtilService } from './core/services/util.service';
 
 @Component({
   selector: 'app-root',

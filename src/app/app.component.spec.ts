@@ -9,16 +9,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ContentLoaderModule } from '@netbasal/content-loader';
-import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
+import { AuthService } from './core/services/auth.service';
+import { FcmService } from './core/services/fcm.service';
 import { HomeComponent } from './home/home/home.component';
-import { AuthService } from './shared/services/auth.service';
-import { FcmService } from './shared/services/fcm.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -32,7 +31,6 @@ describe('AppComponent', () => {
         AngularFireStorageModule,
         ContentLoaderModule,
         ToastrModule.forRoot(),
-        FacebookModule.forRoot(),
 
         CommonModule,
         BrowserAnimationsModule,

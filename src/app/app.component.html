@@ -21,7 +21,7 @@
       <!-- AUTH -->
       <nav *ngIf="user" class="navbar-nav ml-auto">
         <ng-container *ngIf="authService.currentUser?.roles?.editor">
-          <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
+          <a class="nav-link" routerLink="/blog/posts" routerLinkActive="active">Posts</a>
           <a class="nav-link" routerLink="/accounts/users" routerLinkActive="active">Users</a>
           <span class="navbar-text">|</span>
         </ng-container>

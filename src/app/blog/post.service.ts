@@ -3,10 +3,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Chance } from 'chance';
 import { map } from 'rxjs/operators';
 
-import { ImageSnippet } from '../shared/models/image-snippet';
-import { AuthService } from '../shared/services/auth.service';
-import { PhotoService } from '../shared/services/photo.service';
-import { UtilService } from '../shared/services/util.service';
+import { ImageSnippet } from '../core/models/image-snippet';
+import { AuthService } from '../core/services/auth.service';
+import { PhotoService } from '../core/services/photo.service';
+import { UtilService } from '../core/services/util.service';
 import { Post } from './post';
 
 @Injectable({ providedIn: 'root' })
@@ -47,7 +47,7 @@ export class PostService {
     }
 
     await this.afs.doc<Post>(`posts/${post.id}`).set(Object.assign({}, post), { merge: true });
-    this.util.newToast('Post Saved');
+    this.util.openSnackbar('Post Saved');
   }
 
   async deletePost(postId: string) {
@@ -57,7 +57,9 @@ export class PostService {
     const hearts = await this.afs.collection('hearts', r => r.where('postId', '==', postId)).ref.get();
     hearts.forEach(doc => batch.delete(doc.ref));
 
-    batch.commit();
+    await batch.commit();
+
+    this.util.openSnackbar('Post deleted');
   }
 
   heartPost(post: Post, hearted: boolean, uid: string) {

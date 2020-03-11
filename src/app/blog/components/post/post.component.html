@@ -7,11 +7,11 @@
       <span class="text-muted">{{ post.createDate?.seconds * 1000 | date }}</span>
     </p>
     <p class="mb-1" [innerHTML]="post.text | slice: 0:100"></p>
-    <a [routerLink]="['/posts', post.id]" class="stretched-link text-secondary" *ngIf="!admin">Continue reading</a>
+    <a [routerLink]="['/blog/posts', post.id]" class="stretched-link text-secondary" *ngIf="!admin">Continue reading</a>
 
     <div *ngIf="admin" fxLayout fxLayoutAlign="start center" fxLayoutGap="8px">
-      <a [routerLink]="['/posts', post.id]" class="btn btn-sm btn-outline-secondary">View</a>
-      <a [routerLink]="['/posts', post.id, 'edit']" class="btn btn-sm btn-outline-secondary">Edit</a>
+      <a [routerLink]="['/blog/posts', post.id]" class="btn btn-sm btn-outline-secondary">View</a>
+      <a [routerLink]="['/blog/posts', post.id, 'edit']" class="btn btn-sm btn-outline-secondary">Edit</a>
       <button (click)="delete(post.id)" class="btn btn-sm btn-outline-medium">Delete</button>
     </div>
   </div>

@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user';
@@ -20,10 +20,8 @@ export class AuthService {
   analytics = firebase.analytics();
 
   userRef = (uid: string) => this.afs.doc<User>(`users/${uid}`);
-  user$ = (uid: string) =>
-    this.userRef(uid)
-      .get()
-      .pipe(map(x => x.data() as User));
+  user$ = (uid: string) => this.userRef(uid).valueChanges();
+  getUser = (uid?: string) => (uid ? this.user$(uid) : this.currentUser$).pipe(first()).toPromise();
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private util: UtilService) {
     this.currentUser$ = this.afAuth.authState.pipe(
@@ -42,7 +40,7 @@ export class AuthService {
             );
         } else {
           this.currentUser = null;
-          this.router.navigateByUrl(this.loginUrl);
+          // this.router.navigateByUrl(this.loginUrl);
           return of(null);
         }
       })
@@ -83,7 +81,7 @@ export class AuthService {
     if (user.email) data.email = user.email;
     if (user.photoURL) data.photoURL = user.photoURL || environment.gravatarUrl;
 
-    this.util.newToast('Saved');
+    this.util.openSnackbar('Saved');
     return userRef.set(Object.assign({}, data), { merge: true });
   }
 

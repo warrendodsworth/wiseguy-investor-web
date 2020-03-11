@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { UtilService } from '../../../shared/services/util.service';
+import { UtilService } from '../../../core/services/util.service';
 import { Post } from '../../post';
 import { PostService } from '../../post.service';
 
@@ -18,9 +18,6 @@ export class PostComponent implements OnInit {
 
   async delete(postId: string) {
     const res = confirm('Are you sure?');
-    if (res) {
-      await this.blogService.deletePost(postId);
-      this.util.toastr.info('Post deleted');
-    }
+    if (res) await this.blogService.deletePost(postId);
   }
 }

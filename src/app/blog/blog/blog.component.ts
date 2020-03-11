@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '../../shared/models/user';
-import { AuthService } from '../../shared/services/auth.service';
-import { UtilService } from '../../shared/services/util.service';
+import { User } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
+import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 

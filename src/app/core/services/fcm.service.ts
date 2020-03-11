@@ -7,7 +7,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import * as firebase from 'firebase/app';
 import { Observable, Subject } from 'rxjs';
-import { User } from 'src/app/shared/models/user';
+import { User } from 'src/app/core/models/user';
 
 import { AuthService } from './auth.service';
 import { UtilService } from './util.service';
@@ -54,7 +54,7 @@ export class FcmService {
       this.afMessaging.messages.subscribe(msg => {
         console.log('[fcm] message', msg);
         const notification = (msg as any).notification;
-        this.util.newToast(notification.body);
+        this.util.openSnackbar(notification.body);
       });
     }
   }

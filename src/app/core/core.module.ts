@@ -13,4 +13,4 @@ const components = [ShowPhotoComponent];
   imports: [CommonModule, ...libs],
   exports: [...libs, ...components],
 })
-export class SharedModule {}
+export class CoreModule {}

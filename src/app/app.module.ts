@@ -2,6 +2,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -41,6 +42,7 @@ import { HomeModule } from './home/home.module';
     AngularFireFunctionsModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
+    AngularFireAnalyticsModule,
 
     ContentLoaderModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-left', timeOut: 3000 }),

@@ -8,12 +8,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentLoaderModule } from '@netbasal/content-loader';
-import { FacebookModule } from 'ngx-facebook';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
-import { AccountRoutingModule } from '../account-routing.module';
+import { AccountsRoutingModule } from '../accounts-routing.module';
 import { UserEditComponent } from './user-edit.component';
 
 describe('EditProfileComponent', () => {
@@ -29,7 +28,6 @@ describe('EditProfileComponent', () => {
         AngularFireStorageModule,
         ContentLoaderModule,
         ToastrModule.forRoot(),
-        FacebookModule.forRoot(),
 
         CommonModule,
         BrowserAnimationsModule,
@@ -37,7 +35,7 @@ describe('EditProfileComponent', () => {
         FormsModule,
         ReactiveFormsModule,
 
-        AccountRoutingModule,
+        AccountsRoutingModule,
       ],
       declarations: [UserEditComponent],
       providers: [AuthService],

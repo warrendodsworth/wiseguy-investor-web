@@ -28,8 +28,8 @@
         <div class="my-3" [innerHTML]="util.getSanitizedHtml(post.text)"></div>
 
         <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px" *ngIf="authService.canEdit(user)">
-          <a [routerLink]="['/posts']" class="btn btn-outline-dark btn-sm">Manage</a>
-          <a [routerLink]="['/posts', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
+          <a [routerLink]="['/blog/posts']" class="btn btn-outline-dark btn-sm">Manage</a>
+          <a [routerLink]="['/blog/posts', post.id, 'edit']" class="btn btn-outline-secondary btn-sm">Edit</a>
         </div>
       </div>
     </div>

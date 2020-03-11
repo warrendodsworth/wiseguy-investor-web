@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
-import { AuthService } from '../../shared/services/auth.service';
-import { LayoutService } from '../../shared/services/layout.service';
+import { AuthService } from '../../core/services/auth.service';
+import { LayoutService } from '../../core/services/layout.service';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +12,6 @@ import { LayoutService } from '../../shared/services/layout.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  posts: any;
-
   constructor(
     public authService: AuthService,
     public afs: AngularFirestore,
@@ -21,9 +20,11 @@ export class HomeComponent implements OnInit {
     public layout: LayoutService
   ) {}
 
+  posts$: Observable<any>;
+
   ngOnInit() {
     this.layout.disableContainer = true;
 
-    this.posts = this.afs.collection('posts', q => q.where('draft', '==', false).orderBy('createDate', 'desc')).valueChanges();
+    this.posts$ = this.afs.collection('posts', q => q.where('draft', '==', false).orderBy('createDate', 'desc')).valueChanges();
   }
 }
