@@ -1,4 +1,4 @@
-import { Entity } from '../shared/models/entity';
+import { Entity } from '../shared/models/_entity';
 
 export class Post extends Entity {
   id: string;

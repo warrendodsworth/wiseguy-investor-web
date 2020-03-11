@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user';
+import { UtilService } from './util.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,7 +25,7 @@ export class AuthService {
       .get()
       .pipe(map(x => x.data() as User));
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router, private util: UtilService) {
     this.currentUser$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -77,19 +78,12 @@ export class AuthService {
       uid: user.uid,
       roles: user.roles || { user: true },
     };
-    if (user.displayName) {
-      data.displayName = user.displayName;
-    }
-    if (user.phoneNumber) {
-      data.phoneNumber = user.phoneNumber;
-    }
-    if (user.email) {
-      data.email = user.email;
-    }
-    if (user.photoURL) {
-      data.photoURL = user.photoURL || environment.gravatarUrl;
-    }
+    if (user.displayName) data.displayName = user.displayName;
+    if (user.phoneNumber) data.phoneNumber = user.phoneNumber;
+    if (user.email) data.email = user.email;
+    if (user.photoURL) data.photoURL = user.photoURL || environment.gravatarUrl;
 
+    this.util.newToast('Saved');
     return userRef.set(Object.assign({}, data), { merge: true });
   }
 

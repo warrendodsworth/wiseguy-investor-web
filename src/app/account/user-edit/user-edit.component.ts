@@ -15,7 +15,7 @@ import { UtilService } from '../../shared/services/util.service';
 })
 export class UserEditComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
-  @ViewChild('userForm', { static: false }) userForm: NgForm;
+  @ViewChild('userForm') userForm: NgForm;
   currentUser: User;
   user: User;
   showCropper = false;
@@ -35,11 +35,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     const sub1 = this.authService.currentUser$.subscribe(async u => {
       this.currentUser = u;
 
-      if (uid) {
-        this.user = await this.authService.user$(uid).toPromise();
-      } else {
-        this.user = u;
-      }
+      this.user = !uid ? u : await this.authService.user$(uid).toPromise();
     });
 
     this.allRoles = Object.keys(new Roles());
@@ -48,7 +44,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
   async update(user: User) {
     await this.authService.updateUser(user);
-    this.util.newToast('Saved');
   }
 
   async logout() {

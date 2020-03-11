@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { DateTime } from 'luxon';
 
+import { ImageSnippet } from '../models/image-snippet';
 import { UtilService } from './util.service';
 
 @Injectable({ providedIn: 'root' })

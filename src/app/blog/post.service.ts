@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Chance } from 'chance';
 import { map } from 'rxjs/operators';
 
+import { ImageSnippet } from '../shared/models/image-snippet';
 import { AuthService } from '../shared/services/auth.service';
 import { PhotoService } from '../shared/services/photo.service';
 import { UtilService } from '../shared/services/util.service';
@@ -59,7 +60,7 @@ export class PostService {
     batch.commit();
   }
 
-  heartPost(post: Post, hearted, uid) {
+  heartPost(post: Post, hearted: boolean, uid: string) {
     const heartId = `${uid}_${post.id}`;
     const heartRef = this.afs.doc(`hearts/${heartId}`);
 

@@ -24,7 +24,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
     public util: UtilService
   ) {}
   private subs = new Subscription();
-  @ViewChild('editForm', { static: false }) editform: NgForm;
+  @ViewChild('editForm') editform: NgForm;
 
   Editor = ClassicEditor;
   user: User;
