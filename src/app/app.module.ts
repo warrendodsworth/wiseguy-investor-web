@@ -13,7 +13,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ContentLoaderModule } from '@netbasal/content-loader';
-import { FacebookModule } from 'ngx-facebook';
 import { ParallaxModule } from 'ngx-parallax';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -45,7 +44,7 @@ import { HomeModule } from './home/home.module';
 
     ContentLoaderModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-left', timeOut: 3000 }),
-    FacebookModule.forRoot(),
+
     ParallaxModule.forRoot(),
 
     AppRoutingModule,

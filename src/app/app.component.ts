@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { FacebookService } from 'ngx-facebook';
 
 import { User } from './shared/models/user';
 import { AuthService } from './shared/services/auth.service';
@@ -26,7 +25,6 @@ export class AppComponent implements OnInit {
     public router: Router,
     public title: Title,
     public authService: AuthService,
-    public facebookService: FacebookService,
     public fcm: FcmService,
     public layout: LayoutService,
     public util: UtilService
@@ -52,7 +50,5 @@ export class AppComponent implements OnInit {
         this.isCollapsed = true;
       }
     });
-
-    this.facebookService.init({ xfbml: true, version: 'v3.2' });
   }
 }
