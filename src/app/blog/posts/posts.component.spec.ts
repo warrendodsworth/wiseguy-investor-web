@@ -7,8 +7,6 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ContentLoaderModule } from '@netbasal/content-loader';
-import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { firebaseConfig } from 'src/environments/firebase.config';
 
@@ -26,8 +24,6 @@ describe('BlogManageComponent', () => {
         AngularFirestoreModule,
         AngularFireAuthModule,
         AngularFireStorageModule,
-        ContentLoaderModule,
-        ToastrModule.forRoot(),
 
         CommonModule,
         BrowserAnimationsModule,

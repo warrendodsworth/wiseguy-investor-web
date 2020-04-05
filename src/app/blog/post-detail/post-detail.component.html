@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-lg-8">
     <div class="card p-3" *ngIf="!(post$ | async)">
-      <facebook-content-loader></facebook-content-loader>
+      <app-skeleton-text view="fb"></app-skeleton-text>
     </div>
 
     <div class="card" *ngIf="post$ | async as post">

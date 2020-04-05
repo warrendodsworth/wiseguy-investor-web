@@ -16,34 +16,27 @@ import { PostService } from '../post.service';
   styleUrls: ['./blog.component.scss'],
 })
 export class BlogComponent implements OnInit {
-  posts: Observable<{}[]>;
+  posts$: Observable<Post[]>;
   user: User;
   featuredPost: Post;
 
   constructor(
-    public authService: AuthService,
+    public auth: AuthService,
     public afs: AngularFirestore,
     public util: UtilService,
-    public blogService: PostService,
+    public postService: PostService,
     public router: Router
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe(u => {
-      if (u) {
-        this.user = u;
-      }
+    this.auth.currentUser$.subscribe(u => {
+      this.user = u;
     });
 
-    this.posts = this.afs.collection('posts', q => q.where('draft', '==', false)).valueChanges();
+    this.posts$ = this.postService.posts$(q => q.where('draft', '==', false));
 
-    this.posts
-      .pipe(
-        map(p => p as Post[]),
-        map(p => p.find(x => x.featured))
-      )
-      .subscribe(post => {
-        this.featuredPost = post;
-      });
+    this.posts$.pipe(map(p => p.find(x => x.featured))).subscribe(post => {
+      this.featuredPost = post;
+    });
   }
 }

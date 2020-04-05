@@ -8,12 +8,10 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 import { ParallaxModule } from 'ngx-parallax';
 
 import { environment } from '../environments/environment';
@@ -22,6 +20,7 @@ import { AccountsModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
+import { MaterialModule } from './core/material.module';
 import { HomeModule } from './home/home.module';
 
 @NgModule({
@@ -32,7 +31,8 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
+    MaterialModule,
+
     ServiceWorkerModule.register(environment.serviceWorker, { enabled: true }),
 
     AngularFireModule.initializeApp(firebaseConfig),
@@ -42,8 +42,6 @@ import { HomeModule } from './home/home.module';
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     AngularFireAnalyticsModule,
-
-    ContentLoaderModule,
 
     ParallaxModule.forRoot(),
 

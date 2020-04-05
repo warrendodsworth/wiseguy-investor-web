@@ -1,64 +1,56 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, QueryFn } from '@angular/fire/firestore';
 import { Chance } from 'chance';
 import { map } from 'rxjs/operators';
 
-import { ImageSnippet } from '../core/models/image-snippet';
+import { PhotoFile } from '../core/models/photo';
 import { AuthService } from '../core/services/auth.service';
+import { BaseFirestoreService } from '../core/services/base-firestore.service';
 import { PhotoService } from '../core/services/photo.service';
 import { UtilService } from '../core/services/util.service';
 import { Post } from './post';
 
 @Injectable({ providedIn: 'root' })
-export class PostService {
-  chance = new Chance();
-  postRef = (postId: string) => this.afs.doc(`posts/${postId}`);
-  post$ = (uid: string) =>
-    this.postRef(uid)
-      .get()
-      .pipe(map(x => x.data() as Post));
-
+export class PostService extends BaseFirestoreService {
   constructor(
-    public authService: AuthService,
     public afs: AngularFirestore,
+    public auth: AuthService,
     public photoService: PhotoService,
     public util: UtilService
-  ) {}
+  ) {
+    super(afs, auth, util);
+  }
 
-  async upsertPost(post: Post, selectedFile?: ImageSnippet) {
-    if (!post.id) {
-      post.id = this.afs.createId();
-    } else {
-      post.editDate = new Date();
-    }
+  chance = new Chance();
+  postRef = (postId: string) => this.doc<Post>(`posts/${postId}`);
+  post$ = (postId: string) => this.doc$(this.postRef(postId));
 
-    post.uid = this.authService.currentUser.uid;
+  postsRef = (q?: QueryFn) => this.col<Post>(`signups`);
+  posts$ = (q?: QueryFn) => this.col$(this.postsRef(q));
 
-    if (!post.text) {
-      post.text = this.chance.sentence();
-    }
-    if (!post.photoURL) {
-      post.photoURL = 'https://picsum.photos/1080';
-    }
+  async upsertPost(post: Post, selectedFile?: PhotoFile) {
+    if (!post.id) post.id = this.afs.createId();
+
+    post.uid = this.auth.currentUser.uid;
+    if (!post.text) post.text = this.chance.sentence();
+    if (!post.photoURL) post.photoURL = 'https://picsum.photos/1080';
 
     if (selectedFile) {
-      const uploadSnap = await this.photoService.uploadPhotoToFirebase(selectedFile.src, post.id);
+      const uploadSnap = await this.photoService.uploadPhotoToFirebase(selectedFile.dataUrl, post.id);
       post.photoURL = await uploadSnap.ref.getDownloadURL();
     }
 
-    await this.afs.doc<Post>(`posts/${post.id}`).set(Object.assign({}, post), { merge: true });
-    this.util.openSnackbar('Post Saved');
+    await this.set(this.postRef(post.id), post, { toastContent: 'Post saved' });
   }
 
   async deletePost(postId: string) {
-    await this.afs.doc(`posts/${postId}`).delete();
+    await this.delete(this.postRef(postId));
 
     const batch = this.afs.firestore.batch();
     const hearts = await this.afs.collection('hearts', r => r.where('postId', '==', postId)).ref.get();
     hearts.forEach(doc => batch.delete(doc.ref));
 
     await batch.commit();
-
     this.util.openSnackbar('Post deleted');
   }
 

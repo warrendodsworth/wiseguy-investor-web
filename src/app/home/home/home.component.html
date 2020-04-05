@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col-md-6" *ngIf="!(posts$ | async)">
       <div class="card p-3 shadow-sm">
-        <facebook-content-loader></facebook-content-loader>
+        <app-skeleton-text view="fb"></app-skeleton-text>
       </div>
     </div>
 

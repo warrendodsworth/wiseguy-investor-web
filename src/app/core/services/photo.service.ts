@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 import { DateTime } from 'luxon';
 
-import { ImageSnippet } from '../models/image-snippet';
+import { PhotoFile } from '../models/photo';
 import { UtilService } from './util.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +13,10 @@ export class PhotoService {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
 
-    let selectedFile: ImageSnippet;
+    let selectedFile: PhotoFile;
 
     reader.addEventListener('load', (event: any) => {
-      selectedFile = new ImageSnippet(event.target.result, file);
+      selectedFile = new PhotoFile(event.target.result, file);
     });
 
     reader.readAsDataURL(file);
