@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 
-import { ShowPhotoComponent } from './components/show-photo/show-photo.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog.component';
+import { ShowPhotoComponent } from './components/show-photo.component';
+import { MaterialModule } from './material.module';
 
-const libs = [ContentLoaderModule, FlexLayoutModule];
-const components = [ShowPhotoComponent];
+const libs = [ContentLoaderModule, MaterialModule];
+const components = [ConfirmDialogComponent, ShowPhotoComponent];
 
 @NgModule({
   declarations: [...components],

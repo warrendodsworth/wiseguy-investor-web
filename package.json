@@ -30,6 +30,7 @@
     "@angular/fire": "^5.4.2",
     "@angular/flex-layout": "^9.0.0-beta.29",
     "@angular/forms": "^9.1.0",
+    "@angular/material": "^9.2.0",
     "@angular/platform-browser": "^9.1.0",
     "@angular/platform-browser-dynamic": "^9.1.0",
     "@angular/router": "^9.1.0",
@@ -43,7 +44,6 @@
     "firebase": "^7.10.0",
     "luxon": "^1.22.0",
     "ngx-parallax": "^4.0.0",
-    "ngx-toastr": "^10.0.2",
     "rxjs": "^6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

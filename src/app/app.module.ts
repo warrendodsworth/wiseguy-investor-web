@@ -15,7 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { ParallaxModule } from 'ngx-parallax';
-import { ToastrModule } from 'ngx-toastr';
 
 import { environment } from '../environments/environment';
 import { firebaseConfig } from '../environments/firebase.config';
@@ -45,7 +44,6 @@ import { HomeModule } from './home/home.module';
     AngularFireAnalyticsModule,
 
     ContentLoaderModule,
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-left', timeOut: 3000 }),
 
     ParallaxModule.forRoot(),
 
