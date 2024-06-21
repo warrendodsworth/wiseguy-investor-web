@@ -20,9 +20,9 @@ export class User implements UserInfo {
 }
 
 export class Roles {
-  admin?: true | false = false;
-  editor?: true | false = false;
-  subscriber?: true | false = false;
+  admin?: boolean = false;
+  editor?: boolean = false;
+  subscriber?: boolean = false;
   user = true;
 }
 
