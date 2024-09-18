@@ -100,10 +100,10 @@ const DATE_FORMATS = {
       useValue: { width: '400px', autoFocus: true, hasBackdrop: true, disableClose: true },
     },
     { provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: { autoActiveFirstOption: true } },
-    // { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-
     { provide: DateAdapter, useClass: LuxonDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
   ],
 })
 export class MaterialModule {}
+
+// { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

@@ -1,5 +1,8 @@
 @import 'bootstrap';
-@import 'externals';
 @import 'photos';
 @import 'scroll';
 @import 'type';
+
+.firebase-emulator-warning {
+  display: none;
+}

@@ -31,7 +31,6 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
 
     ServiceWorkerModule.register(environment.serviceWorker, { enabled: true }),
 
@@ -42,19 +41,16 @@ import { HomeModule } from './home/home.module';
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     AngularFireAnalyticsModule,
-
     ParallaxModule.forRoot(),
 
+    MaterialModule,
     AppRoutingModule,
     AccountsModule,
     HomeModule,
     BlogModule,
   ],
   providers: [
-    {
-      provide: APP_BASE_HREF,
-      useFactory: getBaseHref,
-    },
+    { provide: APP_BASE_HREF, useFactory: getBaseHref },
   ],
   bootstrap: [AppComponent],
 })
