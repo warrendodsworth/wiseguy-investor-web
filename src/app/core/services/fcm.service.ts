@@ -1,149 +1,139 @@
-import 'firebase/messaging';
-
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { AngularFireMessaging } from '@angular/fire/messaging';
-import * as firebase from 'firebase/app';
-import { Observable, Subject } from 'rxjs';
-import { User } from 'src/app/core/models/user';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import firebase from 'firebase/compat/app';
 
+import { AppUser } from '../models/user';
 import { AuthService } from './auth.service';
 import { UtilService } from './util.service';
 
+// resubscriribeTokensOnUserTopicChange - doesn't make sense because we don't allow adding topics without subscribing
+/**
+ * 1. req permission
+ * 2. get token, save token, sub token to users topics
+ * 3. listen for foreground notifs
+ */
+
 @Injectable({ providedIn: 'root' })
-export class FcmService {
+export class FCMBaseService {
   constructor(
-    public afMessaging: AngularFireMessaging,
+    public messaging: AngularFireMessaging,
     public afs: AngularFirestore,
     public funcs: AngularFireFunctions,
-    public afAuth: AngularFireAuth,
-    public authService: AuthService,
+    public auth: AuthService,
     public util: UtilService
-  ) {
-    if (firebase.messaging.isSupported()) {
-      this.messaging = firebase.messaging();
-    }
-  }
-  private messaging: firebase.messaging.Messaging;
+  ) {}
 
-  get currntMessage$(): Observable<Notification> {
-    return this.messageSource.asObservable();
-  }
+  /** device ID token - recd. upon registration  */
+  protected fcmToken: string;
 
-  private messageSource = new Subject<Notification>();
-  private swRegistration: ServiceWorkerRegistration;
-  private initialized = false;
-  private token: string;
-
-  notifications: Notification[] = [];
-  notificationCount: number;
-
-  async showMessages() {
-    if (!('ServiceWorker' in window)) {
-      console.log('This browser does not support service workers!');
+  protected async updateTokenAndTopicSubs(user: AppUser, fcmToken: string) {
+    if (!fcmToken || !user?.uid) {
+      console.error('[fcm] token: ' + fcmToken, ' user: ' + user?.uid);
       return;
     }
 
-    this.swRegistration = await navigator.serviceWorker.getRegistration();
-
-    if (this.swRegistration) {
-      firebase.messaging().useServiceWorker(this.swRegistration);
-
-      this.afMessaging.messages.subscribe(msg => {
-        console.log('[fcm] message', msg);
-        const notification = (msg as any).notification;
-        this.util.openSnackbar(notification.body);
-      });
-    }
-  }
-
-  async requestPermission() {
-    if (!('Notification' in window)) {
-      console.log('This browser does not support notifications!');
-      return;
+    if (!(user.fcmTokens || []).includes(fcmToken)) {
+      this.auth.set_(this.auth.oneRef(user.uid), { fcmTokens: firebase.firestore.FieldValue.arrayUnion(fcmToken) });
+      console.log('[fcm] new token added: ' + fcmToken?.substring(0, 5) + '...' + fcmToken?.substring(-5, 5));
     }
 
-    if (!firebase.messaging.isSupported()) {
-      return;
+    this.cleanTopics(user);
+    await this.funcs.httpsCallable('notifs-subscribeToTopic')({ topics: user.topics, tokens: fcmToken }).toPromise();
+  }
+
+  /**
+   * Topic helpers
+   */
+  async subscribeToTopics(topics: string | string[], tokens: string | string[], uid: string) {
+    if (!(topics && tokens)) return;
+
+    const res = await this.funcs.httpsCallable('notifs-subscribeToTopic')({ topics, tokens }).toPromise();
+    if (uid) this.updateUserTopics(uid, topics, 'add');
+    console.log(`[fcm] topics subscribed:`, topics, res);
+  }
+
+  async unsubscribeFromTopics(topics: string | string[], tokens: string | string[], uid: string) {
+    if (!(topics && tokens)) return;
+
+    const res = await this.funcs.httpsCallable('notifs-unsubscribeFromTopic')({ topics, tokens }).toPromise();
+    if (uid) this.updateUserTopics(uid, topics, 'remove');
+    console.log(`[fcm] topics unsubscribed:`, topics, res);
+  }
+
+  private async updateUserTopics(uid: string, topics: string | string[], mode: 'add' | 'remove'): Promise<void> {
+    if (!uid) return null;
+    if (!topics) return;
+
+    let topicsFieldValue: any;
+    if (mode == 'add') {
+      topicsFieldValue = Array.isArray(topics)
+        ? firebase.firestore.FieldValue.arrayUnion(...topics)
+        : firebase.firestore.FieldValue.arrayUnion(topics);
+    } else {
+      topicsFieldValue = Array.isArray(topics)
+        ? firebase.firestore.FieldValue.arrayRemove(...topics)
+        : firebase.firestore.FieldValue.arrayRemove(topics);
     }
 
-    if (this.initialized) {
-      return;
-    }
-
-    this.afMessaging.requestToken.subscribe(token => {
-      this.initialized = true;
-      this.token = token;
-      this.saveToken(this.authService.currentUser, token);
-    });
+    await this.auth.update_(this.auth.oneRef(uid), { topics: topicsFieldValue }, { snackbar: false });
+    console.log(`app:fcm topics ${mode}ed:`, topics);
   }
 
-  async sendTestTopicNotification(topic: string = 'events', body?: string) {
-    await this.funcs
-      .httpsCallable('sendTestTopicNotification')({ topic, body })
-      .toPromise();
-    console.log(`test notification sent to ${topic}`);
+  private cleanTopics(user: AppUser) {
+    user.topics = user.topics || [];
+    user.topics.push('/topics/users');
+
+    user.topics = [...new Set(user.topics)]; // dedupe
   }
 
-  async sub(topic: string) {
-    await this.funcs
-      .httpsCallable('subscribeToTopic')({ topic, token: this.token })
-      .toPromise();
-    console.log(`subscribed to ${topic}`);
+  /**
+   * Notify helpers
+   */
+  async notifyTopic(topic: string, title: string, body?: string, clickAction?: string) {
+    await this.funcs.httpsCallable('notifs-notifyTopic')({ topic, title, body, clickAction }).toPromise();
   }
 
-  async unsub(topic: string) {
-    await this.funcs
-      .httpsCallable('unsubscribeFromTopic')({ topic, token: this.token })
-      .toPromise();
-    console.log(`unsubscribed from ${topic}`);
-  }
-
-  showNotification(notification: Notification | any) {
-    // tslint:disable-next-line: prefer-const
-    let { title, body, icon, data, actions } = notification;
-    icon = '/assets/img/labor_academy_logo_white_stacked.png';
-
-    const n = (notification as any) as Notification;
-
-    this.messageSource.next(n);
-    this.notifications.push(n);
-
-    this.notificationCount = this.notifications.length;
-
-    if (this.swRegistration) {
-      this.swRegistration.showNotification(title, { body, icon, data, actions });
-    }
-  }
-
-  private saveToken(user: User, token: string): void {
-    const currentTokens = user.fcmTokens || {};
-
-    if (!currentTokens[token]) {
-      const userRef = this.afs.doc(`users/${user.uid}`);
-      const tokens = { ...currentTokens, [token]: true };
-      userRef.update({ fcmTokens: tokens });
-    }
-
-    console.log('[fcm] token saved - ' + token.substr(0, 5) + '...' + token.substr(-5, 5), token);
-  }
-
-  private saveNotification(data: any) {
-    const notifyCol = this.afs.collection('notifications/' + this.authService.currentUser.uid, q => q.orderBy('latest').limit(1));
-
-    const notifySub = notifyCol.valueChanges().subscribe(latestNotification => {
-      const n = latestNotification[0] as any;
-
-      if (n == null || (n && n.title !== data.title)) {
-        data.timestamp = firebase.database.ServerValue.TIMESTAMP;
-        notifyCol.ref.add(data);
-      }
-      notifySub.unsubscribe();
-    });
+  async notifyUser(uid: string, title: string, body?: string, clickAction?: string) {
+    await this.funcs.httpsCallable('notifs-notifyUser')({ uid, title, body, clickAction }).toPromise();
   }
 }
+
+// not using angular/fire, default browser apis
+// private swRegistration: ServiceWorkerRegistration;
+
+// showNotification(notification: Notification | any) {
+//   const { title, body, icon, data, actions } = notification;
+//   if (this.swRegistration) {
+//     this.swRegistration.showNotification(title, { body, icon, data });
+//   }
+// }
+
+// Old method of saving each as an object key
+// private saveToken(user: User, token: string): void {
+//   const currentTokens = user.fcmTokens || {};
+
+//   if (!currentTokens[token]) {
+//     const userRef = this.afs.doc(`users/${user.uid}`);
+//     const tokens = { ...currentTokens, [token]: true };
+//     userRef.update({ fcmTokens: tokens });
+//   }
+// }
+
+// private saveNotification(data: any) {
+//   const notifyCol = this.afs.collection('notifications/' + this._auth.currentUser.uid, (q) => q.orderBy('latest').limit(1));
+
+//   const notifySub = notifyCol.valueChanges().subscribe((latestNotification) => {
+//     const n = latestNotification[0] as any;
+
+//     if (n == null || (n && n.title !== data.title)) {
+//       data.timestamp = firebase.database.ServerValue.TIMESTAMP;
+//       notifyCol.ref.add(data);
+//     }
+//     notifySub.unsubscribe();
+//   });
+// }
 
 // testNotificationData: any = {
 //   notification: {

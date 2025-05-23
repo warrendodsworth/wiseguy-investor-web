@@ -1,10 +1,19 @@
+@import 'variables';
+@import 'material';
+
+@import 'layout';
+@import 'scroll';
+
+@import 'tailwind';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import 'photos';
-@import 'scroll';
-@import 'type';
+/* Make all links blue */
+a {
+  @apply text-blue-500;
+}
 
 .firebase-emulator-warning {
   display: none;

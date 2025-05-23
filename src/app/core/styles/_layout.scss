@@ -1,0 +1,21 @@
+html {
+  height: 100%;
+}
+
+main {
+  min-height: 90vh;
+}
+
+.no-animate {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+.bg-image-cover {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: black;
+}

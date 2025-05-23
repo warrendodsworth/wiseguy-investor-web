@@ -1,10 +1,25 @@
-export class PhotoFile {
-  constructor(public dataUrl: string, public file: File) {}
+export class FileData {
+  constructor(
+    /** can be an http url or a dataURL */
+    public url: string,
 
-  // pending = false;
-  // status = 'init';
+    /** cloud storage file path - used for deletion */
+    public path?: string
+  ) {}
 }
 
-export class Photo {
-  constructor(public downloadUrl: string, public storagePath: string) {}
+export class Photo extends FileData {
+  constructor(
+    /** can be an http url or a dataURL */
+    public url: string,
+
+    /** cloud storage file path - used for deletion */
+    public path?: string,
+
+    public thumbnailURL?: string,
+
+    public thumbnailPath?: string
+  ) {
+    super(url, path);
+  }
 }

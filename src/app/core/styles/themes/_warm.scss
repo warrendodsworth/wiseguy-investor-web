@@ -1,0 +1,50 @@
+@import '@angular/material/theming';
+
+$primary: mat-palette($mat-teal);
+$accent: mat-palette($mat-amber);
+$warn: mat-palette($mat-deep-orange);
+
+.teal-light {
+  $light-theme: mat-light-theme($primary, $accent, $warn);
+  @include angular-material-theme($light-theme);
+}
+
+.teal-dark {
+  $dark-theme: mat-dark-theme($primary, $accent, $warn);
+  @include angular-material-theme($dark-theme);
+}
+
+[class^='teal'] {
+  .text-accent {
+    color: map-get($accent, 500) !important;
+  }
+  .text-warn {
+    color: map-get($warn, 500);
+  }
+}
+
+// $primary: mat-palette($mat-blue);
+// $accent: mat-palette($mat-lime);
+// $warn: mat-palette($mat-deep-orange);
+
+// .blue-light {
+//   $light-theme: mat-light-theme($primary, $accent, $warn);
+//   @include angular-material-theme($light-theme);
+// }
+
+// .blue-dark {
+//   $dark-theme: mat-dark-theme($primary, $accent, $warn);
+//   @include angular-material-theme($dark-theme);
+// }
+
+// [class^='blue'] {
+//   .text-accent {
+//     color: map-get($accent, 500) !important;
+//   }
+//   .text-warn {
+//     color: map-get($warn, 500);
+//   }
+//   .text-muted {
+//     color: map-get($mat-grey, 400) !important;
+//   }
+// }

@@ -1,8 +1,14 @@
-import * as firebase from 'firebase';
+import { DatePredicate } from '../services/base-firestore.service';
 
 export class Entity {
-  createDate: firebase.firestore.FieldValue | any = firebase.firestore.FieldValue.serverTimestamp();
+  id: string;
+
+  createDate: DatePredicate;
   createUid: string;
-  editDate: firebase.firestore.FieldValue | any;
+
+  editDate: DatePredicate;
   editUid: string;
+
+  /** Pagination cursor (Firestore) */
+  doc: any;
 }

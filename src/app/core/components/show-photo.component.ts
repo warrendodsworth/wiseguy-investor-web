@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'show-photo',
+  selector: 'app-show-photo',
+  standalone: true,
+  imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
   template: `
     <div
