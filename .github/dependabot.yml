@@ -1,0 +1,63 @@
+version: 2
+updates:
+  # Update npm dependencies in root directory (Angular project)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated"
+      - "angular"
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    # Ignore Angular major version updates for stability
+    ignore:
+      - dependency-name: "@angular/core"
+        versions:
+          - ">=10.0.0"
+      - dependency-name: "@angular/cli"
+        versions:
+          - ">=10.0.0"
+
+  # Update npm dependencies in functions directory
+  - package-ecosystem: "npm"
+    directory: "/functions"
+    schedule:
+      interval: "daily"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated"
+      - "functions"
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    # Ignore Firebase major version updates for stability
+    ignore:
+      - dependency-name: "firebase"
+        versions:
+          - ">=8.0.0"
+      - dependency-name: "@firebase/*"
+        versions:
+          - ">=8.0.0"
+
+  - dependency-name: "@angular/fire"
+    versions:
+      - "^5.4.2"
+    # Keep Firebase version pinned for compatibility
+
+# Optional: Configure version updates
+update-configurations:
+  - match:
+      dependency-type: "all"
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
