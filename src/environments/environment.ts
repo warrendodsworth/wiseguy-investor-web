@@ -2,7 +2,6 @@ export const environment = {
   production: false,
   gravatarUrl: 'https://picsum.photos/100',
   serviceWorker: 'sw-fcm.js',
-  stripeKey: 'pk_test_Vyr3TSJRlcWIX5QYUDL9odmB',
 };
 
 // This file can be replaced during build by using the `fileReplacements` array.

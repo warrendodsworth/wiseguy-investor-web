@@ -25,10 +25,3 @@ export class Roles {
   subscriber?: boolean = false;
   user = true;
 }
-
-// stripe
-export class Subscription {
-  type: string;
-  token: string;
-  status: string;
-}
