@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+// Use /compat for all @angular/fire imports
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,7 @@ import { firebaseConfig } from 'src/environments/firebase.config';
 import { AccountsRoutingModule } from '../accounts-routing.module';
 import { UserEditComponent } from './user-edit.component';
 
-describe('EditProfileComponent', () => {
+describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let fixture: ComponentFixture<UserEditComponent>;
 

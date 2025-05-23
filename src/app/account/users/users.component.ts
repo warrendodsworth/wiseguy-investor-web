@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore'; // fixed import
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/core/models/user';
 
 import { AuthService } from '../../core/services/auth.service';
+import { AppUser } from '../../core/models/user';
 
 @Component({
   selector: 'app-users',
@@ -12,11 +12,11 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
-  users$: Observable<User[]>;
+  users$: Observable<AppUser[]>;
 
   constructor(public router: Router, public afs: AngularFirestore, public authService: AuthService) {}
 
   ngOnInit() {
-    this.users$ = this.afs.collection<User>('users').valueChanges();
+    this.users$ = this.afs.collection<AppUser>('users').valueChanges();
   }
 }

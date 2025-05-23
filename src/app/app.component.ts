@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { User } from './core/models/user';
+import { AppUser } from './core/models/user';
 import { AuthService } from './core/services/auth.service';
-import { FcmService } from './core/services/fcm.service';
+import { FCMBaseService } from './core/services/fcm.service';
 import { LayoutService } from './core/services/layout.service';
 import { UtilService } from './core/services/util.service';
 
@@ -16,7 +16,7 @@ import { UtilService } from './core/services/util.service';
 export class AppComponent implements OnInit {
   appTitle = 'Wise Guy Investor';
   year = new Date().getFullYear();
-  user: User;
+  user: AppUser;
   isCollapsed = true;
   notification: any;
 
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     public router: Router,
     public title: Title,
     public authService: AuthService,
-    public fcm: FcmService,
+    public fcm: FCMBaseService,
     public layout: LayoutService,
     public util: UtilService
   ) {}
@@ -35,17 +35,15 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.disableContainer = this.layout.disableContainer;
     this.title.setTitle(this.appTitle);
-    this.fcm.showMessages();
 
-    this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$.subscribe((user) => {
       this.user = user;
 
       if (user) {
-        this.fcm.requestPermission();
       }
     });
 
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isCollapsed = true;
       }

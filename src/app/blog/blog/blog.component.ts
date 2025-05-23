@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '../../core/models/user';
+import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
@@ -17,7 +17,7 @@ import { PostService } from '../post.service';
 })
 export class BlogComponent implements OnInit {
   posts$: Observable<Post[]>;
-  user: User;
+  user: AppUser;
   featuredPost: Post;
 
   constructor(
@@ -29,13 +29,13 @@ export class BlogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.auth.currentUser$.subscribe(u => {
+    this.auth.currentUser$.subscribe((u) => {
       this.user = u;
     });
 
-    this.posts$ = this.postService.posts$(q => q.where('draft', '==', false));
+    this.posts$ = this.postService.posts$((q) => q.where('draft', '==', false));
 
-    this.posts$.pipe(map(p => p.find(x => x.featured))).subscribe(post => {
+    this.posts$.pipe(map((p) => p.find((x) => x.featured))).subscribe((post) => {
       this.featuredPost = post;
     });
   }

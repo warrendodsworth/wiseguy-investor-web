@@ -28,11 +28,8 @@ const routes: Routes = [
   },
 ];
 
-const postsComponents = [PostComponent, PostsComponent, PostDetailComponent, PostEditComponent];
-const blogComponents = [BlogComponent];
-
 @NgModule({
-  declarations: [...blogComponents, ...postsComponents],
+  declarations: [BlogComponent, PostComponent, PostsComponent, PostDetailComponent, PostEditComponent],
   imports: [CommonModule, CoreModule, FormsModule, CKEditorModule, RouterModule],
   exports: [PostComponent],
 })

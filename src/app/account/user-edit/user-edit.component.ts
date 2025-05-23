@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Roles, User } from '../../core/models/user';
+import { Roles, AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-user-edit',
@@ -16,8 +17,8 @@ import { UtilService } from '../../core/services/util.service';
 export class UserEditComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
   @ViewChild('userForm') userForm: NgForm;
-  currentUser: User;
-  user: User;
+  currentUser: AppUser;
+  user: AppUser;
   showCropper = false;
   allRoles = [];
 
@@ -32,7 +33,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const uid = this.route.snapshot.paramMap.get('uid');
 
-    const sub1 = this.authService.currentUser$.subscribe(async u => {
+    const sub1 = this.authService.currentUser$.subscribe(async (u) => {
       this.currentUser = u;
 
       this.user = !uid ? u : await this.authService.getUser(uid);
@@ -42,7 +43,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     this.subs.add(sub1);
   }
 
-  async update(user: User) {
+  async update(user: AppUser) {
     await this.authService.updateUser(user);
   }
 

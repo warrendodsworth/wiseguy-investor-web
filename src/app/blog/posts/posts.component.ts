@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PhotoService } from 'src/app/core/services/photo.service';
 
-import { User } from '../../core/models/user';
+import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
@@ -27,12 +27,12 @@ export class PostsComponent implements OnInit {
   ) {}
 
   posts$: Observable<Post[]>;
-  user: User;
+  user: AppUser;
 
   ngOnInit() {
-    this.posts$ = this.postService.posts$(q => q.orderBy('createDate', 'desc'));
+    this.posts$ = this.postService.posts$((q) => q.orderBy('createDate', 'desc'));
 
-    this.auth.currentUser$.subscribe(u => {
+    this.auth.currentUser$.subscribe((u) => {
       this.user = u;
     });
   }

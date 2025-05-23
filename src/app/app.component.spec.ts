@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { async, TestBed } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BlogModule } from './blog/blog.module';
 import { AuthService } from './core/services/auth.service';
-import { FcmService } from './core/services/fcm.service';
+import { FCMBaseService } from './core/services/fcm.service';
 import { HomeComponent } from './home/home/home.component';
 
 describe('AppComponent', () => {
@@ -38,7 +38,7 @@ describe('AppComponent', () => {
         BlogModule,
       ],
       declarations: [AppComponent, HomeComponent],
-      providers: [AuthService, FcmService],
+      providers: [AuthService, FCMBaseService],
     }).compileComponents();
   }));
 

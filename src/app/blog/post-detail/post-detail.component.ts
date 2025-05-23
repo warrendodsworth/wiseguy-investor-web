@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UtilService } from 'src/app/core/services/util.service';
 
 import { Post } from '../post';
 import { PostService } from '../post.service';
+import { AppUser } from '../../core/models/user';
 
 @Component({
   selector: 'app-post-detail',
@@ -17,7 +17,7 @@ import { PostService } from '../post.service';
   // encapsulation: ViewEncapsulation.Emulated
 })
 export class PostDetailComponent implements OnInit {
-  user: User;
+  user: AppUser;
   post$: Observable<Post>;
 
   constructor(
@@ -30,21 +30,21 @@ export class PostDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe(async u => {
+    this.authService.currentUser$.subscribe(async (u) => {
       this.user = u;
 
       this.post$ = this.route.paramMap.pipe(
-        switchMap(params => {
+        switchMap((params) => {
           return this.afs
             .doc(`posts/${params.get('postId')}`)
             .get()
             .pipe(
-              tap(p => {
+              tap((p) => {
                 if (!p.exists) {
                   this.router.navigateByUrl('/blog');
                 }
               }),
-              map(p => p.data() as Post)
+              map((p) => p.data() as Post)
             );
         })
       );
