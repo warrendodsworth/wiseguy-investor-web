@@ -1,4 +1,7 @@
-@import 'bootstrap';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import 'photos';
 @import 'scroll';
 @import 'type';
