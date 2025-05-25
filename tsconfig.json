@@ -2,17 +2,34 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "module": "esnext",
+    "target": "ES2022",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2020", "dom", "dom.iterable", "scripthost"]
+    "lib": ["es2022", "dom"],
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "skipLibCheck": true, // Skip type checking of declaration files for faster builds
+    "forceConsistentCasingInFileNames": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+
+    // custom
+    "strictNullChecks": false,
+    "strictDomEventTypes": false,
+    "strictOutputEventTypes": false,
+    "strictDomLocalRefTypes": true,
+    "strictSafeNavigationTypes": true,
+    "strictNullInputTypes": true
   }
 }
