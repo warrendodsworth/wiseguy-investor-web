@@ -5,7 +5,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { User } from '../../core/models/user';
+import { AppUser } from '../../core/models/user';
 import { PhotoService } from '../../core/services/photo.service';
 import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
@@ -19,7 +19,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public blogService: PostService,
+    public _post: PostService,
     public photoService: PhotoService,
     public util: UtilService
   ) {}
@@ -27,7 +27,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
   @ViewChild('editForm') editform: NgForm;
 
   Editor = ClassicEditor;
-  user: User;
+  user: AppUser;
   post: Post;
 
   selectedFile: any;
@@ -36,7 +36,7 @@ export class PostEditComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('postId');
     if (postId) {
-      this.post = await this.blogService
+      this.post = await this._post
         .post$(postId)
         .pipe(finalize(() => (this.working = false)))
         .toPromise();
@@ -47,14 +47,15 @@ export class PostEditComponent implements OnInit, OnDestroy {
   }
 
   async save(post: Post) {
-    await this.blogService.upsertPost(post, this.selectedFile);
+    await this._post.upsertPost(post, this.selectedFile);
 
     this.editform.reset();
     this.router.navigateByUrl(`/posts`);
   }
 
   processFile(imageInput: any) {
-    this.selectedFile = this.photoService.processFile(imageInput);
+    // TODO
+    // this.selectedFile = this.photoService.processFile(imageInput);
   }
 
   ngOnDestroy() {

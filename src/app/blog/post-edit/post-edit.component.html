@@ -10,7 +10,7 @@
         <div
           class="img-background rounded-top card-img-top"
           [hidden]="!(selectedFile || post.photoURL)"
-          style="height: 64px;"
+          style="height: 64px"
           [style.backgroundImage]="util.getSanitizedStyle(selectedFile?.src || post.photoURL)"
         ></div>
 
@@ -45,16 +45,12 @@
 
           <div class="form-check">
             <input class="form-check-input" [(ngModel)]="post.draft" name="draft" type="checkbox" id="draftCheck" />
-            <label class="form-check-label" for="draftCheck">
-              Draft
-            </label>
+            <label class="form-check-label" for="draftCheck"> Draft </label>
           </div>
 
           <div class="form-check">
             <input class="form-check-input" [(ngModel)]="post.featured" name="featured" type="checkbox" id="featuredCheck" />
-            <label class="form-check-label" for="featuredCheck">
-              Featured
-            </label>
+            <label class="form-check-label" for="featuredCheck"> Featured </label>
           </div>
 
           <button (click)="save(post)" class="btn btn-primary btn-block mt-3">Save</button>

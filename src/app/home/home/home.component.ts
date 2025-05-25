@@ -5,25 +5,19 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
 import { LayoutService } from '../../core/services/layout.service';
+import { Post } from '../../blog/post';
+import { PostService } from '../../blog/post.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    public authService: AuthService,
-    public afs: AngularFirestore,
-    public route: ActivatedRoute,
-    public router: Router,
-    public layout: LayoutService
-  ) {}
+  constructor(public auth: AuthService, public _post: PostService, public route: ActivatedRoute, public router: Router) {}
 
-  posts$: Observable<any>;
+  posts$: Observable<Post[]>;
 
   ngOnInit() {
-    this.layout.disableContainer = true;
-
-    this.posts$ = this.afs.collection('posts', q => q.where('draft', '==', false).orderBy('createDate', 'desc')).valueChanges();
+    this.posts$ = this._post.col$('posts', (q) => q.where('draft', '==', false).orderBy('createDate', 'desc'));
   }
 }

@@ -12,12 +12,12 @@ export class PostComponent implements OnInit {
   @Input() post: Post;
   @Input() admin = false;
 
-  constructor(public blogService: PostService, public util: UtilService) {}
+  constructor(public _blog: PostService, public util: UtilService) {}
 
   ngOnInit() {}
 
-  async delete(postId: string) {
+  async deletePost(postId: string) {
     const res = confirm('Are you sure?');
-    if (res) await this.blogService.deletePost(postId);
+    if (res) await this._blog.deletePost(postId);
   }
 }

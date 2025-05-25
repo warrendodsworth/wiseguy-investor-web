@@ -7,10 +7,11 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CoreModule } from '../core/core.module';
 import { BlogComponent } from './blog/blog.component';
 import { PostComponent } from './components/post/post.component';
-import { EditGuard } from './edit.guard';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { PostEditComponent } from './post-edit/post-edit.component';
 import { PostsComponent } from './posts/posts.component';
+import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
+import { AdminGuard } from '../shared/admin.guard';
 
 const routes: Routes = [
   {
@@ -20,17 +21,17 @@ const routes: Routes = [
   {
     path: 'posts',
     children: [
-      { path: '', component: PostsComponent, canActivate: [EditGuard] },
-      { path: 'create', component: PostEditComponent, canActivate: [EditGuard] },
+      { path: '', component: PostsComponent, canActivate: [AdminGuard] },
+      { path: 'create', component: PostEditComponent, canActivate: [AdminGuard] },
       { path: ':postId', component: PostDetailComponent },
-      { path: ':postId/edit', component: PostEditComponent, canActivate: [EditGuard] },
+      { path: ':postId/edit', component: PostEditComponent, canActivate: [AdminGuard] },
     ],
   },
 ];
 
 @NgModule({
   declarations: [BlogComponent, PostComponent, PostsComponent, PostDetailComponent, PostEditComponent],
-  imports: [CommonModule, CoreModule, FormsModule, CKEditorModule, RouterModule],
+  imports: [CommonModule, CoreModule, FormsModule, CKEditorModule, RouterModule, SkeletonTextComponent],
   exports: [PostComponent],
 })
 export class BlogSharedModule {}

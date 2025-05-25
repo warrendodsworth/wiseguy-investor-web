@@ -7,6 +7,7 @@ import { CoreModule } from '../core/core.module';
 import { AboutComponent } from './about/about.component';
 import { ChannelComponent } from './channel/channel.component';
 import { HomeComponent } from './home/home.component';
+import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, CoreModule, BlogSharedModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, CoreModule, BlogSharedModule, RouterModule.forChild(routes), SkeletonTextComponent],
   declarations: [HomeComponent, AboutComponent, ChannelComponent],
 })
 export class HomeModule {}

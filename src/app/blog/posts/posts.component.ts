@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PhotoService } from 'src/app/core/services/photo.service';
@@ -19,10 +18,9 @@ export class PostsComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public afs: AngularFirestore,
     public auth: AuthService,
     public postService: PostService,
-    public photoService: PhotoService,
+    public _photo: PhotoService,
     public util: UtilService
   ) {}
 
