@@ -89,7 +89,7 @@ export class AdminOrCurrentUserChildGuard implements CanActivateChild {
 }
 
 const logUser = (uid: string, r: firebase.auth.IdTokenResult) => {
-  if (!environment.production) {
+  if (!environment.prod) {
     if (uid) console.log('AdminOrCurrentUserGuard: ', r.claims.name, r.claims.user_id, 'admin:', r.claims?.admin);
     else console.log('AdminOrCurrentUserGuard: no uid in url');
   }

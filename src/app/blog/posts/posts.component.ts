@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PhotoService } from 'src/app/core/services/photo.service';
 
 import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
+import { PhotoService } from '../../core/services/photo.service';
 
 @Component({
   selector: 'app-posts',

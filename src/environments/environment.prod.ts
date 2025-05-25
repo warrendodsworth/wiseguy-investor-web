@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  prod: true,
   gravatarUrl: 'https://picsum.photos/100',
   serviceWorker: 'sw-main.js',
 };

@@ -6,13 +6,12 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { AccountsRoutingModule } from '../accounts-routing.module';
 import { UserEditComponent } from './user-edit.component';
+import { firebaseConfig } from '../../../environments/firebase.config';
+import { AuthService } from '../../core/services/auth.service';
 
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
@@ -28,7 +27,6 @@ describe('UserEditComponent', () => {
 
         CommonModule,
         BrowserAnimationsModule,
-        BrowserModule,
         FormsModule,
         ReactiveFormsModule,
 

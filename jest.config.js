@@ -8,7 +8,7 @@
 // jest.config.js
 module.exports = {
   verbose: false,
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   // rootDir: '.',
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['./setup-jest.ts'],

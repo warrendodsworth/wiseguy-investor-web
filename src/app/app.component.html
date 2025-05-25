@@ -8,7 +8,7 @@
           </a>
         </div>
       </div>
-      
+
       <!-- Mobile menu button -->
       <div class="-mr-2 flex items-center md:hidden">
         <button
@@ -44,61 +44,53 @@
 
       <!-- Desktop menu -->
       <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-        <ng-container *ngIf="user">
-          <ng-container *ngIf="authService.currentUser?.roles?.editor">
-            <a 
-              routerLink="/blog/posts" 
-              routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+        <ng-container *ngIf="authService.currentUser$ | async as user">
+          <ng-container *ngIf="user?.roles?.editor">
+            <a
+              routerLink="/blog/posts"
+              routerLinkActive="text-blue-600 border-b-2 border-blue-500"
               class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
             >
               Posts
             </a>
-            <a 
-              routerLink="/accounts/users" 
-              routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+            <a
+              routerLink="/accounts/users"
+              routerLinkActive="text-blue-600 border-b-2 border-blue-500"
               class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
             >
               Users
             </a>
           </ng-container>
-          <a 
-            routerLink="/about" 
-            routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+          <a
+            routerLink="/about"
+            routerLinkActive="text-blue-600 border-b-2 border-blue-500"
             class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             About me
           </a>
-          <a 
-            routerLink="/" 
-            routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+          <a
+            routerLink="/"
+            routerLinkActive="text-blue-600 border-b-2 border-blue-500"
             class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Home
           </a>
-          <a 
-            routerLink="/blog" 
-            routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+          <a
+            routerLink="/blog"
+            routerLinkActive="text-blue-600 border-b-2 border-blue-500"
             class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Blog
           </a>
-          <a 
-            routerLink="/accounts/edit" 
-            class="ml-3 flex-shrink-0"
-          >
-            <img 
-              *ngIf="user" 
-              [src]="user?.photoURL" 
-              [alt]="user?.displayName || 'User'" 
-              class="h-8 w-8 rounded-full"
-            />
+          <a routerLink="/accounts/edit" class="ml-3 flex-shrink-0">
+            <img *ngIf="user" [src]="user?.photoURL" [alt]="user?.displayName || 'User'" class="h-8 w-8 rounded-full" />
           </a>
         </ng-container>
 
         <ng-container *ngIf="!user">
-          <a 
-            routerLink="/about" 
-            routerLinkActive="text-blue-600 border-b-2 border-blue-500" 
+          <a
+            routerLink="/about"
+            routerLinkActive="text-blue-600 border-b-2 border-blue-500"
             class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             About me
@@ -109,50 +101,46 @@
   </div>
 
   <!-- Mobile menu -->
-  <div 
-    class="md:hidden" 
-    id="mobile-menu"
-    [class.hidden]="isCollapsed"
-  >
+  <div class="md:hidden" id="mobile-menu" [class.hidden]="isCollapsed">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <ng-container *ngIf="user">
-        <ng-container *ngIf="authService.currentUser?.roles?.editor">
-          <a 
-            routerLink="/blog/posts" 
-            routerLinkActive="bg-gray-100 text-blue-600" 
+      <ng-container *ngIf="authService.currentUser$ | async as user">
+        <ng-container *ngIf="user?.roles?.editor">
+          <a
+            routerLink="/blog/posts"
+            routerLinkActive="bg-gray-100 text-blue-600"
             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
             (click)="isCollapsed = true"
           >
             Posts
           </a>
-          <a 
-            routerLink="/accounts/users" 
-            routerLinkActive="bg-gray-100 text-blue-600" 
+          <a
+            routerLink="/accounts/users"
+            routerLinkActive="bg-gray-100 text-blue-600"
             class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
             (click)="isCollapsed = true"
           >
             Users
           </a>
         </ng-container>
-        <a 
-          routerLink="/about" 
-          routerLinkActive="bg-gray-100 text-blue-600" 
+        <a
+          routerLink="/about"
+          routerLinkActive="bg-gray-100 text-blue-600"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
           (click)="isCollapsed = true"
         >
           About me
         </a>
-        <a 
-          routerLink="/" 
-          routerLinkActive="bg-gray-100 text-blue-600" 
+        <a
+          routerLink="/"
+          routerLinkActive="bg-gray-100 text-blue-600"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
           (click)="isCollapsed = true"
         >
           Home
         </a>
-        <a 
-          routerLink="/blog" 
-          routerLinkActive="bg-gray-100 text-blue-600" 
+        <a
+          routerLink="/blog"
+          routerLinkActive="bg-gray-100 text-blue-600"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
           (click)="isCollapsed = true"
         >
@@ -161,12 +149,7 @@
         <div class="pt-4 pb-3 border-t border-gray-200">
           <div class="flex items-center px-4">
             <div class="flex-shrink-0">
-              <img 
-                *ngIf="user" 
-                [src]="user?.photoURL" 
-                [alt]="user?.displayName || 'User'" 
-                class="h-10 w-10 rounded-full"
-              />
+              <img *ngIf="user" [src]="user?.photoURL" [alt]="user?.displayName || 'User'" class="h-10 w-10 rounded-full" />
             </div>
             <div class="ml-3">
               <div class="text-base font-medium text-gray-800">{{ user?.displayName }}</div>
@@ -174,8 +157,8 @@
             </div>
           </div>
           <div class="mt-3 space-y-1">
-            <a 
-              routerLink="/accounts/edit" 
+            <a
+              routerLink="/accounts/edit"
               class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
               (click)="isCollapsed = true"
             >
@@ -186,9 +169,9 @@
       </ng-container>
 
       <ng-container *ngIf="!user">
-        <a 
-          routerLink="/about" 
-          routerLinkActive="bg-gray-100 text-blue-600" 
+        <a
+          routerLink="/about"
+          routerLinkActive="bg-gray-100 text-blue-600"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
           (click)="isCollapsed = true"
         >
@@ -199,7 +182,14 @@
   </div>
 </nav>
 
-<main class="pt-4" [class.max-w-7xl]="!disableContainer" [class.mx-auto]="!disableContainer" [class.px-4]="!disableContainer" [class.sm\:px-6]="!disableContainer" [class.lg\:px-8]="!disableContainer">
+<main
+  class="pt-4"
+  [class.max-w-7xl]="!disableContainer"
+  [class.mx-auto]="!disableContainer"
+  [class.px-4]="!disableContainer"
+  [class.sm\:px-6]="!disableContainer"
+  [class.lg\:px-8]="!disableContainer"
+>
   <router-outlet></router-outlet>
 </main>
 

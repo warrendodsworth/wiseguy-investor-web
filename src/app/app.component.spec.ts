@@ -5,10 +5,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { firebaseConfig } from 'src/environments/firebase.config';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +14,7 @@ import { BlogModule } from './blog/blog.module';
 import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
 import { HomeComponent } from './home/home/home.component';
+import { firebaseConfig } from '../environments/firebase.config';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -30,7 +29,6 @@ describe('AppComponent', () => {
 
         CommonModule,
         BrowserAnimationsModule,
-        BrowserModule,
         FormsModule,
         ReactiveFormsModule,
 

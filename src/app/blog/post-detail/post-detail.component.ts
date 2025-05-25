@@ -3,12 +3,12 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { UtilService } from 'src/app/core/services/util.service';
 
 import { Post } from '../post';
 import { PostService } from '../post.service';
 import { AppUser } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
+import { UtilService } from '../../core/services/util.service';
 
 @Component({
   selector: 'app-post-detail',

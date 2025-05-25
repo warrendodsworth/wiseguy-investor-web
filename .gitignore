@@ -2,7 +2,9 @@
 
 *.cache
 firebase-debug.log
-
+firestore-debug.log
+ui-debug.log
+service-key.json
 
 # compiled output
 /dist
