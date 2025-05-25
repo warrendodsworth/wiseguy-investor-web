@@ -1,0 +1,117 @@
+{
+  "version": "2.0.0",
+  "taskName": "GenericBuild",
+  "tasks": [
+    {
+      "label": "Start Web (Full)",
+      "dependsOn": ["_Start", "_Start Emulators", "_Start Functions"],
+      "group": "build"
+    },
+    {
+      "label": "Start iOS (Full, Mac only)",
+      "dependsOn": ["Start iOS", "_Start Emulators", "_Start Functions"],
+      "group": "build"
+    },
+    {
+      "label": "Start Android (Full)",
+      "dependsOn": ["Start Android", "_Start Emulators", "_Start Functions"],
+      "group": "build"
+    },
+    {
+      "label": "_Start Emulators",
+      "type": "npm",
+      "script": "start_emulators",
+      "isBackground": true,
+      "presentation": { "focus": false, "panel": "dedicated" },
+      "group": "build"
+    },
+    {
+      "label": "_Start Functions",
+      "type": "npm",
+      "script": "start_functions",
+      "isBackground": true,
+      "presentation": { "focus": false, "panel": "dedicated" },
+      "group": "build"
+    },
+    {
+      "label": "_Start",
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "presentation": { "focus": true, "panel": "dedicated" },
+      "group": "build",
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "Start iOS",
+      "type": "npm",
+      "script": "start_ios",
+      "isBackground": true,
+      "presentation": { "focus": true, "panel": "dedicated" },
+      "group": "build",
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "Start Android",
+      "type": "npm",
+      "script": "start_android",
+      "isBackground": true,
+      "presentation": { "focus": true, "panel": "dedicated" },
+      "group": "build",
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": ["relative", "${cwd}"],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "Deploy Apps",
+      "type": "npm",
+      "script": "deploy_apps",
+      "isBackground": true,
+      "presentation": { "focus": false, "panel": "dedicated" },
+      "group": "build"
+    }
+  ]
+}
