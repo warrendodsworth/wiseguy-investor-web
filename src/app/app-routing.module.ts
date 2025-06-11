@@ -6,15 +6,15 @@ const routes: Routes = [
   // { path: '', redirectTo: '', pathMatch: 'full' },
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'accounts',
-    loadChildren: () => import('./account/accounts.module').then(m => m.AccountsModule),
+    loadChildren: () => import('./accounts/accounts.module').then((m) => m.AccountsModule),
   },
   {
     path: 'blog',
-    loadChildren: () => import('./blog/blog.module').then(m => m.BlogModule),
+    loadChildren: () => import('./blog/blog.module').then((m) => m.BlogModule),
   },
 
   { path: '**', redirectTo: '', pathMatch: 'full' },

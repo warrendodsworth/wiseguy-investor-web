@@ -10,7 +10,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BlogModule } from './blog/blog.module';
 import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
 import { HomeComponent } from './home/home/home.component';
@@ -33,7 +32,6 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
 
         AppRoutingModule,
-        BlogModule,
       ],
       declarations: [AppComponent, HomeComponent],
       providers: [AuthService, FCMBaseService],
