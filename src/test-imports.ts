@@ -40,10 +40,6 @@ export const testImports = [
   AppFormlyModule,
   SharedModule,
   CoreModule.forRoot({ appTitle: 'Test' }, {}),
-
-  // FCMService
-  // HttpClientTestingModule,
-  // Calendar,
 ];
 
 export const emulatorProviders = (emulators: boolean) => [

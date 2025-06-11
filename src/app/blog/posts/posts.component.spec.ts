@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BlogSharedModule } from '../blog.module';
 import { PostsComponent } from './posts.component';
-import { firebaseConfig } from '../../../environments/firebase.config';
+import { firebaseConfig } from '../../../environments/firebase-config';
 import { AuthService } from '../../core/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
