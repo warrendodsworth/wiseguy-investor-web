@@ -1,0 +1,85 @@
+<div class="pt-10 flex flex-col items-center">
+  <!-- card -->
+  <div class="border border-gray-200 rounded-lg">
+    <div class="w-full md:w-[480px] p-4 flex flex-col items-center">
+      <!-- <app-logo></app-logo> -->
+      <!-- <div *ngIf="config.app$ | async as app">
+        <h2>{{app.title}}</h2>
+        <h3 *ngIf="view == 'login'">Financial learning at your fingertips {{ app.tagline }}</h3>
+      </div> -->
+
+      <h2 class="p-4">{{config1.appTitle}}</h2>
+
+      <!-- login -->
+      <section class="text-center mb-4">
+        <form [formGroup]="form" (keyup.enter)="view == 'login' ? loginEmail(model) : view == 'signup' ? signupEmail(model) : ''">
+          @if (view == 'forgotPassword') {
+          <p>Enter the email account you used to sign up, and we'll send you a password reset link.</p>
+          } @else if (view == 'signup'){
+          <h2>Welcome</h2>
+          <p>First we need a few details to get your account set up.</p>
+          }
+
+          <formly-form [form]="form" [fields]="fields" † [model]="model" [options]="options"></formly-form>
+
+          <div class="my-3">
+            <button *ngIf="view === 'login'" type="button" (click)="loginEmail(model)" class="button-primary">Sign in</button>
+            <button *ngIf="view === 'signup'" type="button" (click)="signupEmail(model)" class="button-primary">Sign up</button>
+            <button
+              *ngIf="view === 'forgotPassword'"
+              type="button"
+              (click)="sendPasswordResetEmail(model)"
+              class="button-secondary"
+            >
+              Email link
+            </button>
+          </div>
+        </form>
+
+        <div class="flex flex-col items-center justify-center gap-2">
+          <div *ngIf="view === 'login'">
+            <a (click)="changeView('forgotPassword')">Forgot password?</a>
+          </div>
+          <div *ngIf="view === 'forgotPassword'">
+            <a (click)="changeView('login')">Back to Sign in</a>
+          </div>
+          <span *ngIf="view === 'signup'">
+            Already have an account?
+            <a (click)="changeView('login')">Sign in</a>
+          </span>
+          <span *ngIf="view === 'login'">
+            Don't have an account?
+            <a (click)="changeView('signup')"> Sign up</a>
+          </span>
+        </div>
+      </section>
+
+      <!-- social auth -->
+      <section class="mb-4">
+        <!-- class="flex flex-row justify-center"  -->
+        <button
+          (click)="loginGoogle()"
+          class="border border-gray-300 hover:border-gray-400 text-gray-700 font-bold py-1 pl-2 pr-4 rounded-lg flex items-center"
+        >
+          <img class="inline-block h-8 w-8 mr-2" src="../../../assets/icons/auth/google.svg" />
+          <span>Sign {{ view === 'login' ? 'in' : 'up' }} with Google</span>
+        </button>
+      </section>
+
+      <!-- signup info -->
+      <section *ngIf="view === 'signup'" class="w-full sm:w-80 text-center mt-4">
+        <span>
+          One last thing - by signing up you understand and agree with our
+          <a href="../../home/terms-and-conditions" target="_blank" rel="noopener">Terms of Use</a> and
+          <a href="../../home/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
+        </span>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- apple -->
+<!--<button mat-button class="auth-button" *ngIf="!platform.is('android')" (click)="loginApple()" color="dark" fill="outline" shape="round" style="min-width: 140px; min-height: 30px;">
+      <img src="../../../assets/icons/auth/apple_black.svg" style="min-height: 32px; width: 32px; margin-right: 7px;" />
+      <span style="padding-right: 8px"> Sign {{ view === 'login' ? 'in' : 'up' }} with Apple </span>
+    </button> -->

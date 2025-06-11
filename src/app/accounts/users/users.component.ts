@@ -9,12 +9,11 @@ import { AppUser } from '../../core/models/user';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
   users$: Observable<AppUser[]>;
 
-  constructor(public router: Router, public afs: AngularFirestore, public authService: AuthService) {}
+  constructor(public router: Router, public afs: AngularFirestore, public auth: AuthService) {}
 
   ngOnInit() {
     this.users$ = this.afs.collection<AppUser>('users').valueChanges();

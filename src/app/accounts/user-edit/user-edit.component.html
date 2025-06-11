@@ -5,7 +5,7 @@
         <nav class="nav flex-column">
           <a class="nav-link active">Edit Profile</a>
 
-          <a routerLink="" *ngIf="currentUser?.uid == user?.uid" (click)="logout()" class="nav-link mt-3">Logout</a>
+          <!-- <a routerLink="" *ngIf="currentUser?.uid == user?.uid" (click)="logout()" class="nav-link mt-3">Logout</a> -->
         </nav>
       </div>
 
@@ -13,6 +13,8 @@
         <div class="text-center mb-3">
           <div [hidden]="showCropper">
             <div class="d-flex justify-content-center">
+              <!-- <app-show-photo></app-show-photo> -->
+              <app-show-photo [url]="user?.photoURL" cssClass="rounded-circle img-lg"></app-show-photo>
               <div [style.background]="util.getSanitizedStyle(user?.photoURL)" class="rounded-circle img-background img-lg"></div>
             </div>
           </div>
@@ -30,15 +32,11 @@
                 <input type="email" [(ngModel)]="user.email" name="email" required placeholder="Email" class="form-control" />
               </div>
               <div class="form-group">
-                <label>Phone</label>
-                <input type="tel" [(ngModel)]="user.phoneNumber" name="phone" placeholder="Phone number" class="form-control" />
-              </div>
-              <div class="form-group">
                 <label>Bio</label>
                 <input type="text" [(ngModel)]="user.bio" name="about" placeholder="Bio" class="form-control" />
               </div>
 
-              <ng-container *ngIf="user && user.roles && authService.currentUser?.roles?.admin">
+              <ng-container *ngIf="user && user.roles && currentUser?.roles?.admin">
                 <p class="lead">Roles</p>
 
                 <div *ngFor="let role of allRoles; let i = index">
@@ -53,7 +51,7 @@
                       name="role"
                     />
                     <label class="form-check-label" [for]="'role' + i">
-                      {{ role | titlecase }}
+                      {{ role }}
                     </label>
                   </div>
                 </div>
@@ -68,8 +66,36 @@
   </div>
 </div>
 
-<!-- <div class="text-right mt-5">
-      <div class="btn-group">
-        <button class="btn btn-link text-dark" (click)="deactivate()">Temporarily disable my account</button>
-      </div>
-    </div> -->
+<!--
+<div class="text-right mt-5">
+  <div class="btn-group">
+    <button class="btn btn-link text-dark" (click)="deactivate()">Temporarily disable my account</button>
+  </div>
+</div>
+
+<div class="text-center mb-3">
+  <div [hidden]="showCropper">
+    <div class="d-flex justify-content-center">
+      <div [style.background]="_util.getSanitizedStyle(user?.photoURL)" class="rounded-circle img-background img-lg"></div>
+    </div>
+    <label class="upload-button d-block mt-3"> <input type="file" (change)="fileChangeEvent($event)" /> Change photo </label>
+  </div>
+  <div [hidden]="!showCropper" style="height: auto;">
+    <button class="btn btn-secondary btn-sm px-5" (click)="saveCrop()">Save</button>
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="1"
+      [resizeToWidth]="128"
+      [format]="'jpg'"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="showCropper = true"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+  </div>
+
+  <input type="file" (change)="handleFileInput($event.target.files)" /> Change photo
+  <img [src]="user?.photoUrl" class="rounded-circle img-lg" />
+  <input ngFileSelect type="file" [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" />
+</div> -->
