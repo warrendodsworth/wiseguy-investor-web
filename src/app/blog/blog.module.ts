@@ -11,7 +11,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { PostEditComponent } from './post-edit/post-edit.component';
 import { PostsComponent } from './posts/posts.component';
 import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
-import { AdminGuard } from '../shared/admin.guard';
+import { AdminGuard } from '../accounts/admin.guard';
 
 const routes: Routes = [
   {

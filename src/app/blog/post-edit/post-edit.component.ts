@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ClassicEditor } from 'ckeditor5';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -13,7 +13,6 @@ import { PostService } from '../post.service';
 
 @Component({
   templateUrl: './post-edit.component.html',
-  styleUrls: ['./post-edit.component.scss'],
 })
 export class PostEditComponent implements OnInit, OnDestroy {
   constructor(
