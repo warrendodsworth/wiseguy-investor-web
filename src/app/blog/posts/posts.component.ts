@@ -8,11 +8,15 @@ import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 import { PhotoService } from '../../core/services/photo.service';
+import { PostComponent } from '../components/post/post.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.scss'],
+  standalone: true,
+  imports: [SharedModule, PostComponent],
 })
 export class PostsComponent implements OnInit {
   constructor(

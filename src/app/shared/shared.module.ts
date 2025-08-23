@@ -9,9 +9,10 @@ import { UnsplashSearchComponent } from './photos/unsplash-search/unsplash-searc
 import { MaterialModule } from '../core/material.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { EmptyListComponent } from '../core/components/empty-list.component';
+import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
 // import { IonicModule } from '@ionic/angular';
 
-const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent];
+const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent, SkeletonTextComponent];
 const ui = [];
 const pipes = [];
 const directives = [];

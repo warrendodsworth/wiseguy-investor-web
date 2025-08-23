@@ -7,6 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { Post } from '../../blog/post';
 import { PostService } from '../../blog/post.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-home',
