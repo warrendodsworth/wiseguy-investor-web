@@ -2,13 +2,15 @@
   <!-- card -->
   <div class="border border-gray-200 rounded-lg">
     <div class="w-full md:w-[480px] p-4 flex flex-col items-center">
-      <!-- <app-logo></app-logo> -->
       <!-- <div *ngIf="config.app$ | async as app">
         <h2>{{app.title}}</h2>
-        <h3 *ngIf="view == 'login'">Financial learning at your fingertips {{ app.tagline }}</h3>
+        <h3 *ngIf="view == 'login'">{{ app.tagline }}</h3>
       </div> -->
-
-      <h2 class="p-4">{{config1.title}}</h2>
+      <div class="flex items-center gap-4">
+        <a routerLink="/">
+          <img [src]="'assets/insight-91-high-resolution-logo-transparent.webp'" class="w-auto h-4 mt-4 mb-8 mx-auto" />
+        </a>
+      </div>
 
       <!-- login -->
       <section class="text-center mb-4">
@@ -20,7 +22,7 @@
           <p>First we need a few details to get your account set up.</p>
           }
 
-          <formly-form [form]="form" [fields]="fields" † [model]="model" [options]="options"></formly-form>
+          <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
 
           <div class="my-3">
             <button *ngIf="view === 'login'" type="button" (click)="loginEmail(model)" class="button-primary">Sign in</button>
@@ -59,7 +61,7 @@
         <!-- class="flex flex-row justify-center"  -->
         <button
           (click)="loginGoogle()"
-          class="border border-gray-300 hover:border-gray-400 text-gray-700 font-bold py-1 pl-2 pr-4 rounded-lg flex items-center"
+          class="border border-gray-300 hover:border-gray-400 text-gray-700 font-medium py-1 pl-2 pr-4 rounded-lg flex items-center"
         >
           <img class="inline-block h-8 w-8 mr-2" src="../../../assets/icons/auth/google.svg" />
           <span>Sign {{ view === 'login' ? 'in' : 'up' }} with Google</span>

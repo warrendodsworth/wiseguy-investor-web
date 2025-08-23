@@ -1,0 +1,23 @@
+<div class="flex flex-col items-center w-full max-w-screen-md mx-auto py-8 px-4 bg-white rounded-lg shadow">
+  @if(user){
+  <div class="mb-3">
+    <app-show-photo [url]="user?.photoURL"></app-show-photo>
+  </div>
+
+  <div class="w-full text-center mb-2">
+    <h2 class="text-2xl font-semibold text-gray-800">{{ user?.displayName }}</h2>
+
+    <p class="text-gray-500 text-sm">{{ user?.email }}</p>
+
+    <p *ngIf="user.roles.admin" class="text-xs text-gray-500 ml-2">{{ util.toKeys(user?.roles) }}</p>
+  </div>
+
+  <div class="w-full flex flex-col gap-2 mt-4">
+    <p *ngIf="user?.bio" class="text-gray-700 text-base">{{ user.bio }}</p>
+
+    <p *ngIf="user?.address" class="text-gray-400 text-sm">{{ user.address }}</p>
+
+    <!-- Add more fields as needed -->
+  </div>
+  }
+</div>

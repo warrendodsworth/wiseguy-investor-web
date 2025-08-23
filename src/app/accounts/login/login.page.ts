@@ -11,15 +11,16 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../../core/services/auth.service';
-import { ConfigService, DeviceStore } from '../../core/services/config.service';
+import { ConfigService } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
-import { AppConfig } from '../../core/core.config';
+import { SharedModule } from '../../shared/shared.module';
 
 type View = 'login' | 'signup' | 'forgotPassword';
 
 @Component({
   templateUrl: 'login.page.html',
-  styleUrls: [`login.page.scss`],
+  standalone: true,
+  imports: [SharedModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -28,10 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public auth: AuthService,
     public util: UtilService,
-    public config1: AppConfig,
     public config: ConfigService,
     protected afAuth: AngularFireAuth,
-    private _device: DeviceStore,
     private analytics: AngularFireAnalytics
   ) {
     this.handleWebRedirectLogin();
@@ -89,14 +88,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.view = (params.get('view') as View) || this.view; // default to login (this._device.state.hasLoggedIn ? 'login' : 'signup');
+      this.view = (params.get('view') as View) || this.view;
       this.options.formState.view = this.view; // formly options formstate.view needed for consistent hide expr execution
       this.analytics.setCurrentScreen(this.view);
     });
   }
 
   /**
-   * after signin with redirect | https://firebase.google.com/docs/auth/web/google-signin
+   * After signin with redirect using Social logins | https://firebase.google.com/docs/auth/web/google-signin
    * https://stackoverflow.com/questions/46922658/how-to-detect-getredirectresult-state-after-signinwithredirect
    */
   private async handleWebRedirectLogin() {
@@ -106,9 +105,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       try {
         const baseLoading = await this.util.openLoading('Please wait..');
         // const cred = await this.afAuth.getRedirectResult();
-        // console.log(`🚀 ~ file: login.page.ts ~ line 155 ~ cred`, cred); // ! returns null - still broken in angularfire 7
+        // ! cred is null - still broken in angularfire 17
 
-        this.afAuth.authState.subscribe(async (user) => {
+        const sub = this.afAuth.authState.subscribe(async (user) => {
           if (user) {
             const detailLoading = this.util.openLoading('Logging you in..');
             baseLoading.close();
@@ -124,14 +123,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             baseLoading.close();
             detailLoading.close();
+
+            // Unsubscribe after handling the user
+            sub.unsubscribe();
           } else {
             baseLoading.close();
           }
         });
       } catch (error) {
-        // error.credential The firebase.auth.AuthCredential type that was used.
         this.util.openSnackbar(`Sorry there's been an issue.`, error.message);
         console.error(`[login]`, error);
+        // error.credential type: firebase.auth.AuthCredential
+        // Signin error codes from firebase. Incase we need custom messages for users.
+        // const errorCodes = ['auth/wrong-password', 'auth/too-many-requests', 'auth/user-not-found', 'auth/user-disabled'];
+        // if(errorCodes.includes(error.code)){}
         // Bugsnag.notify({ name: error.code, message: error.message });
       }
     }
@@ -149,6 +154,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         baseLoading.close();
 
         await this.auth.updateUserData(cred);
+
         if (this.util.env.prod) this.auth.goAffirmations();
         else this.goReturnUrlOrHome();
 
@@ -218,7 +224,3 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 }
-
-// Signin error codes from firebase. Incase we need custom messages for users.
-// const errorCodes = ['auth/wrong-password', 'auth/too-many-requests', 'auth/user-not-found', 'auth/user-disabled'];
-// if(codes.includes(error.code)){}
