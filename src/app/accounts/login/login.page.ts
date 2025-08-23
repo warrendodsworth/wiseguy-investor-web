@@ -11,12 +11,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../../core/services/auth.service';
-import { ConfigService } from '../../core/services/config.service';
-import { DeviceStore } from '../../core/services/device.store';
+import { ConfigService, DeviceStore } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
-import { Capacitor } from '@capacitor/core';
-import { AppConfig } from '../../core/app-config';
-import { CoreConfig } from '../../core/core.config';
+import { AppConfig } from '../../core/core.config';
 
 type View = 'login' | 'signup' | 'forgotPassword';
 
@@ -31,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public auth: AuthService,
     public util: UtilService,
-    public config1: CoreConfig,
+    public config1: AppConfig,
     public config: ConfigService,
     protected afAuth: AngularFireAuth,
     private _device: DeviceStore,
@@ -119,7 +116,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             const d = DateTime.fromRFC2822(user.metadata.creationTime);
             const isNewUser = d.diffNow().negate().as('minute') < 1;
 
-            await this.auth.updateUserDataWithoutCred(user, isNewUser);
+            await this.auth.updateUserPostLogin(user);
 
             if (isNewUser) this.auth.goChooseUserType();
             else if (this.util.env.prod) this.auth.goAffirmations();

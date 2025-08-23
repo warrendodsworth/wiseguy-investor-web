@@ -7,6 +7,8 @@ import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
 import { LayoutService } from './core/services/layout.service';
 import { UtilService } from './core/services/util.service';
+import { AppConfig } from './core/core.config';
+import { ConfigService } from './core/services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,6 @@ import { UtilService } from './core/services/util.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  appTitle = 'Wise Guy Investor';
   year = new Date().getFullYear();
   user: AppUser;
   isCollapsed = true;
@@ -23,18 +24,17 @@ export class AppComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public title: Title,
     public authService: AuthService,
     public fcm: FCMBaseService,
     public layout: LayoutService,
-    public util: UtilService
+    public util: UtilService,
+    public config: ConfigService
   ) {}
 
   disableContainer: boolean;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.disableContainer = this.layout.disableContainer;
-    this.title.setTitle(this.appTitle);
 
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;

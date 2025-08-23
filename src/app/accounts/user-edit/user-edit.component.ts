@@ -35,7 +35,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
       this.currentUser = u;
 
       if (uid) {
-        this.user = await this.auth.one$(uid).toPromise();
+        this.user = await this.auth.user$(uid).toPromise();
       } else {
         this.user = u;
       }

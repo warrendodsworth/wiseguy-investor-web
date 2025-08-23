@@ -42,7 +42,7 @@ export class PostService extends BaseFirestoreService {
       post.photoURL = await uploadSnap.url;
     }
 
-    await this.set_(this.postRef(post.id), post, { snackbarContent: 'Post saved' });
+    await this.setByRef(this.postRef(post.id), post, { snackbarContent: 'Post saved' });
   }
 
   async deletePost(postId: string) {
