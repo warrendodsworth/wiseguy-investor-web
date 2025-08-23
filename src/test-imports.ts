@@ -13,9 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CoreModule } from './app/core/core.module';
-import { AppFormlyModule } from './app/shared/formly/app-formly.module';
 import { SharedModule } from './app/shared/shared.module';
 import { firebaseConfig } from './environments/firebase-config';
+import { FormlyAppModule } from './app/core/formly/formly-app.module';
 
 // import { IonicStorageModule } from '@ionic/storage-angular'; // test err - can't find IonicStorage in here
 
@@ -37,9 +37,9 @@ export const testImports = [
   AngularFireMessagingModule,
 
   // core
-  AppFormlyModule,
+  FormlyAppModule,
   SharedModule,
-  CoreModule.forRoot({ appTitle: 'Test' }, {}),
+  CoreModule.forRoot({ title: 'Test' }, {}),
 ];
 
 export const emulatorProviders = (emulators: boolean) => [
