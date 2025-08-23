@@ -1,5 +1,5 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 // Add '/compat' to all @angular/fire imports
 import { AngularFireModule } from '@angular/fire/compat';
@@ -25,7 +25,6 @@ import { MaterialModule } from './core/material.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
 
@@ -42,12 +41,7 @@ import { MaterialModule } from './core/material.module';
     MaterialModule,
     AppRoutingModule,
   ],
-  providers: [{ provide: APP_BASE_HREF, useFactory: getBaseHref }],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-function getBaseHref() {
-  const el = document.getElementsByTagName('base').item(0);
-  return el ? el.href : '/';
-}

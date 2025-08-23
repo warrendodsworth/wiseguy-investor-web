@@ -2,7 +2,7 @@
   "name": "wiseguyinvestor",
   "version": "0.0.1",
   "scripts": {
-    "start": "npm run stop_appserver_ports && ng s --hmr",
+    "start": "npm run stop_appserver_ports && ng serve",
     "start_emulators": "npm run emulators_stop && firebase emulators:start --import=./emulators.backup --export-on-exit=./emulators.backup",
     "start_functions": "cd functions && npm run start",
     "start_ios": "ionic cap run ios -l --external --open -- --hmr",
