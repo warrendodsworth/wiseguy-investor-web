@@ -2,19 +2,40 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatInput } from '@angular/material/input';
 
 import { Photo } from '../../../core/models/photo';
 import { UtilService } from '../../../core/services/util.service';
-import { UnsplashSearchStore } from '../unsplash-page.store';
-import { UnsplashPhoto } from '../unsplash-response';
-import { UnsplashService } from '../unsplash.service';
+import { UnsplashPhoto } from './unsplash-response';
+import { UnsplashService } from './unsplash.service';
+import { SharedModule } from '../../shared.module';
+import { Injectable } from '@angular/core';
+import { map, switchMap } from 'rxjs/operators';
+import { State, Store } from '../../../core/store';
 import { ConfigService } from '../../../core/services/config.service';
-import { MatInput } from '@angular/material/input';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+class UnsplashSearchPageState extends State {
+  view: 'grid' | 'list' = 'grid';
+  appId: string;
+}
+
+@Injectable()
+export class UnsplashSearchStore extends Store<UnsplashSearchPageState> {
+  constructor(private config: ConfigService) {
+    super(new UnsplashSearchPageState(), '@unsplashsearch');
+
+    this.state$ = this.config.app$.pipe(
+      switchMap((a) => this.actions.asObservable().pipe(map((s) => ({ ...s, ...{ appId: a.id } }))))
+    );
+  }
+}
 
 @Component({
   selector: 'app-unsplash-search',
   templateUrl: './unsplash-search.component.html',
+  standalone: true,
+  imports: [SharedModule],
   providers: [UnsplashSearchStore],
 })
 export class UnsplashSearchComponent implements OnInit {
@@ -59,7 +80,7 @@ export class UnsplashSearchComponent implements OnInit {
 
   async selectPhoto(photo: UnsplashPhoto) {
     this._unsplash.notifyUnsplashOfDownload(photo);
-    const p = new Photo(photo.urls.regular, null, photo.urls.small, null);
+    const p = new Photo(photo.urls.regular, photo.urls.small);
     this.dialogRef.close(p);
   }
 

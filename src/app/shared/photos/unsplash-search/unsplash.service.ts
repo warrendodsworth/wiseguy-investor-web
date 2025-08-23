@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
-import { UtilService } from '../../core/services/util.service';
+import { environment } from '../../../../environments/environment';
+import { UtilService } from '../../../core/services/util.service';
 import { UnsplashPhoto, UnsplashResponse } from './unsplash-response';
 
 @Injectable({ providedIn: 'root' })

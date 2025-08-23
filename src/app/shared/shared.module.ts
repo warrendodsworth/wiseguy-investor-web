@@ -5,13 +5,14 @@ import { RouterModule } from '@angular/router';
 import { NgPipesModule } from 'ngx-pipes';
 
 import { CoreModule } from '../core/core.module';
-import { UnsplashSearchComponent } from './unsplash/unsplash-search/unsplash-search.component';
+import { UnsplashSearchComponent } from './photos/unsplash-search/unsplash-search.component';
 import { MaterialModule } from '../core/material.module';
-import { EmptyListComponent } from '../core/components/empty-list.component';
-import { AppFormlyModule } from './formly/app-formly.module';
 import { FormlyModule } from '@ngx-formly/core';
+import { EmptyListComponent } from '../core/components/empty-list.component';
+// import { IonicModule } from '@ionic/angular';
 
-const ui = [UnsplashSearchComponent];
+const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent];
+const ui = [];
 const pipes = [];
 const directives = [];
 
@@ -28,12 +29,12 @@ const modules = [
   // app
   CoreModule,
   MaterialModule,
+  // IonicModule,
 ];
-const standaloneComponents = [EmptyListComponent];
 
 @NgModule({
-  declarations: [...ui, ...pipes, ...directives, UnsplashSearchComponent],
+  declarations: [...ui, ...pipes, ...directives],
   imports: [...modules, ...standaloneComponents],
-  exports: [...modules, ...ui, ...pipes, ...directives],
+  exports: [...modules, ...standaloneComponents, ...pipes, ...directives],
 })
 export class SharedModule {}

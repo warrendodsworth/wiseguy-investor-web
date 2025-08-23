@@ -1,0 +1,22 @@
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+  <div class="flex items-center justify-between px-4 py-2 border-b">
+    <h2 class="text-lg font-semibold">Choose an Avatar</h2>
+    <button (click)="dismiss()" class="text-gray-400 hover:text-gray-700">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  <div class="p-4">
+    <p class="text-center mb-4 text-gray-600">Which avatar best reflects your personality?</p>
+    <div class="grid grid-cols-3 gap-4">
+      <div *ngFor="let a of avatars" class="flex justify-center">
+        <img
+          [src]="a"
+          (click)="selectAvatar(a)"
+          class="w-20 h-20 rounded-full border-2 border-gray-200 shadow hover:border-primary-500 cursor-pointer transition duration-150"
+        />
+      </div>
+    </div>
+  </div>
+</div>
