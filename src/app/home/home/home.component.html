@@ -1,9 +1,9 @@
-<header class="img-background mb-5 mt-n3" [style.backgroundImage]="'url(./assets/will-li-OWtRU2iLL_c-unsplash.jpg)'" parallax>
-  <div class="row text-center align-items-center justify-content-center overflow-hidden" style="height: 350px;">
-    <div class="col-md-8">
-      <h1 class="display-3 mb-0 text-white" style="filter: blur(0)">Wise Guy Investor</h1>
-      <p class="lead text-white">{{ 'Financial Learning Simplified' | uppercase }}</p>
-    </div>
+<header
+  class="bg-cover bg-center bg-[url('/assets/images/shrine.jpg')] h-64 rounded-2xl flex flex-col items-center justify-center text-white"
+>
+  <div class="p-8">
+    <h1 class="text-white text-4xl font-bold text-center">Welcome to Wiseguy Investor</h1>
+    <p class="lead text-white text-center">{{ 'Financial Learning Simplified' | uppercase }}</p>
   </div>
 </header>
 
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="col-md-6" *ngFor="let post of posts$ | async | slice: 0:2">
+    <div class="col-md-6" *ngFor="let post of posts$ | async | slice : 0 : 2">
       <app-post [post]="post"></app-post>
     </div>
   </div>

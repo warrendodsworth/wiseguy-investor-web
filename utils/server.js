@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 
 const rootPath = path.join(__dirname, 'dist');
 
+// Designed to test running the app under a virtual directory
 // set vd path
 let vd = '/vd/';
 
