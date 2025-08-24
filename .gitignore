@@ -1,53 +1,55 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
 
-*.cache
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
-service-key.json
-
-# compiled output
-/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
-/functions/node_modules
-/functions/lib
-
-# profiling files
-chrome-profiler-events.json
-speed-measure-plugin.json
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
+*~
+*.sw[mnpcod]
+.tmp
+*.tmp
+*.tmp.*
+*.sublime-project
 *.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
 .DS_Store
 Thumbs.db
+UserInterfaceState.xcuserstate
+$RECYCLE.BIN/
 
-.angular/
+*.log
+log.txt
+npm-debug.log*
+
+/.idea
+/.ionic
+/.sass-cache
+/.sourcemaps
+/.versions
+# /.vscode
+/.vscode/chrome
+/coverage
+/dist
+node_modules
+/platforms
+/plugins
+/www
+
+# firebase
+.firebase/
+/emulators.backup*
+/firebase-export-*/
+*-firebase-adminsdk-*.json
+service*.json
+/prod-*.json
+
+*.keystore
+*.pem
+*.jks
+
+# angular
+.angular
+
+# build
+build/ios/archive
+build/ios/ipa
+private_keys/
+*.keystore
+*.pem
+*.jks

@@ -1,6 +1,6 @@
 import path from 'path';
 
-const projectId = 'insight-91'; // process.env.GCLOUD_PROJECT || 'insight-91';
+const projectId = 'wiseguyapp'; // process.env.GCLOUD_PROJECT ;
 const rootURL = `https://${projectId}.web.app`;
 const prod = process.env.NODE_ENV == 'prod';
 
