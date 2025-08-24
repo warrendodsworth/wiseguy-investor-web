@@ -41,7 +41,7 @@ export async function setupEmulatorData() {
     const userDocRef = db.collection('users').doc();
     const generatedUid = userDocRef.id;
 
-    // Create user in Firebase Auth emulator with Firestore-generated uid
+    // Create user in Firebase Auth emulator
     let userRecord;
     try {
       userRecord = await auth.createUser({ email, password, displayName, uid: generatedUid });
@@ -50,9 +50,8 @@ export async function setupEmulatorData() {
       }
       console.log('User Created:', userRecord.uid, email);
     } catch (err) {
-      console.log(`app: - setupEmulatorData - err:`, err);
-      // If user exists, fetch it
       userRecord = await auth.getUserByEmail(email);
+      console.log(`User Create Error:`, err);
       console.log('User Exists:', userRecord.uid, email);
     }
 
