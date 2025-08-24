@@ -115,6 +115,7 @@ async function initializeBlogPosts() {
 
   const postsCol = db.collection('posts');
   for (const post of posts) {
+    post.createDate = db.constructor.Timestamp ? db.constructor.Timestamp.now() : new Date();
     await postsCol.add(post);
   }
   console.log('Sample blog posts added to Firestore.');
