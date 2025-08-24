@@ -4,8 +4,8 @@ import { UserService } from './services.mjs';
 process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
 process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
 
-setupEmulatorData();
-initializeBlogPosts();
+await setupEmulatorData();
+await initializeBlogPosts();
 
 export async function setupEmulatorData() {
   const appConfig = {
@@ -23,7 +23,7 @@ export async function setupEmulatorData() {
   };
 
   const result = await db.collection('apps').doc(appConfig.id).set(appConfig);
-  console.log('App config set:', appConfig.id, result.writeTime.toDate());
+  console.log(`[EMULATOR] App config set: id=${appConfig.id} at ${result.writeTime.toDate()}`);
 
   // Create two default users and add them to Firestore
   const userDetails = [
@@ -48,11 +48,11 @@ export async function setupEmulatorData() {
       if (roles) {
         await auth.setCustomUserClaims(userRecord.uid, roles);
       }
-      console.log('User Created:', userRecord.uid, email);
+      console.log(`[EMULATOR] User created: uid=${userRecord.uid}, email=${email}`);
     } catch (err) {
       userRecord = await auth.getUserByEmail(email);
-      console.log(`User Create Error:`, err);
-      console.log('User Exists:', userRecord.uid, email);
+      console.log(`[EMULATOR] User create error: ${err}`);
+      console.log(`[EMULATOR] User exists: uid=${userRecord.uid}, email=${email}`);
     }
 
     // Add user to Firestore users table
@@ -67,13 +67,21 @@ export async function setupEmulatorData() {
     await db.collection('user_meta').doc(userRecord.uid).set({
       email: userRecord.email,
     });
-    console.log('User Added to Db:', userRecord.uid, userRecord.email);
+    console.log(`[EMULATOR] User added to DB: uid=${userRecord.uid}, email=${userRecord.email}`);
   }
 }
 
 // Utility function to initialize Firestore with a few blog posts
 // Usage: Call this function from a script or Angular service with a Firestore instance
 async function initializeBlogPosts() {
+  // Fetch recently created users
+  const usersSnap = await db.collection('users').get();
+  const userIds = usersSnap.docs.map((doc) => doc.id);
+  if (userIds.length === 0) {
+    console.warn('[EMULATOR] No users found to assign as post creators.');
+    return;
+  }
+
   const posts = [
     {
       title: 'Welcome to WiseGuy Investor',
@@ -83,7 +91,6 @@ async function initializeBlogPosts() {
       featured: true,
       draft: false,
       photoURL: 'https://picsum.photos/1080?1',
-      uid: 'admin',
       likes: 0,
       hearted: false,
     },
@@ -95,7 +102,6 @@ async function initializeBlogPosts() {
       featured: false,
       draft: false,
       photoURL: 'https://picsum.photos/1080?2',
-      uid: 'user1',
       likes: 0,
       hearted: false,
     },
@@ -107,16 +113,19 @@ async function initializeBlogPosts() {
       featured: false,
       draft: false,
       photoURL: 'https://picsum.photos/1080?3',
-      uid: 'user2',
       likes: 0,
       hearted: false,
     },
   ];
 
+  // Assign each post a createUid from the userIds, cycling if needed
   const postsCol = db.collection('posts');
-  for (const post of posts) {
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const creatorUid = userIds[i % userIds.length];
+    post.createUid = creatorUid;
     post.createDate = db.constructor.Timestamp ? db.constructor.Timestamp.now() : new Date();
     await postsCol.add(post);
   }
-  console.log('Sample blog posts added to Firestore.');
+  console.log(`[EMULATOR] Sample blog posts added to Firestore with user UIDs: [${userIds.join(', ')}]`);
 }

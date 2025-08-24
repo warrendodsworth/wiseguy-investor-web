@@ -11,7 +11,6 @@ export class Post extends Entity {
 
   photoURL = 'https://picsum.photos/1080';
   videoURL: string;
-  uid: string;
 
   likes: number;
   hearted: boolean;
