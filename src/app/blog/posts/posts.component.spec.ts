@@ -10,7 +10,6 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { BlogSharedModule } from '../blog.module';
 import { PostsComponent } from './posts.component';
 import { firebaseConfig } from '../../../environments/firebase-config';
 import { AuthService } from '../../core/services/auth.service';
@@ -32,8 +31,6 @@ describe('PostsComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-
-        BlogSharedModule,
       ],
       declarations: [PostsComponent],
       providers: [
