@@ -1,27 +1,45 @@
-<div class="row no-gutters overflow-hidden flex-md-row mb-3 position-relative" [ngClass]="{ 'border rounded shadow-sm': true }">
-  <div class="col p-4 d-flex flex-column position-static">
-    <strong class="d-inline-block mb-2 text-secondary">{{ post.category }}</strong>
-    <h3 class="mb-0">{{ post.title }}</h3>
-    <p class="mb-1">
-      <span class="text-warning" *ngIf="admin">{{ post.draft ? 'Draft &middot; ' : '' }}</span>
-      <span class="text-muted">{{ post.createDate.toString() | date }}</span>
-    </p>
-    <p class="mb-1" [innerHTML]="post.text | slice : 0 : 100"></p>
-    <a [routerLink]="['/blog/posts', post.id]" class="stretched-link text-secondary" *ngIf="!admin">Continue reading</a>
-
-    <div *ngIf="admin" fxLayout fxLayoutAlign="start center" fxLayoutGap="8px">
-      <a [routerLink]="['/blog/posts', post.id]" class="btn btn-sm btn-outline-secondary">View</a>
-      <a [routerLink]="['/blog/posts', post.id, 'edit']" class="btn btn-sm btn-outline-secondary">Edit</a>
-      <button (click)="deletePost(post.id)" class="btn btn-sm btn-outline-medium">Delete</button>
-    </div>
+<div
+  class="max-w-md h-56 bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row mb-6 border"
+>
+  <div class="flex-shrink-0">
+    <div
+      class="h-40 w-full md:w-48 bg-cover bg-center"
+      [ngStyle]="{ 'background-image': 'url(' + post.photoURL + ')' }"
+      *ngIf="post.photoURL"
+    ></div>
   </div>
 
-  <div class="col-auto p-4 d-none d-lg-block">
-    <div
-      class="img-background rounded img-lg"
-      style="height: 100%"
-      [hidden]="!post.photoURL"
-      [style.backgroundImage]="util.getSanitizedStyle(post.photoURL)"
-    ></div>
+  <div class="p-6 flex flex-col justify-between flex-1 h-full">
+    <div>
+      <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide"
+        >{{ post.category }}
+      </span>
+      <h2 class="mt-2 text-xl font-bold text-gray-900 hover:text-blue-700 transition-colors duration-200">
+        {{ post.title }}
+      </h2>
+      <p class="mt-2 text-gray-600 text-sm" [innerHTML]="post.text | slice : 0 : 100"></p>
+      <p class="mt-2 text-xs text-gray-400">
+        <span *ngIf="admin && post.draft" class="text-yellow-600 font-semibold">Draft &middot; </span>
+        {{ post.createDate.toString() | date }}
+      </p>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-2 items-center">
+      <a *ngIf="!admin" [routerLink]="['/blog/posts', post.id]" class="text-blue-600 hover:underline font-medium text-sm"
+        >Continue reading</a
+      >
+      <ng-container *ngIf="admin">
+        <a [routerLink]="['/blog/posts', post.id]" class="btn btn-xs btn-outline border-gray-300 text-gray-700 hover:bg-gray-100"
+          >View</a
+        >
+        <a
+          [routerLink]="['/blog/posts', post.id, 'edit']"
+          class="btn btn-xs btn-outline border-gray-300 text-gray-700 hover:bg-gray-100"
+          >Edit</a
+        >
+        <button (click)="deletePost(post.id)" class="btn btn-xs btn-outline border-red-300 text-red-600 hover:bg-red-50">
+          Delete
+        </button>
+      </ng-container>
+    </div>
   </div>
 </div>

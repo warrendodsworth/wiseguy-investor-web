@@ -33,7 +33,6 @@ export class PostService extends BaseFirestoreService {
   async upsertPost(post: Post, selectedFile?: FileData) {
     if (!post.id) post.id = this.afs.createId();
 
-    post.uid = (await this.auth.currentUser_).uid;
     if (!post.text) post.text = this.chance.sentence();
     if (!post.photoURL) post.photoURL = 'https://picsum.photos/1080';
 
