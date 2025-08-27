@@ -13,10 +13,9 @@ import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss'],
+  templateUrl: './post-list.component.html',
   standalone: true,
-  imports: [SharedModule, PostComponent],
+  imports: [SharedModule],
 })
 export class PostsComponent implements OnInit {
   constructor(
@@ -25,7 +24,8 @@ export class PostsComponent implements OnInit {
     public auth: AuthService,
     public postService: PostService,
     public _photo: PhotoService,
-    public util: UtilService
+    public util: UtilService,
+    public _blog: PostService
   ) {}
 
   posts$: Observable<Post[]>;
@@ -33,9 +33,10 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.posts$ = this.postService.posts$((q) => q.orderBy('createDate', 'desc'));
+  }
 
-    this.auth.currentUser$.subscribe((u) => {
-      this.user = u;
-    });
+  async deletePost(postId: string) {
+    const res = confirm('Are you sure?');
+    if (res) await this._blog.deletePost(postId);
   }
 }

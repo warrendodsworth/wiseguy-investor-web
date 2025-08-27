@@ -1,9 +1,11 @@
 <header class="mb-4">
   <div class="text-center">
     <h2>Welcome to our blog</h2>
-    <div *ngIf="user && auth.canEdit(user)">
-      <a [routerLink]="['/blog/posts']" class="btn btn-light btn-sm">Manage</a>
-    </div>
+    <ng-container *ngIf="auth.currentUser$ | async as user">
+      <div *ngIf="user.roles.admin">
+        <a [routerLink]="['/blog/posts']" class="btn btn-light btn-sm">Manage</a>
+      </div>
+    </ng-container>
   </div>
 </header>
 
@@ -27,17 +29,3 @@
     <app-post [post]="post"></app-post>
   </div>
 </div>
-
-<!-- <div class="card bg-dark mb-4 text-white" *ngIf="featuredPost">
-  <div class="img-background rounded" style="height:250px"
-    [style.backgroundImage]="util.getSanitizedStyle(featuredPost.photoURL)">
-  </div>
-
-  <div class="card-img-overlay">
-    <h1 class="display-5 font-italic">{{featuredPost.title}}</h1>
-    <p class="lead my-3"><span [innerHTML]="featuredPost.text | slice: 0: 100"></span></p>
-    <p class="lead mb-0">
-      <a [routerLink]="['/blog', featuredPost.id]" class="text-white font-weight-bold">Continue reading..</a>
-    </p>
-  </div>
-</div> -->

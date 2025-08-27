@@ -17,37 +17,32 @@ import { UtilService } from '../../core/services/util.service';
   // encapsulation: ViewEncapsulation.Emulated
 })
 export class PostDetailComponent implements OnInit {
-  user: AppUser;
   post$: Observable<Post>;
 
   constructor(
     public afs: AngularFirestore,
     public route: ActivatedRoute,
     public router: Router,
-    public authService: AuthService,
-    public blogService: PostService,
+    public auth: AuthService,
+    public _post: PostService,
     public util: UtilService
   ) {}
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe(async (u) => {
-      this.user = u;
-
-      this.post$ = this.route.paramMap.pipe(
-        switchMap((params) => {
-          return this.afs
-            .doc(`posts/${params.get('postId')}`)
-            .get()
-            .pipe(
-              tap((p) => {
-                if (!p.exists) {
-                  this.router.navigateByUrl('/blog');
-                }
-              }),
-              map((p) => p.data() as Post)
-            );
-        })
-      );
-    });
+    this.post$ = this.route.paramMap.pipe(
+      switchMap((params) => {
+        return this.afs
+          .doc(`posts/${params.get('postId')}`)
+          .get()
+          .pipe(
+            tap((p) => {
+              if (!p.exists) {
+                this.router.navigateByUrl('/blog');
+              }
+            }),
+            map((p) => p.data() as Post)
+          );
+      })
+    );
   }
 }

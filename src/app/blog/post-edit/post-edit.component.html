@@ -1,61 +1,14 @@
 <header class="mb-4" *ngIf="!working" fxLayout fxLayoutAlign="start end" fxLayoutGap="1rem">
-  <h3 class="mb-0">{{ post?.id ? 'Edit' : 'New' }} Post</h3>
+  <h3 class="mb-0">{{ model?.id ? 'Edit' : 'New' }} Post</h3>
   <button [routerLink]="['/blog/posts']" class="btn btn-light">Back</button>
 </header>
 
-<form #editForm="ngForm" *ngIf="post">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card">
-        <div
-          class="img-background rounded-top card-img-top"
-          [hidden]="!(selectedFile || post.photoURL)"
-          style="height: 64px"
-          [style.backgroundImage]="util.getSanitizedStyle(selectedFile?.src || post.photoURL)"
-        ></div>
+<div class="w-full sm:max-w-screen-sm mx-auto px-3 mb-3">
+  <form #editForm="ngForm">
+    <formly-form [model]="model" [fields]="postFields" [options]="options"></formly-form>
 
-        <div class="card-body">
-          <div class="form-group">
-            <label>Title</label>
-            <input [(ngModel)]="post.title" name="title" placeholder="Add a title" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <!-- <label>Text</label> -->
-            <ckeditor [(ngModel)]="post.text" [editor]="Editor" name="text"></ckeditor>
-            <!-- <textarea [(ngModel)]="post.text" name="text" required placeholder="Write your post here.." rows="5"
-              class="form-control"></textarea> -->
-          </div>
-
-          <div class="form-row">
-            <div class="col">
-              <label>Photo</label>
-              <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" class="form-control-file" />
-            </div>
-            <div class="col">
-              <label>Video Embed Url</label>
-              <input [(ngModel)]="post.videoURL" name="videoURL" placeholder="eg. youtube" class="form-control" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Category</label>
-            <input [(ngModel)]="post.category" name="category" placeholder="Add a tag" class="form-control" />
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" [(ngModel)]="post.draft" name="draft" type="checkbox" id="draftCheck" />
-            <label class="form-check-label" for="draftCheck"> Draft </label>
-          </div>
-
-          <div class="form-check">
-            <input class="form-check-input" [(ngModel)]="post.featured" name="featured" type="checkbox" id="featuredCheck" />
-            <label class="form-check-label" for="featuredCheck"> Featured </label>
-          </div>
-
-          <button (click)="save(post)" class="btn btn-primary btn-block mt-3">Save</button>
-        </div>
-      </div>
+    <div class="text-center mt-3">
+      <button (click)="save(model)" class="btn btn-primary">Save</button>
     </div>
-  </div>
-</form>
+  </form>
+</div>

@@ -1,63 +1,115 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClassicEditor } from 'ckeditor5';
-import { Subscription } from 'rxjs';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { finalize } from 'rxjs/operators';
 
-import { AppUser } from '../../core/models/user';
-import { PhotoService } from '../../core/services/photo.service';
-import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
+import { UtilService } from '../../core/services/util.service';
+import { PhotoService } from '../../core/services/photo.service';
 
 @Component({
   templateUrl: './post-edit.component.html',
 })
-export class PostEditComponent implements OnInit, OnDestroy {
+export class PostEditComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
     public _post: PostService,
+    public util: UtilService,
     public photoService: PhotoService,
-    public util: UtilService
+    private cdRef: ChangeDetectorRef
   ) {}
-  private subs = new Subscription();
-  @ViewChild('editForm') editform: NgForm;
 
-  Editor = ClassicEditor;
-  user: AppUser;
-  post: Post;
+  form = new FormGroup({});
+  options: FormlyFormOptions = { formState: {} };
+  model: Post = new Post();
 
-  selectedFile: any;
   working = true;
+  selectedFile: any;
+
+  postFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'flex flex-col gap-1',
+      fieldGroup: [
+        {
+          key: 'photoURL',
+          type: 'photo',
+          props: {
+            label: 'Photo',
+            onFileSelected: (file) => (this.selectedFile = file),
+          },
+        },
+        {
+          key: 'title',
+          type: 'input',
+          props: {
+            label: 'Title',
+            placeholder: 'Add a title',
+            required: true,
+          },
+        },
+        {
+          key: 'text',
+          type: 'ckeditor',
+          props: {
+            label: 'Text',
+            placeholder: 'Write your post here...',
+          },
+        },
+
+        {
+          key: 'videoURL',
+          type: 'input',
+          props: {
+            label: 'Video Embed Url',
+            placeholder: 'eg. youtube',
+          },
+        },
+        {
+          key: 'category',
+          type: 'input',
+          props: {
+            label: 'Category',
+            placeholder: 'Add a category',
+          },
+        },
+        {
+          key: 'draft',
+          type: 'toggle',
+          props: {
+            label: 'Draft',
+          },
+        },
+        {
+          key: 'featured',
+          type: 'toggle',
+          props: {
+            label: 'Featured',
+          },
+        },
+      ],
+    },
+  ];
 
   async ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('postId');
     if (postId) {
-      this.post = await this._post
+      this.model = await this._post
         .post$(postId)
         .pipe(finalize(() => (this.working = false)))
         .toPromise();
     } else {
-      this.post = new Post();
+      this.model = new Post();
       this.working = false;
     }
+    this.cdRef.detectChanges();
   }
 
-  async save(post: Post) {
-    await this._post.upsertPost(post, this.selectedFile);
-
-    this.editform.reset();
+  async save(model: Post) {
+    await this._post.upsertPost(model, this.selectedFile);
+    this.form.reset();
     this.router.navigateByUrl(`/posts`);
-  }
-
-  processFile(imageInput: any) {
-    // TODO
-    // this.selectedFile = this.photoService.processFile(imageInput);
-  }
-
-  ngOnDestroy() {
-    this.subs.unsubscribe();
   }
 }

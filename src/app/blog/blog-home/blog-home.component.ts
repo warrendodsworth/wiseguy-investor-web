@@ -11,10 +11,9 @@ import { Post } from '../post';
 import { PostService } from '../post.service';
 
 @Component({
-  selector: 'app-blog',
-  templateUrl: './blog.component.html',
+  templateUrl: './blog-home.component.html',
 })
-export class BlogComponent implements OnInit {
+export class BlogHomeComponent implements OnInit {
   posts$: Observable<Post[]>;
   user: AppUser;
   featuredPost: Post;

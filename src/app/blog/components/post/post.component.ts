@@ -18,9 +18,4 @@ export class PostComponent implements OnInit {
   constructor(public _blog: PostService, public util: UtilService) {}
 
   ngOnInit() {}
-
-  async deletePost(postId: string) {
-    const res = confirm('Are you sure?');
-    if (res) await this._blog.deletePost(postId);
-  }
 }
