@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormlyModule } from '@ngx-formly/core';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+// import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CommonModule } from '@angular/common';
 import { FormlyFieldCKEditor } from './ckeditor.type';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
 
-    CKEditorModule,
+    // CKEditorModule,
     FormlyModule.forChild({
       types: [{ name: 'ckeditor', component: FormlyFieldCKEditor }],
     }),
