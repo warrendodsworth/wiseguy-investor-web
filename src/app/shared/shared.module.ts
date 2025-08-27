@@ -10,12 +10,10 @@ import { MaterialModule } from '../core/material.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { EmptyListComponent } from '../core/components/empty-list.component';
 import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
-// import { IonicModule } from '@ionic/angular';
+import { FormlyCKEditorModule } from './formly-ckeditor.module';
 
+// Grouped here only to ensure frequently used Standalone Components can be imported together in one shot
 const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent, SkeletonTextComponent];
-const ui = [];
-const pipes = [];
-const directives = [];
 
 const modules = [
   CommonModule,
@@ -26,6 +24,7 @@ const modules = [
   // 3rd party
   NgPipesModule,
   FormlyModule,
+  FormlyCKEditorModule,
 
   // app
   CoreModule,
@@ -34,8 +33,8 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [...ui, ...pipes, ...directives],
+  declarations: [],
   imports: [...modules, ...standaloneComponents],
-  exports: [...modules, ...standaloneComponents, ...pipes, ...directives],
+  exports: [...modules, ...standaloneComponents],
 })
 export class SharedModule {}
