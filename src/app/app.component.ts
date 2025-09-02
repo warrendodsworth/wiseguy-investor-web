@@ -10,6 +10,7 @@ import { LayoutService } from './core/services/layout.service';
 import { UtilService } from './core/services/util.service';
 import { AppConfig } from './core/core.config';
 import { ConfigService } from './core/services/config.service';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -27,24 +28,18 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     public route: ActivatedRoute,
     public router: Router,
-    public authService: AuthService,
+    public auth: AuthService,
     public fcm: FCMBaseService,
     public layout: LayoutService,
     public util: UtilService,
-    public config: ConfigService
+    public config: ConfigService,
+    private _theme: ThemeService
   ) {}
-
-  disableContainer: boolean;
 
   async ngOnInit() {
     // Set the default title initially
     const appConfig = await this.config.getApp();
     this.titleService.setTitle(appConfig.title);
-    this.disableContainer = this.layout.disableContainer;
-
-    this.authService.currentUser$.subscribe((user) => {
-      this.user = user;
-    });
 
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.isCollapsed = true;
@@ -57,5 +52,13 @@ export class AppComponent implements OnInit {
       const pageTitle = routeData['title'] ? `${routeData['title']} - ${appConfig.title}` : appConfig.title;
       this.titleService.setTitle(pageTitle);
     });
+
+    this._theme.initThemeListener();
+  }
+
+  isView(name: string) {
+    let path = this.route.pathFromRoot.join('/');
+    path = path.substring(1, path.length).trim();
+    return path.indexOf(name) > -1;
   }
 }
