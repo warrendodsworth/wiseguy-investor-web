@@ -10,8 +10,9 @@ import { SharedModule } from '../shared/shared.module';
 import { PostComponent } from '../blog/components/post/post.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
+  { path: '', component: HomeComponent, data: { title: 'Home' } },
+  { path: 'about', component: AboutComponent, data: { title: 'About' } },
+  { path: 'channel', component: ChannelComponent, data: { title: 'Channel' } },
 ];
 
 @NgModule({

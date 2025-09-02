@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
@@ -15,7 +14,7 @@ import { PostComponent } from '../../blog/components/post/post.component';
   imports: [SharedModule, PostComponent],
 })
 export class HomeComponent implements OnInit {
-  constructor(public auth: AuthService, public _post: PostService, public route: ActivatedRoute, public router: Router) {}
+  constructor(public auth: AuthService, public _post: PostService, public router: Router) {}
 
   posts$: Observable<Post[]>;
 

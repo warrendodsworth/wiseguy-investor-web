@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 import { AppUser } from './core/models/user';
 import { AuthService } from './core/services/auth.service';
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   notification: any;
 
   constructor(
+    private titleService: Title,
     public route: ActivatedRoute,
     public router: Router,
     public authService: AuthService,
@@ -35,16 +37,25 @@ export class AppComponent implements OnInit {
   disableContainer: boolean;
 
   async ngOnInit() {
+    // Set the default title initially
+    const appConfig = await this.config.getApp();
+    this.titleService.setTitle(appConfig.title);
     this.disableContainer = this.layout.disableContainer;
 
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
     });
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.isCollapsed = true;
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.isCollapsed = true;
+      // Find the deepest activated route
+      let route = this.route;
+      while (route.firstChild) {
+        route = route.firstChild;
       }
+      const routeData = route.snapshot.data;
+      const pageTitle = routeData['title'] ? `${routeData['title']} - ${appConfig.title}` : appConfig.title;
+      this.titleService.setTitle(pageTitle);
     });
   }
 }
