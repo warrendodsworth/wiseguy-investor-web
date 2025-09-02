@@ -51,7 +51,7 @@
     }
   },
   "engines": {
-    "node": "^18.13.0 || >=20.9.0"
+    "node": "^18.19.1 || ^20.11.1 || ^22.0.0"
   },
   "private": true,
   "dependencies": {
@@ -67,14 +67,12 @@
     "@angular/platform-browser-dynamic": "^19.2.14",
     "@angular/router": "^19.2.14",
     "@angular/service-worker": "^19.2.14",
-    "@capacitor/android": "^6.1.0",
-    "@capacitor/camera": "^6.0.1",
-    "@capacitor/core": "^6.1.0",
-    "@capacitor/ios": "^6.1.0",
-    "@capacitor/local-notifications": "^6.0.0",
-    "@capacitor/push-notifications": "^6.0.1",
-    "@capacitor/share": "^6.0.1",
-    "@capacitor/status-bar": "^6.0.0",
+    "@capacitor/camera": "^7.0.2",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/local-notifications": "^7.0.2",
+    "@capacitor/push-notifications": "^7.0.2",
+    "@capacitor/share": "^7.0.2",
+    "@capacitor/status-bar": "^7.0.2",
     "@faker-js/faker": "^10.0.0",
     "@ionic/angular": "^8.7.1",
     "@ionic/pwa-elements": "^3.3.0",
