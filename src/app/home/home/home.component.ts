@@ -4,14 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
-import { LayoutService } from '../../core/services/layout.service';
 import { Post } from '../../blog/post';
 import { PostService } from '../../blog/post.service';
 import { SharedModule } from '../../shared/shared.module';
+import { PostComponent } from '../../blog/components/post/post.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  imports: [SharedModule, PostComponent],
 })
 export class HomeComponent implements OnInit {
   constructor(public auth: AuthService, public _post: PostService, public route: ActivatedRoute, public router: Router) {}

@@ -33,7 +33,7 @@ describe('AppComponent', () => {
 
         AppRoutingModule,
       ],
-      declarations: [AppComponent, HomeComponent],
+      declarations: [AppComponent],
       providers: [AuthService, FCMBaseService],
     }).compileComponents();
   }));

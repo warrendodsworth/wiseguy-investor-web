@@ -14,6 +14,7 @@ import { FieldType } from '@ngx-formly/core';
       [ngClass]="props.className"
     ></ckeditor> -->
   `,
+  standalone: false,
 })
 export class FormlyFieldCKEditor extends FieldType implements AfterViewInit {
   // Editor = ClassicEditor;

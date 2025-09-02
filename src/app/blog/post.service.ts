@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
-import { Chance } from 'chance';
-import { map } from 'rxjs/operators';
+import { faker } from '@faker-js/faker';
 
 import { FileData, Photo } from '../core/models/photo';
 import { AuthService } from '../core/services/auth.service';
@@ -23,7 +22,6 @@ export class PostService extends BaseFirestoreService {
     super(afs, afAuth, util);
   }
 
-  chance = new Chance();
   postRef = (postId: string) => this.doc<Post>(`posts/${postId}`);
   post$ = (postId: string) => this.doc$(this.postRef(postId));
 
@@ -33,7 +31,7 @@ export class PostService extends BaseFirestoreService {
   async upsertPost(post: Post, selectedFile?: FileData) {
     if (!post.id) post.id = this.afs.createId();
 
-    if (!post.text) post.text = this.chance.sentence();
+    if (!post.text) post.text = faker.lorem.sentence();
     if (!post.photoURL) post.photoURL = 'https://picsum.photos/1080';
 
     if (selectedFile) {

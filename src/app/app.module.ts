@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import {
@@ -38,7 +38,6 @@ import { FormlyAppModule } from './core/formly/formly-app.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     ServiceWorkerModule.register(environment.serviceWorker, { enabled: true }),
 
     AngularFireModule.initializeApp(firebaseConfig),
@@ -58,10 +57,10 @@ import { FormlyAppModule } from './core/formly/formly-app.module';
     AppRoutingModule,
     FormlyAppModule,
   ],
-
   declarations: [AppComponent],
-
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

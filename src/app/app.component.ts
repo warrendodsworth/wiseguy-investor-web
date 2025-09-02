@@ -14,6 +14,7 @@ import { ConfigService } from './core/services/config.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   year = new Date().getFullYear();
@@ -38,9 +39,6 @@ export class AppComponent implements OnInit {
 
     this.authService.currentUser$.subscribe((user) => {
       this.user = user;
-
-      if (user) {
-      }
     });
 
     this.router.events.subscribe((event) => {

@@ -2,15 +2,17 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, share } from 'rxjs/operators';
 
 import { Post } from '../post';
 import { PostService } from '../post.service';
 import { UtilService } from '../../core/services/util.service';
 import { PhotoService } from '../../core/services/photo.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   templateUrl: './post-edit.component.html',
+  imports: [SharedModule],
 })
 export class PostEditComponent implements OnInit {
   constructor(
