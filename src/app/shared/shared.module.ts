@@ -11,6 +11,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { EmptyListComponent } from '../core/components/empty-list.component';
 import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
 import { FormlyCKEditorModule } from './formly-ckeditor.module';
+import { FormlyAppModule } from '../core/formly/formly-app.module';
 
 // Grouped here only to ensure frequently used Standalone Components can be imported together in one shot
 const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent, SkeletonTextComponent];
@@ -29,7 +30,7 @@ const modules = [
   // app
   CoreModule,
   MaterialModule,
-  // IonicModule,
+  FormlyAppModule,
 ];
 
 @NgModule({
