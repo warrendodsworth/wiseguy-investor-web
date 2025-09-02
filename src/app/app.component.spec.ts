@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
-import { HomeComponent } from './home/home/home.component';
 import { firebaseConfig } from '../environments/firebase-config';
 
 describe('AppComponent', () => {
