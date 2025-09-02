@@ -47,7 +47,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "npx pretty-quick --staged"
     }
   },
   "engines": {
@@ -120,11 +120,15 @@
     "eslint": "^9.7.0"
   },
   "browserslist": [
-    "> 0.2%",
-    "last 2 versions",
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Edge versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "last 2 ChromeAndroid versions",
+    "maintained node versions",
     "not dead",
-    "not IE 11",
-    "not kaios 2.5",
-    "not op_mini all"
+    "not IE 11"
   ]
 }
