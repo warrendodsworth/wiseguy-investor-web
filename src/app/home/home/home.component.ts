@@ -9,7 +9,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { PostComponent } from '../../blog/components/post/post.component';
 
 @Component({
-  selector: 'app-home',
   templateUrl: './home.component.html',
   imports: [SharedModule, PostComponent],
 })
