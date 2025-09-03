@@ -79,7 +79,7 @@
     "@ionic/storage": "^4.0.0",
     "@ngx-formly/core": "^7.0.0",
     "@ngx-formly/material": "^7.0.0",
-    "firebase": "^10.12.2",
+    "firebase": "^11.8.0",
     "lightweight-charts": "^5.0.5",
     "luxon": "^3.4.4",
     "ngx-pipes": "^3.2.2",
