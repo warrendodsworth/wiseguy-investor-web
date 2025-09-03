@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Query, QueryFn } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject, from, shareReplay, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,11 +9,12 @@ import { UtilService } from '../../core/services/util.service';
 import { UserListPageStore } from './user-list-filter.component';
 import { SharedModule } from '../../shared/shared.module';
 import { UserItemComponent } from '../components/user-item.component';
+import { Query, where } from '@angular/fire/firestore';
+import { ModularQueryFn } from '../../core/services/base-firestore.service';
 
 @Component({
   templateUrl: './users.component.html',
-  standalone: true,
-  imports: [SharedModule, UserItemComponent], // Add necessary imports here
+  imports: [SharedModule, UserItemComponent],
 })
 export class UsersComponent implements OnInit {
   constructor(
@@ -31,24 +31,29 @@ export class UsersComponent implements OnInit {
   get users$() {
     return this.usersSub.asObservable().pipe(shareReplay(1));
   }
-
   query = { path: 'users', orderByField: 'uid', limit: 20, reverse: false, prepend: false } as QueryConfig;
-  qf: QueryFn;
+  qf: ModularQueryFn;
 
   async ngOnInit() {
     this._store.state$
       .pipe(
         switchMap((state) => {
+          // Build up the query using AngularFire modular API
+          const constraints: any[] = [];
+          if (state.role) {
+            constraints.push(where('roles.' + state.role, '==', true));
+          }
+          if (state.role === 'mate' && (state.mateActive === true || state.mateActive === false)) {
+            constraints.push(where('mateActive', '==', state.mateActive));
+          }
+          if (state.role === 'user' && state.joinStatus) {
+            constraints.push(where('mateJoin.' + state.joinStatus, '==', true));
+          }
+
           this.qf = (q: Query) => {
-            if (state.role) {
-              q = q.where('roles.' + state.role, '==', true);
-            }
-            if (state.role == 'mate' && (state.mateActive === true || state.mateActive === false)) {
-              q = q.where('mateActive', '==', state.mateActive);
-            }
-            if (state.role == 'user' && state.joinStatus) {
-              q = q.where('mateJoin.' + state.joinStatus, '==', true);
-            }
+            constraints.forEach((c) => {
+              q = c(q);
+            });
             return q;
           };
 

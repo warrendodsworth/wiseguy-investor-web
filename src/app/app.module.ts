@@ -1,27 +1,8 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire/compat';
-import {
-  AngularFireAnalyticsModule,
-  APP_NAME,
-  APP_VERSION,
-  DEBUG_MODE as ANALYTICS_DEBUG_MODE,
-  COLLECTION_ENABLED,
-  CONFIG,
-  ScreenTrackingService,
-  UserTrackingService,
-} from '@angular/fire/compat/analytics';
-import { AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
-import { AngularFireAuthGuardModule } from '@angular/fire/compat/auth-guard';
-import { AngularFireDatabaseModule, USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
-import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
-import { AngularFireFunctionsModule, REGION, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/functions';
-import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
-import { AngularFirePerformanceModule, PerformanceMonitoringService } from '@angular/fire/compat/performance';
-import { AngularFireRemoteConfigModule } from '@angular/fire/compat/remote-config';
-import { AngularFireStorageModule, USE_EMULATOR as USE_STORAGE_EMULATOR } from '@angular/fire/compat/storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { environment } from '../environments/environment';
 import { firebaseConfig } from '../environments/firebase-config';
@@ -31,26 +12,25 @@ import { CoreModule } from './core/core.module';
 import { MaterialModule } from './core/material.module';
 import { GlobalErrorHandler } from './core/services/error-handler.service';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { FormlyAppModule } from './core/formly/formly-app.module';
+
+// Modular AngularFire imports
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
+import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import { provideDatabase, getDatabase, connectDatabaseEmulator } from '@angular/fire/database';
+import { provideFunctions, getFunctions, connectFunctionsEmulator } from '@angular/fire/functions';
+import { provideStorage, getStorage, connectStorageEmulator } from '@angular/fire/storage';
+import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { provideRemoteConfig, getRemoteConfig } from '@angular/fire/remote-config';
+import { providePerformance, getPerformance } from '@angular/fire/performance';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register(environment.serviceWorker, { enabled: true }),
-
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFireAuthGuardModule,
-    AngularFireFunctionsModule,
-    AngularFireStorageModule,
-    AngularFireMessagingModule,
-    AngularFireAnalyticsModule,
-    AngularFireRemoteConfigModule,
-    AngularFirePerformanceModule,
 
     CoreModule.forRoot({ id: 'wgi', title: 'Wiseguy Investor' }),
     MaterialModule,
@@ -63,32 +43,53 @@ import { FormlyAppModule } from './core/formly/formly-app.module';
 
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
-    // firebase emulators
-    { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['http://localhost:9099'] : undefined }, // ['http://localhost:9099']
-    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8080] : undefined },
-    { provide: USE_DATABASE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9000] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
-    { provide: USE_STORAGE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9199] : undefined },
+    // Modular Firebase initialization
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirestore(() => {
+      const firestore = getFirestore();
+      if (environment.useEmulators) {
+        connectFirestoreEmulator(firestore, 'localhost', 8080);
+      }
+      return firestore;
+    }),
+    provideAuth(() => {
+      const auth = getAuth();
+      if (environment.useEmulators) {
+        connectAuthEmulator(auth, 'http://localhost:9099');
+      }
+      return auth;
+    }),
+    provideDatabase(() => {
+      const db = getDatabase();
+      if (environment.useEmulators) {
+        connectDatabaseEmulator(db, 'localhost', 9000);
+      }
+      return db;
+    }),
+    provideFunctions(() => {
+      const functions = getFunctions();
+      if (environment.useEmulators) {
+        connectFunctionsEmulator(functions, 'localhost', 5001);
+      }
+      return functions;
+    }),
+    provideStorage(() => {
+      const storage = getStorage();
+      if (environment.useEmulators) {
+        connectStorageEmulator(storage, 'localhost', 9199);
+      }
+      return storage;
+    }),
+    provideAnalytics(() => getAnalytics()),
+    provideRemoteConfig(() => getRemoteConfig()),
+    providePerformance(() => getPerformance()),
+    provideMessaging(() => getMessaging()),
 
-    // firebase functions
-    { provide: REGION, useValue: 'us-central1' },
-
-    // firebase analytics
-    { provide: ANALYTICS_DEBUG_MODE, useValue: false }, // prints to console, needed for GA/admin/debug mode to work
-    { provide: COLLECTION_ENABLED, useValue: environment.prod },
-    { provide: CONFIG, useValue: { send_page_view: true, allow_ad_personalization_signals: false, anonymize_ip: false } },
-    // { provide: APP_NAME, useValue: packageJson.name },
-    // { provide: APP_VERSION, useValue: packageJson.version },
+    // Analytics and Performance services
     ScreenTrackingService,
     UserTrackingService,
-
-    // firebase performance
-    PerformanceMonitoringService,
-
-    // For AngularFire upgrade
-    // provideHttpClient(),
+    // PerformanceMonitoringService,
   ],
 
   bootstrap: [AppComponent],

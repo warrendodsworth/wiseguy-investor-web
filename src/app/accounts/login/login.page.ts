@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ConfigService } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
 import { SharedModule } from '../../shared/shared.module';
+import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
 
 type View = 'login' | 'signup' | 'forgotPassword';
 
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public util: UtilService,
     public config: ConfigService,
     protected afAuth: AngularFireAuth,
-    private analytics: AngularFireAnalytics
+    private analytics: Analytics
   ) {
     this.handleWebRedirectLogin();
   }
@@ -88,7 +88,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.view = (params.get('view') as View) || this.view;
       this.options.formState.view = this.view; // formly options formstate.view needed for consistent hide expr execution
-      this.analytics.setCurrentScreen(this.view);
+      setCurrentScreen(this.analytics, this.view);
+      logEvent(this.analytics, 'page_view', { page: this.view });
     });
   }
 

@@ -9,9 +9,10 @@ import { PhotoService } from '../core/services/photo.service';
 import { UtilService } from '../core/services/util.service';
 import { Post } from './post';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { EntityBaseFirestoreService } from '../core/services/base-firestore-entity.service';
 
 @Injectable({ providedIn: 'root' })
-export class PostService extends BaseFirestoreService {
+export class PostService extends EntityBaseFirestoreService<Post> {
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -19,7 +20,7 @@ export class PostService extends BaseFirestoreService {
     public photoService: PhotoService,
     public util: UtilService
   ) {
-    super(afs, afAuth, util);
+    super(afs, afAuth, util, 'posts');
   }
 
   postRef = (postId: string) => this.doc<Post>(`posts/${postId}`);
@@ -43,7 +44,7 @@ export class PostService extends BaseFirestoreService {
   }
 
   async deletePost(postId: string) {
-    await this.delete(this.postRef(postId));
+    await this.deleteById(postId);
 
     const batch = this.afs.firestore.batch();
     const hearts = await this.afs.collection('hearts', (r) => r.where('postId', '==', postId)).ref.get();
