@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, User } from '@angular/fire/auth';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     public util: UtilService,
     public config: ConfigService,
-    protected afAuth: AngularFireAuth,
+    protected authModular: Auth,
     private analytics: Analytics
   ) {
     this.handleWebRedirectLogin();
@@ -103,10 +103,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       try {
         const baseLoading = await this.util.openLoading('Please wait..');
-        // const cred = await this.afAuth.getRedirectResult();
-        // ! cred is null - still broken in angularfire 17
-
-        const sub = this.afAuth.authState.subscribe(async (user) => {
+        // Modular API: listen for auth state changes
+        const unsubscribe = onAuthStateChanged(this.authModular, async (user: User | null) => {
           if (user) {
             const detailLoading = this.util.openLoading('Logging you in..');
             baseLoading.close();
@@ -124,7 +122,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             detailLoading.close();
 
             // Unsubscribe after handling the user
-            sub.unsubscribe();
+            unsubscribe();
           } else {
             baseLoading.close();
           }
@@ -132,11 +130,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       } catch (error) {
         this.util.openSnackbar(`Sorry there's been an issue.`, error.message);
         console.error(`[login]`, error);
-        // error.credential type: firebase.auth.AuthCredential
-        // Signin error codes from firebase. Incase we need custom messages for users.
-        // const errorCodes = ['auth/wrong-password', 'auth/too-many-requests', 'auth/user-not-found', 'auth/user-disabled'];
-        // if(errorCodes.includes(error.code)){}
-        // Bugsnag.notify({ name: error.code, message: error.message });
       }
     }
   }
@@ -146,7 +139,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let baseLoading = null;
     try {
       baseLoading = await this.util.openLoading('Please wait..');
-      const cred = await this.afAuth.signInWithEmailAndPassword(model.email, model.password);
+      const cred = await signInWithEmailAndPassword(this.authModular, model.email, model.password);
 
       if (cred.user) {
         detailLoading = await this.util.openLoading('Logging you in..');
@@ -165,7 +158,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       baseLoading?.close();
       detailLoading?.close();
       this.util.openSnackbar(error.message, '', 5000);
-      // Bugsnag.notify({ name: error.code, message: error.message });
     }
   }
 
@@ -195,7 +187,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async sendPasswordResetEmail(model: any) {
     try {
-      await this.afAuth.sendPasswordResetEmail(model?.email);
+      await sendPasswordResetEmail(this.authModular, model?.email);
       this.util.openSnackbar('Password reset email sent');
     } catch (error) {
       if (error.code == 'auth/user-not-found') {

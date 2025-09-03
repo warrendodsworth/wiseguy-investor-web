@@ -39,9 +39,7 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
   ],
   declarations: [AppComponent],
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
-
-    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    // { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
 
     // Modular Firebase initialization
@@ -90,6 +88,8 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
     ScreenTrackingService,
     UserTrackingService,
     // PerformanceMonitoringService,
+
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 
   bootstrap: [AppComponent],

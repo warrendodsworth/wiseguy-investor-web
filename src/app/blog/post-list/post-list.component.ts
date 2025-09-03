@@ -8,8 +8,8 @@ import { UtilService } from '../../core/services/util.service';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 import { PhotoService } from '../../core/services/photo.service';
-import { PostComponent } from '../components/post/post.component';
 import { SharedModule } from '../../shared/shared.module';
+import { orderBy, query } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-posts',
@@ -22,7 +22,7 @@ export class PostsComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public auth: AuthService,
-    public postService: PostService,
+    public _post: PostService,
     public _photo: PhotoService,
     public util: UtilService,
     public _blog: PostService
@@ -32,7 +32,7 @@ export class PostsComponent implements OnInit {
   user: AppUser;
 
   ngOnInit() {
-    this.posts$ = this.postService.posts$((q) => q.orderBy('createDate', 'desc'));
+    this.posts$ = this._post.many$(query(this._post.manyRef(), orderBy('createDate', 'desc')));
   }
 
   async deletePost(postId: string) {

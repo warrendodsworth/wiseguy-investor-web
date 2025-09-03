@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -10,6 +9,7 @@ import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { SharedModule } from '../../shared/shared.module';
+import { Firestore, doc, docData, DocumentReference } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-post-detail',
@@ -22,7 +22,7 @@ export class PostDetailComponent implements OnInit {
   post$: Observable<Post>;
 
   constructor(
-    public afs: AngularFirestore,
+    public afs: Firestore,
     public route: ActivatedRoute,
     public router: Router,
     public auth: AuthService,
@@ -33,17 +33,15 @@ export class PostDetailComponent implements OnInit {
   ngOnInit() {
     this.post$ = this.route.paramMap.pipe(
       switchMap((params) => {
-        return this.afs
-          .doc(`posts/${params.get('postId')}`)
-          .get()
-          .pipe(
-            tap((p) => {
-              if (!p.exists) {
-                this.router.navigateByUrl('/blog');
-              }
-            }),
-            map((p) => p.data() as Post)
-          );
+        const postId = params.get('postId');
+        const postRef = this._post.oneRef(postId);
+        return docData<Post>(postRef, { idField: 'id' }).pipe(
+          tap((p) => {
+            if (!p) {
+              this.router.navigateByUrl('/blog');
+            }
+          })
+        );
       })
     );
   }

@@ -1,14 +1,9 @@
 import { isDevMode } from '@angular/core';
-import { AngularFireModule } from '@angular/fire/compat';
-import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/compat/auth';
-import { AngularFireDatabaseModule, USE_EMULATOR as USE_DATABASE_EMULATOR } from '@angular/fire/compat/database';
-import { AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/compat/firestore';
-import {
-  AngularFireFunctionsModule,
-  ORIGIN as FUNCTIONS_ORIGIN,
-  USE_EMULATOR as USE_FUNCTIONS_EMULATOR,
-} from '@angular/fire/compat/functions';
-import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
+import { provideDatabase, getDatabase, connectDatabaseEmulator } from '@angular/fire/database';
+import { provideFunctions, getFunctions, connectFunctionsEmulator } from '@angular/fire/functions';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -29,26 +24,34 @@ export const testImports = [
   FormsModule,
   ReactiveFormsModule,
 
-  // 3rd-party
-  AngularFireModule.initializeApp(firebaseConfig),
-  AngularFireDatabaseModule, // needed for spy to work
-  AngularFirestoreModule,
-  AngularFireFunctionsModule,
-  AngularFireMessagingModule,
-
   // core
   FormlyAppModule,
   SharedModule,
   CoreModule.forRoot({ title: 'Test' }, {}),
 ];
 
-export const emulatorProviders = (emulators: boolean) => [
-  { provide: USE_AUTH_EMULATOR, useValue: false ? ['http://localhost:9099'] : undefined },
-  { provide: USE_DATABASE_EMULATOR, useValue: emulators ? ['localhost', 9000] : undefined },
-  { provide: USE_FIRESTORE_EMULATOR, useValue: emulators ? ['localhost', 8080] : undefined },
-  { provide: USE_FUNCTIONS_EMULATOR, useValue: emulators ? ['localhost', 5001] : undefined },
-  // { provide: NEW_ORIGIN_BEHAVIOR, useValue: true }, // doesn't exist in af 7
-  { provide: FUNCTIONS_ORIGIN, useFactory: () => (isDevMode() ? undefined : location.origin) },
+export const testProviders = [
+  // Modular AngularFire
+  provideFirebaseApp(() => initializeApp(firebaseConfig)),
+  provideDatabase(() => {
+    const db = getDatabase();
+    if (isDevMode()) connectDatabaseEmulator(db, 'localhost', 9000);
+    return db;
+  }),
+  provideFirestore(() => {
+    const firestore = getFirestore();
+    if (isDevMode()) connectFirestoreEmulator(firestore, 'localhost', 8080);
+    return firestore;
+  }),
+  provideFunctions(() => {
+    const functions = getFunctions();
+    if (isDevMode()) connectFunctionsEmulator(functions, 'localhost', 5001);
+    return functions;
+  }),
+  provideMessaging(() => getMessaging()),
 ];
+
+// Emulator providers are not needed with modular API, handled in provide* above
+export const emulatorProviders = () => [];
 
 export const testStubs = [];

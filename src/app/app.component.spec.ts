@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { waitForAsync, TestBed } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,27 +12,31 @@ import { AppComponent } from './app.component';
 import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
 import { firebaseConfig } from '../environments/firebase-config';
+import { Analytics } from '@angular/fire/analytics';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
 
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-
-        AngularFireModule.initializeApp(firebaseConfig),
-        AngularFirestoreModule,
-        AngularFireAuthModule,
-        AngularFireStorageModule,
-
-        CommonModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-
-        AppRoutingModule,
-      ],
+      imports: [RouterTestingModule, CommonModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
       declarations: [AppComponent],
-      providers: [AuthService, FCMBaseService],
+      providers: [
+        provideFirebaseApp(() => initializeApp(firebaseConfig)),
+        provideAuth(() => {
+          const auth = getAuth();
+          if (environment.useEmulators) {
+            connectAuthEmulator(auth, 'http://localhost:9099');
+          }
+          return auth;
+        }),
+        provideFirestore(() => getFirestore()),
+        provideStorage(() => getStorage()),
+
+        { provide: Analytics, useValue: { logEvent: () => {} } },
+        AuthService,
+        FCMBaseService,
+      ],
     }).compileComponents();
   }));
 

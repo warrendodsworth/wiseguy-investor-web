@@ -99,7 +99,7 @@ export class PostEditComponent implements OnInit {
     const postId = this.route.snapshot.paramMap.get('postId');
     if (postId) {
       this.model = await this._post
-        .post$(postId)
+        .one$(postId)
         .pipe(finalize(() => (this.working = false)))
         .toPromise();
     } else {
