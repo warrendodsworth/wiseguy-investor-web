@@ -6,8 +6,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { environment } from '../environments/environment';
 import { firebaseConfig } from '../environments/firebase-config';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
+import { AppComponent } from './app';
 import { CoreModule } from './core/core.module';
 import { MaterialModule } from './core/material.module';
 import { GlobalErrorHandler } from './core/services/error-handler.service';
@@ -37,7 +37,6 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
     AppRoutingModule,
     FormlyAppModule,
   ],
-  declarations: [AppComponent],
   providers: [
     // Modular Firebase initialization
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
@@ -90,7 +89,5 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     provideHttpClient(withInterceptorsFromDi()),
   ],
-
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

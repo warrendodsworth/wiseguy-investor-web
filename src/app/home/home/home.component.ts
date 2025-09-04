@@ -20,6 +20,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     // Modular API: use collectionData, query, where, orderBy
-    this.posts$ = this._post.many$(query(this._post.manyRef(), where('draft', '==', false), orderBy('createDate', 'desc')));
+    // this.posts$ = this._post.many$(query(this._post.manyRef(), where('draft', '==', false), orderBy('createDate', 'desc')));
   }
 }

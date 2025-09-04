@@ -7,8 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
+import { AppComponent } from './app';
 import { AuthService } from './core/services/auth.service';
 import { FCMBaseService } from './core/services/fcm.service';
 import { firebaseConfig } from '../environments/firebase-config';

@@ -14,8 +14,7 @@ import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  standalone: false,
+  templateUrl: './app.html',
 })
 export class AppComponent implements OnInit {
   year = new Date().getFullYear();
