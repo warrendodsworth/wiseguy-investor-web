@@ -1,0 +1,14 @@
+<header class="mb-4" *ngIf="!working" fxLayout fxLayoutAlign="start end" fxLayoutGap="1rem">
+  <h3 class="mb-0">{{ model?.id ? 'Edit' : 'New' }} Post</h3>
+  <button [routerLink]="['/blog/posts']" class="btn btn-light">Back</button>
+</header>
+
+<div class="w-full sm:max-w-screen-sm mx-auto px-3 mb-3">
+  <form #editForm="ngForm">
+    <formly-form [model]="model" [fields]="postFields" [options]="options"></formly-form>
+
+    <div class="text-center mt-3">
+      <button (click)="save(model)" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</div>

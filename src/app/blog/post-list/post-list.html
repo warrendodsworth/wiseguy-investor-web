@@ -1,0 +1,63 @@
+<header class="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <h3 class="text-2xl font-bold text-gray-900">Blog Posts</h3>
+  <button
+    [routerLink]="['create']"
+    class="px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+  >
+    Write post
+  </button>
+</header>
+
+<div class="max-w-3xl mx-auto">
+  <app-skeleton-text *ngIf="!(posts$ | async)"></app-skeleton-text>
+  <p class="text-center text-gray-400 my-8" *ngIf="(posts$ | async)?.length == 0">Get started. Write a post..</p>
+
+  <ul class="divide-y divide-gray-200">
+    <li *ngFor="let post of posts$ | async" class="py-6 flex flex-col sm:flex-row sm:items-center gap-2 group">
+      <div class="flex-1 min-w-0">
+        <a
+          [routerLink]="['/blog/posts', post.id]"
+          class="block text-xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors"
+        >
+          {{ post.title }}
+        </a>
+        <div class="text-gray-500 text-sm mt-1 line-clamp-2" [innerHTML]="post.text | slice : 0 : 120"></div>
+        <div class="mt-2 flex flex-wrap gap-2 items-center text-xs text-gray-400">
+          <span *ngIf="post.category" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-medium">{{
+            post.category
+          }}</span>
+          <span>{{ post.createDate.toString() | date : 'mediumDate' }}</span>
+          <span *ngIf="post.draft" class="text-yellow-600 font-semibold ml-2">Draft</span>
+          <span *ngIf="post.featured" class="text-green-600 font-semibold ml-2">Featured</span>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-2 sm:mt-0">
+        <a
+          [routerLink]="['/blog/posts', post.id, 'edit']"
+          class="px-3 py-1 rounded border border-gray-300 text-gray-700 hover:bg-gray-100 text-xs font-medium"
+          >Edit</a
+        >
+        <button
+          (click)="deletePost(post.id)"
+          class="px-3 py-1 rounded border border-red-300 text-red-600 hover:bg-red-50 text-xs font-medium"
+        >
+          Delete
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- <ng-container *ngIf="admin">
+        <a [routerLink]="['/blog/posts', post.id]" class="btn btn-xs btn-outline border-gray-300 text-gray-700 hover:bg-gray-100"
+          >View</a
+        >
+        <a
+          [routerLink]="['/blog/posts', post.id, 'edit']"
+          class="btn btn-xs btn-outline border-gray-300 text-gray-700 hover:bg-gray-100"
+          >Edit</a
+        >
+        <button (click)="deletePost(post.id)" class="btn btn-xs btn-outline border-red-300 text-red-600 hover:bg-red-50">
+          Delete
+        </button>
+      </ng-container> -->

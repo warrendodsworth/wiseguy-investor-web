@@ -1,0 +1,96 @@
+<mat-toolbar class="fixed-top">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <a routerLink="/" class="text-slate-700 dark:text-white">
+        {{ config.config().title }}
+        <!-- <img [src]="'assets/insight-91-high-resolution-logo-transparent.webp'" class="w-auto h-4 mx-auto" /> -->
+      </a>
+    </div>
+
+    <!-- RIGHT  -->
+    <div class="flex items-center gap-4">
+      <button mat-button routerLink="/blog">Blog</button>
+      <button mat-button routerLink="/about">About</button>
+
+      <!-- AUTH -->
+      <ng-container *ngIf="auth.currentUser$ | async as currentUser; else elseTemplate">
+        <!-- ADMIN -->
+        <button mat-button [matMenuTriggerFor]="menu" *ngIf="currentUser.roles?.admin">Admin</button>
+        <mat-menu #menu="matMenu">
+          <ng-container>
+            <a mat-menu-item routerLink="/blog/posts" routerLinkActive="active">Manage Blog</a>
+            <a mat-menu-item routerLink="/accounts/users" routerLinkActive="active">Users</a>
+          </ng-container>
+        </mat-menu>
+
+        <a [matMenuTriggerFor]="userMenu" class="pt-2 cursor-pointer">
+          <span class="material-symbols-rounded">account_circle</span>
+        </a>
+        <mat-menu #userMenu="matMenu">
+          <span mat-menu-item class="d-inline" routerLink="/accounts/profile">Hi {{ currentUser.displayName }}</span>
+          <button mat-menu-item routerLink="/accounts/edit">Manage Account</button>
+          <button mat-menu-item (click)="auth.logout()">Sign out</button>
+        </mat-menu>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <button mat-button color="primary" *ngIf="!isView('login')" routerLink="/accounts/login">Sign in</button>
+      </ng-template>
+
+      <!-- THEME MENU -->
+      <button mat-icon-button [matMenuTriggerFor]="themeMenu" aria-label="Theme" class="pt-2 cursor-pointer">
+        <mat-icon>dark_mode</mat-icon>
+      </button>
+      <mat-menu #themeMenu="matMenu">
+        <button mat-menu-item (click)="_theme.setMode('light')"><mat-icon>light_mode</mat-icon> Light</button>
+        <button mat-menu-item (click)="_theme.setMode('dark')"><mat-icon>dark_mode</mat-icon> Dark</button>
+        <button mat-menu-item (click)="_theme.setMode('system')"><mat-icon>settings</mat-icon> System</button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>
+
+<!-- MAIN & FOOTER -->
+<main class="container mx-auto mt-6 px-4">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="container mx-auto mt-10 px-4">
+  <div
+    class="py-8 bg-white dark:bg-gray-800 rounded-2xl max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8"
+  >
+    <div class="text-gray-800 dark:text-gray-200">
+      <h3 class="text-xl font-bold mb-2">{{ config.config().title }}</h3>
+      <small class="block">©{{ year }}</small>
+    </div>
+    <div>
+      <nav class="flex flex-col space-y-2">
+        <a
+          class="flex items-center text-gray-500 hover:text-red-600 transition"
+          href="https://www.youtube.com/channel/UCPdod6Qvi-0t_l-qJrLDl0w"
+          target="_blank"
+        >
+          <i class="fa fa-fw fa-youtube mr-2 text-xl"></i> Youtube Channel
+        </a>
+        <a
+          class="flex items-center text-gray-500 hover:text-blue-600 transition"
+          href="https://www.facebook.com/wiseguyinvestor"
+          target="_blank"
+        >
+          <i class="fa fa-fw fa-facebook mr-2 text-xl"></i> Facebook
+        </a>
+        <a
+          class="flex items-center text-gray-500 hover:text-pink-500 transition"
+          href="https://www.instagram.com/wiseguyinvestor/"
+          target="_blank"
+        >
+          <i class="fa fa-fw fa-instagram mr-2 text-xl"></i> Instagram
+        </a>
+      </nav>
+    </div>
+    <div>
+      <nav class="flex flex-col space-y-2">
+        <a class="text-gray-500 hover:text-gray-800 transition" routerLink="/about">About</a>
+      </nav>
+    </div>
+  </div>
+</footer>
