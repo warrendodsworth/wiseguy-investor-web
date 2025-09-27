@@ -1,31 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-avatar-picker',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule],
   templateUrl: './avatar-picker.component.html',
 })
 export class AvatarPickerComponent implements OnInit {
-  constructor(public modalController: ModalController) {}
   AVATAR_COUNT = 15;
-  avatars: string[];
+  avatars: string[] = [];
+
+  constructor(public dialogRef: MatDialogRef<AvatarPickerComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-    // Generate avatar paths NB: avatars must be labeled "avatarX.png" where X = index
     this.avatars = [...Array(this.AVATAR_COUNT).keys()].map((x) => `/assets/avatars/avatar${x}.png`);
   }
 
   selectAvatar(url: string) {
     url = environment.rootUrl + url;
-    this.modalController.dismiss(url);
+    this.dialogRef.close(url);
   }
 
   dismiss() {
-    this.modalController.dismiss();
+    this.dialogRef.close();
   }
 }

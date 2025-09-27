@@ -1,8 +1,5 @@
-import 'firebase/compat/auth';
-
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, User } from '@angular/fire/auth';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -11,15 +8,17 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '../../core/services/auth.service';
-import { ConfigService, DeviceStore } from '../../core/services/config.service';
+import { ConfigService } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
-import { AppConfig } from '../../core/core.config';
+import { SharedModule } from '../../shared/shared.module';
+import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
 
 type View = 'login' | 'signup' | 'forgotPassword';
 
 @Component({
   templateUrl: 'login.page.html',
-  styleUrls: [`login.page.scss`],
+  standalone: true,
+  imports: [SharedModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -28,11 +27,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public auth: AuthService,
     public util: UtilService,
-    public config1: AppConfig,
     public config: ConfigService,
-    protected afAuth: AngularFireAuth,
-    private _device: DeviceStore,
-    private analytics: AngularFireAnalytics
+    protected authModular: Auth,
+    private analytics: Analytics
   ) {
     this.handleWebRedirectLogin();
   }
@@ -89,14 +86,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
-      this.view = (params.get('view') as View) || this.view; // default to login (this._device.state.hasLoggedIn ? 'login' : 'signup');
+      this.view = (params.get('view') as View) || this.view;
       this.options.formState.view = this.view; // formly options formstate.view needed for consistent hide expr execution
-      this.analytics.setCurrentScreen(this.view);
+      setCurrentScreen(this.analytics, this.view);
+      logEvent(this.analytics, 'page_view', { page: this.view });
     });
   }
 
   /**
-   * after signin with redirect | https://firebase.google.com/docs/auth/web/google-signin
+   * After signin with redirect using Social logins | https://firebase.google.com/docs/auth/web/google-signin
    * https://stackoverflow.com/questions/46922658/how-to-detect-getredirectresult-state-after-signinwithredirect
    */
   private async handleWebRedirectLogin() {
@@ -105,15 +103,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       try {
         const baseLoading = await this.util.openLoading('Please wait..');
-        // const cred = await this.afAuth.getRedirectResult();
-        // console.log(`🚀 ~ file: login.page.ts ~ line 155 ~ cred`, cred); // ! returns null - still broken in angularfire 7
-
-        this.afAuth.authState.subscribe(async (user) => {
+        // Modular API: listen for auth state changes
+        const unsubscribe = onAuthStateChanged(this.authModular, async (user: User | null) => {
           if (user) {
             const detailLoading = this.util.openLoading('Logging you in..');
             baseLoading.close();
 
-            const d = DateTime.fromRFC2822(user.metadata.creationTime);
+            const d = DateTime.fromRFC2822(user.metadata.creationTime as string);
             const isNewUser = d.diffNow().negate().as('minute') < 1;
 
             await this.auth.updateUserPostLogin(user);
@@ -124,15 +120,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             baseLoading.close();
             detailLoading.close();
+
+            // Unsubscribe after handling the user
+            unsubscribe();
           } else {
             baseLoading.close();
           }
         });
-      } catch (error) {
-        // error.credential The firebase.auth.AuthCredential type that was used.
-        this.util.openSnackbar(`Sorry there's been an issue.`, error.message);
+      } catch (error: any) {
+        this.util.openSnackbar(`Sorry there's been an issue.`, error?.message);
         console.error(`[login]`, error);
-        // Bugsnag.notify({ name: error.code, message: error.message });
       }
     }
   }
@@ -142,13 +139,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     let baseLoading = null;
     try {
       baseLoading = await this.util.openLoading('Please wait..');
-      const cred = await this.afAuth.signInWithEmailAndPassword(model.email, model.password);
+      const cred = await signInWithEmailAndPassword(this.authModular, model.email, model.password);
 
       if (cred.user) {
         detailLoading = await this.util.openLoading('Logging you in..');
         baseLoading.close();
 
         await this.auth.updateUserData(cred);
+
         if (this.util.env.prod) this.auth.goAffirmations();
         else this.goReturnUrlOrHome();
 
@@ -156,11 +154,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         baseLoading.close();
       }
-    } catch (error) {
+    } catch (error: any) {
       baseLoading?.close();
       detailLoading?.close();
-      this.util.openSnackbar(error.message, '', 5000);
-      // Bugsnag.notify({ name: error.code, message: error.message });
+      this.util.openSnackbar(error?.message, '', 5000);
     }
   }
 
@@ -190,13 +187,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   async sendPasswordResetEmail(model: any) {
     try {
-      await this.afAuth.sendPasswordResetEmail(model?.email);
+      await sendPasswordResetEmail(this.authModular, model?.email);
       this.util.openSnackbar('Password reset email sent');
-    } catch (error) {
-      if (error.code == 'auth/user-not-found') {
+    } catch (error: any) {
+      if (error?.code == 'auth/user-not-found') {
         this.util.openSnackbar("Oops! We couldn't find a user with that email address", '', 3000);
       } else {
-        this.util.openSnackbar(error.message, '', 5000);
+        this.util.openSnackbar(error?.message, '', 5000);
         throw error;
       }
     }
@@ -218,7 +215,3 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 }
-
-// Signin error codes from firebase. Incase we need custom messages for users.
-// const errorCodes = ['auth/wrong-password', 'auth/too-many-requests', 'auth/user-not-found', 'auth/user-disabled'];
-// if(codes.includes(error.code)){}

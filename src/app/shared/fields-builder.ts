@@ -3,7 +3,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 /**
  * form builder fields
  */
-export const ionFieldTypeSelect: FormlyFieldConfig = {
+export const builderFieldTypeSelect: FormlyFieldConfig = {
   key: 'type',
   type: 'select',
   defaultValue: 'input',
@@ -18,7 +18,8 @@ export const ionFieldTypeSelect: FormlyFieldConfig = {
     ],
   },
 };
-export const ionFieldLabelPositonSelect: FormlyFieldConfig = {
+
+export const builderFieldLabelPositionSelect: FormlyFieldConfig = {
   key: 'props.labelPosition',
   type: 'select',
   defaultValue: 'stacked',

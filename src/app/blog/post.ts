@@ -1,18 +1,24 @@
 import { Entity } from '../core/models/_entity';
 
+// All properties are strictly typed and initialized for strict TypeScript.
+// No 'readonly' as per user instruction.
+
 export class Post extends Entity {
-  title: string;
-  text = '';
+  title: string = '';
+  text: string = '';
 
-  category: string;
-  tags: string[];
-  featured: boolean;
-  draft = false;
+  category: string = '';
+  tags: string[] = [];
+  featured: boolean = false;
+  draft: boolean = false;
 
-  photoURL = 'https://picsum.photos/1080';
-  videoURL: string;
-  uid: string;
+  photoURL: string = 'https://picsum.photos/1080';
+  videoURL: string = '';
 
-  likes: number;
-  hearted: boolean;
+  likes: number = 0;
+  hearted: boolean = false;
+
+  authorName?: string;
+  authorPhotoURL?: string;
+  commentsCount?: number;
 }

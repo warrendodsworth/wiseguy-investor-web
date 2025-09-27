@@ -1,23 +1,21 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, signal, computed, inject, Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
+import { firstValueFrom, map, switchMap } from 'rxjs';
 
 import { Photo } from '../../../core/models/photo';
 import { UtilService } from '../../../core/services/util.service';
 import { UnsplashPhoto } from './unsplash-response';
 import { UnsplashService } from './unsplash.service';
 import { SharedModule } from '../../shared.module';
-import { Injectable } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
-import { State, Store } from '../../../core/store';
 import { ConfigService } from '../../../core/services/config.service';
+import { State, Store } from '../../../core/store';
 
 class UnsplashSearchPageState extends State {
   view: 'grid' | 'list' = 'grid';
-  appId: string;
+  appId: string | undefined;
 }
 
 @Injectable()
@@ -34,47 +32,47 @@ export class UnsplashSearchStore extends Store<UnsplashSearchPageState> {
 @Component({
   selector: 'app-unsplash-search',
   templateUrl: './unsplash-search.component.html',
-  standalone: true,
   imports: [SharedModule],
   providers: [UnsplashSearchStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnsplashSearchComponent implements OnInit {
-  constructor(
-    public route: ActivatedRoute,
-    public router: Router,
-    public _unsplash: UnsplashService,
-    public page: UnsplashSearchStore, // not used yet
-    public config: ConfigService,
-    public util: UtilService,
-    public dialogRef: MatDialogRef<UnsplashSearchComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+export class UnsplashSearchComponent {
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  util = inject(UtilService);
+  config = inject(UtilService);
+  _unsplash = inject(UnsplashService);
+  dialogRef = inject(MatDialogRef<UnsplashSearchComponent>);
+  data = inject(MAT_DIALOG_DATA);
 
-  // todo observables
   searchBox = new FormControl();
-  photos$: Observable<UnsplashPhoto[]>;
+  @ViewChild('searchBox') searchBoxElement!: MatInput;
 
-  @ViewChild('searchBox') searchBoxElement: MatInput;
-  photos: UnsplashPhoto[] = [];
-  working = false;
-  term: string;
-  // private isModal: HTMLIonModalElement;
+  // AIM to use signals for this state management
+  page = inject(UnsplashSearchStore);
 
-  async ngOnInit() {
-    // ! not working
-    // setTimeout(() => {
-    //   this.searchBoxElement.setFocus();
-    // }, 500);
-    this.term = this.route.snapshot.queryParamMap.get('term');
+  // Use signals for state
+  private _photos = signal<UnsplashPhoto[] | undefined>([]);
+  private _working = signal<boolean>(false);
+  private _term = signal<string>('');
+
+  photos = computed(() => this._photos());
+  working = computed(() => this._working());
+  term = computed(() => this._term());
+
+  constructor() {
+    const initialTerm = this.route.snapshot.queryParamMap.get('term') ?? '';
+    this._term.set(initialTerm);
   }
 
   async searchPhotos(term: string) {
+    this._working.set(true);
     try {
-      this.working = true;
-      this.photos = await this._unsplash.getPhotos(term).toPromise();
-      // this.router.navigate(['.'], { queryParams: { term }, relativeTo: this.route });
+      const photos = await firstValueFrom(this._unsplash.getPhotos(term));
+      this._photos.set(photos);
+      this._term.set(term);
     } finally {
-      this.working = false;
+      this._working.set(false);
     }
   }
 

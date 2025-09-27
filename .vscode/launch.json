@@ -1,25 +1,20 @@
 {
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "name": "ng serve",
+      "type": "chrome",
       "request": "launch",
-      "name": "Run Application",
-      "program": "${workspaceFolder}/app.js",
-      "outFiles": ["${workspaceFolder}/**/*.js"],
-      "skipFiles": ["<node_internals>/**"],
-      "console": "integratedTerminal"
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200/"
     },
     {
-      "type": "node",
+      "name": "ng test",
+      "type": "chrome",
       "request": "launch",
-      "name": "Debug Tests",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": ["--runInBand", "--watchAll=false"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "cwd": "${workspaceFolder}",
-      "skipFiles": ["<node_internals>/**"]
+      "preLaunchTask": "npm: test",
+      "url": "http://localhost:9876/debug.html"
     }
   ]
 }

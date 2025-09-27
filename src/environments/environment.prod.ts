@@ -1,6 +1,6 @@
 export const environment = {
   prod: true,
-  rootUrl: 'https://crypto-hive.web.app',
+  rootUrl: location.origin,
   gravatarURL: 'https://picsum.photos/200',
   iconURL: '/assets/icon.png',
   logoURL: '/assets/logo.png',

@@ -1,0 +1,23 @@
+<header class="mb-3">
+  <h1 class="text-2xl font-bold mb-1">Edit Profile</h1>
+  <p class="text-gray-500 mb-2">Update your profile information</p>
+
+  <!-- <button class="btn btn-link text-dark" (click)="logout()">Logout</button> -->
+  <!-- <button class="btn btn-link text-dark" (click)="deactivate()">Temporarily disable my account</button> -->
+  <!-- <a routerLink="" *ngIf="currentUser?.uid == user?.uid" (click)="logout()" class="nav-link mt-3">Logout</a> -->
+</header>
+
+<div class="w-full sm:max-w-screen-sm mx-auto px-3 mb-3">
+  <form [formGroup]="form" (submit)="save(model)">
+    <!-- User -->
+    <formly-form [form]="form" [fields]="userFields" [model]="model" [options]="options"></formly-form>
+    <br />
+
+    <!-- Admin -->
+    <formly-form [form]="form" [fields]="adminFields" [model]="model" [options]="options"></formly-form>
+
+    <div class="text-center mt-3">
+      <button mat-stroked-button [disabled]="form.invalid" type="submit" fill="solid" shape="round">Save</button>
+    </div>
+  </form>
+</div>
