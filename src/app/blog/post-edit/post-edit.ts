@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { finalize } from 'rxjs/operators';
 
+import { firstValueFrom } from 'rxjs';
+import { PhotoService } from '../../core/services/photo.service';
+import { UtilService } from '../../core/services/util.service';
+import { SharedModule } from '../../shared/shared.module';
 import { Post } from '../post';
 import { PostService } from '../post.service';
-import { UtilService } from '../../core/services/util.service';
-import { PhotoService } from '../../core/services/photo.service';
-import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   templateUrl: './post-edit.html',
@@ -38,7 +39,9 @@ export class PostEditComponent implements OnInit {
         {
           key: 'photoURL',
           type: 'photo',
+          className: 'mb-4',
           props: {
+            className: 'w-full h-48 rounded-lg bg-gray-100',
             label: 'Photo',
             onFileSelected: (file: any) => (this.selectedFile = file),
           },
@@ -46,51 +49,26 @@ export class PostEditComponent implements OnInit {
         {
           key: 'title',
           type: 'input',
-          props: {
-            label: 'Title',
-            placeholder: 'Add a title',
-            required: true,
-          },
+          props: { label: 'Title', placeholder: 'Add a title', required: true },
         },
         {
           key: 'text',
-          type: 'ckeditor',
-          props: {
-            label: 'Text',
-            placeholder: 'Write your post here...',
-          },
+          type: 'rich-editor',
+          className: 'mb-4',
+          props: { label: 'Body', placeholder: 'Write your post here...' },
         },
-
         {
           key: 'videoURL',
           type: 'input',
-          props: {
-            label: 'Video Embed Url',
-            placeholder: 'eg. youtube',
-          },
+          props: { label: 'Video Embed Url', placeholder: 'eg. youtube' },
         },
         {
           key: 'category',
           type: 'input',
-          props: {
-            label: 'Category',
-            placeholder: 'Add a category',
-          },
+          props: { label: 'Category', placeholder: 'Add a category' },
         },
-        {
-          key: 'draft',
-          type: 'toggle',
-          props: {
-            label: 'Draft',
-          },
-        },
-        {
-          key: 'featured',
-          type: 'toggle',
-          props: {
-            label: 'Featured',
-          },
-        },
+        { key: 'draft', type: 'toggle', props: { label: 'Draft' } },
+        { key: 'featured', type: 'toggle', props: { label: 'Featured' } },
       ],
     },
   ];
@@ -98,10 +76,7 @@ export class PostEditComponent implements OnInit {
   async ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('postId');
     if (postId) {
-      this.model = await this.postService
-        .one$(postId)
-        .pipe(finalize(() => (this.working = false)))
-        .toPromise();
+      this.model = await firstValueFrom(this.postService.one$(postId).pipe(finalize(() => (this.working = false))));
     } else {
       this.model = new Post();
       this.working = false;

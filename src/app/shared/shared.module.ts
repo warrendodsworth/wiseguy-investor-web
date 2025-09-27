@@ -4,17 +4,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgPipesModule } from 'ngx-pipes';
 
-import { CoreModule } from '../core/core.module';
-import { UnsplashSearchComponent } from './photos/unsplash-search/unsplash-search.component';
-import { MaterialModule } from '../core/material.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { EmptyListComponent } from '../core/components/empty-list.component';
 import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
-import { FormlyCKEditorModule } from './formly-ckeditor.module';
-import { FormlyAppModule } from '../core/formly/formly-app.module';
+import { CoreModule } from '../core/core.module';
+import { FormlyCoreModule } from '../core/formly/formly-core.module';
+import { MaterialModule } from '../core/material.module';
+import { FORMLY_CONFIG_SHARED } from './shared-formly.config';
 
 // Grouped here only to ensure frequently used Standalone Components can be imported together in one shot
-const standaloneComponents = [UnsplashSearchComponent, EmptyListComponent, SkeletonTextComponent];
+const standaloneComponents = [EmptyListComponent, SkeletonTextComponent];
 
 const modules = [
   CommonModule,
@@ -24,18 +23,16 @@ const modules = [
 
   // 3rd party
   NgPipesModule,
-  FormlyModule,
-  FormlyCKEditorModule,
 
   // app
   CoreModule,
   MaterialModule,
-  FormlyAppModule,
+  FormlyCoreModule,
 ];
 
 @NgModule({
   declarations: [],
-  imports: [...modules, ...standaloneComponents],
+  imports: [...modules, ...standaloneComponents, FormlyModule.forChild(FORMLY_CONFIG_SHARED)],
   exports: [...modules, ...standaloneComponents],
 })
 export class SharedModule {}

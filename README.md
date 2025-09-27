@@ -117,13 +117,8 @@ firestore-export --accountCredentials service-key.json --backupFile prod-databas
 ## Tailwind CSS Setup
 
 - Install Tailwind CSS and its dependencies:
-  ```bash
-  npm install -D tailwindcss postcss autoprefixer
-  npx tailwindcss init
-  ```
-  https://notiz.dev/blog/angular-with-tailwindcss
 
----
+https://tailwindcss.com/docs/installation/framework-guides/angular
 
 ## VSCode Recommendations
 

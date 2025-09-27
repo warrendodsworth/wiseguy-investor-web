@@ -3,40 +3,33 @@
   style="background-image: url('/images/shrine.jpg')"
 >
   <div class="p-8">
-    <h1 class="text-white text-4xl font-bold text-center">Welcome to Wiseguy Investor</h1>
+    <h1 class="text-white text-center text-4xl font-semibold mb-2">Welcome to Wiseguy Investor</h1>
     <p class="text-white text-center text-lg tracking-wide uppercase">
       {{ 'Financial Learning Simplified' | uppercase }}
     </p>
   </div>
 </header>
 
-<section class="max-w-6xl mx-auto px-4 mt-8">
-  <!-- <div *ngIf="!(posts$ | async)" class="flex justify-center">
-    <div class="w-full max-w-md bg-white rounded-lg shadow p-4">
-      <app-skeleton-text view="fb"></app-skeleton-text>
+<section class="max-w-3xl mx-auto px-4 mt-8">
+  <h2 class="text-xl">Welcome to our blog!</h2>
+
+  @if (posts().length === 0) {
+  <div class="flex justify-center">
+    <div class="w-full max-w-md bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+      <app-skeleton-text></app-skeleton-text>
     </div>
   </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-8">
-    <ng-container *ngFor="let post of posts$ | async | slice : 0 : 2">
+  } @else {
+  <ul class="space-y-4">
+    @for (post of posts(); track post.id) {
+    <li>
       <app-post [post]="post"></app-post>
-    </ng-container>
-  </div> -->
-  <!--
-   <h1>Hello, {{ title() }}</h1>-->
-
-  <p>Congratulations! Your app is running. 🎉</p>
-  <section>
-    <h2>Posts</h2>
-    <ul>
-      @for (post of posts(); track post.title) {
-      <li>{{ post.title }}</li>
-      }
-    </ul>
-  </section>
+    </li>
+    }
+  </ul>
+  }
 
   <div class="text-center mt-8">
-  
     <a class="button-primary" routerLink="/blog">See more episodes</a>
   </div>
 </section>

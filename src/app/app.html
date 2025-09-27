@@ -41,9 +41,15 @@
         <mat-icon>dark_mode</mat-icon>
       </button>
       <mat-menu #themeMenu="matMenu">
-        <button mat-menu-item (click)="_theme.setMode('light')"><mat-icon>light_mode</mat-icon> Light</button>
-        <button mat-menu-item (click)="_theme.setMode('dark')"><mat-icon>dark_mode</mat-icon> Dark</button>
-        <button mat-menu-item (click)="_theme.setMode('system')"><mat-icon>settings</mat-icon> System</button>
+        <button mat-menu-item (click)="_theme.setMode('light', auth.currentUser())">
+          <mat-icon>light_mode</mat-icon> Light
+        </button>
+        <button mat-menu-item (click)="_theme.setMode('dark', auth.currentUser())">
+          <mat-icon>dark_mode</mat-icon> Dark
+        </button>
+        <button mat-menu-item (click)="_theme.setMode('system', auth.currentUser())">
+          <mat-icon>settings</mat-icon> System
+        </button>
       </mat-menu>
     </div>
   </div>

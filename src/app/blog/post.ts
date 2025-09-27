@@ -1,23 +1,24 @@
 import { Entity } from '../core/models/_entity';
 
-// Fixes:
-// - All properties should be initialized or marked optional (strict typing).
-// - Avoid 'any'; use strict types and inference.
-// - Prefer default values for primitives.
-// - Use readonly for immutable properties if needed.
+// All properties are strictly typed and initialized for strict TypeScript.
+// No 'readonly' as per user instruction.
 
 export class Post extends Entity {
-  title = '';
-  text = '';
+  title: string = '';
+  text: string = '';
 
-  category = '';
+  category: string = '';
   tags: string[] = [];
-  featured = false;
-  draft = false;
+  featured: boolean = false;
+  draft: boolean = false;
 
-  photoURL = 'https://picsum.photos/1080';
-  videoURL = '';
+  photoURL: string = 'https://picsum.photos/1080';
+  videoURL: string = '';
 
-  likes = 0;
-  hearted = false;
+  likes: number = 0;
+  hearted: boolean = false;
+
+  authorName?: string;
+  authorPhotoURL?: string;
+  commentsCount?: number;
 }

@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { SkeletonTextComponent } from '../core/components/skeleton-text.component';
 import { AdminGuard } from '../accounts/admin.guard';
 import { PostComponent } from './components/post/post';
-import { FormlyCKEditorModule } from '../shared/formly-ckeditor.module';
 
 export const blogRoutes: Routes = [
   {
@@ -45,7 +44,4 @@ export const blogCommonImports = [
   // standalone components
   SkeletonTextComponent,
   PostComponent,
-
-  // modules
-  FormlyCKEditorModule,
 ];

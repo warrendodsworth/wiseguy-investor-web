@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { faker } from '@faker-js/faker';
 
 import { FileData } from '../core/models/photo';
@@ -22,14 +22,11 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class PostService extends EntityBaseFirestoreService<Post> {
-  constructor(
-    public afs: Firestore,
-    public override afAuth: Auth,
-    public override util: UtilService,
-    public auth: AuthService,
-    public photoService: PhotoService
-  ) {
-    super(afs, afAuth, util, 'posts');
+  afs = inject(Firestore);
+  auth = inject(AuthService);
+  photoService = inject(PhotoService);
+  constructor() {
+    super('posts');
   }
 
   async upsertPost(post: Post, selectedFile?: FileData) {

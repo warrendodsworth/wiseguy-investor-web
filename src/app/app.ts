@@ -1,12 +1,10 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { inject } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { filter } from 'rxjs';
-import { ConfigService } from './core/services/config.service';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ThemeService } from './core/services/theme.service';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
+import { ConfigService } from './core/services/config.service';
+import { ThemeService } from './core/services/theme.service';
 import { SharedModule } from './shared/shared.module';
 
 @Component({
