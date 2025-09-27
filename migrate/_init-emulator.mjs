@@ -1,4 +1,4 @@
-import { app, db, auth } from './main.mjs';
+import { auth, db } from './main.mjs';
 import { UserService } from './services.mjs';
 
 process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
@@ -11,11 +11,10 @@ export async function setupEmulatorData() {
   const appConfig = {
     version: 1,
     id: 'wgi',
-    title: 'WiseGuyInvestor',
+    title: 'WiseGuy Investor',
     photoURL: 'https://picsum.photos/100',
-    description: 'Default Insight91 app config',
-    theme: { name: 'blue' },
-    tagline: 'Welcome to WiseGuyInvestor',
+    description: 'Default app config',
+    tagline: 'Welcome to WiseGuy Investor',
     pages: [
       { id: 'home', name: 'Home', icon: 'home', menuGroup: 'home' },
       { id: 'help', name: 'Help', icon: 'help', menuGroup: 'help' },

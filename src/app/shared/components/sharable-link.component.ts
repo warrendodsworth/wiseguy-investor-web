@@ -10,7 +10,6 @@ import { Component, Input, OnInit } from '@angular/core';
       <a href="{{ shareableLink }}" target="_blank" class="text-blue-500">{{ shareableLink }}</a>
     </div>
   `,
-  standalone: true,
   imports: [CommonModule],
 })
 export class SharableLinkComponent implements OnInit {

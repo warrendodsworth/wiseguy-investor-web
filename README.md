@@ -6,7 +6,7 @@ WiseGuy Investor - Market Insights is a web application that provides users with
 
 ## Tech Stack
 
-- **Angular 17** (CLI, Material, PWA)
+- **Angular** (CLI, Material, PWA)
 - **Tailwind CSS** (Styling)
 - **Firebase** (Emulators, Hosting)
 - **Jest** (Unit Testing)
@@ -117,13 +117,8 @@ firestore-export --accountCredentials service-key.json --backupFile prod-databas
 ## Tailwind CSS Setup
 
 - Install Tailwind CSS and its dependencies:
-  ```bash
-  npm install -D tailwindcss postcss autoprefixer
-  npx tailwindcss init
-  ```
-  https://notiz.dev/blog/angular-with-tailwindcss
 
----
+https://tailwindcss.com/docs/installation/framework-guides/angular
 
 ## VSCode Recommendations
 
@@ -154,3 +149,47 @@ For the integration to work I needed to install these packages into my functions
 - @firebase/app-compat@0.2.3
 - @firebase/auth-compat@0.3.3
 - @firebase/firestore-compat@0.3.3
+
+- **Angular 17** (CLI, Material, PWA)
+- **Tailwind CSS** (Styling)
+- **Firebase** (Emulators, Hosting)
+- **Jest** (Unit Testing)
+- **ESLint** (Linting)
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+- [Node.js](https://nodejs.org/)
+- [Angular CLI](https://angular.dev/tools/cli)
+- [Firebase CLI](https://firebase.google.com/docs/cli)
+- [Capacitor CLI](https://capacitorjs.com/docs/getting-started)
+- Other tools: `npm i -g node-firestore-import-export rimraf workbox-cli pwa-asset-generator kill-port`
+
+- Shortcut: Install global packages `npm i -g @angular/cli @capacitor/cli firebase-tools`
+- Shortcut: Install local packages `npm install-all`
+  To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+### Installation
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

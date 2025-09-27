@@ -1,0 +1,62 @@
+<div class="flex justify-center">
+  <div class="w-full max-w-3xl">
+    <div *ngIf="!(post$ | async)" class="bg-white dark:bg-gray-900 rounded-xl shadow p-6 mb-6">
+      <app-skeleton-text view="fb"></app-skeleton-text>
+    </div>
+
+    <div *ngIf="post$ | async as post" class="bg-white dark:bg-gray-900 rounded-xl shadow overflow-hidden">
+      @if(post.photoURL){
+      <div
+        class="w-full h-32 md:h-48 bg-cover bg-center"
+        [style.background-image]="util.getSanitizedStyle(post.photoURL)"
+      ></div>
+      }
+
+      <div class="p-6">
+        <div *ngIf="post.videoURL" class="mb-4 flex justify-center">
+          <iframe
+            [src]="util.getSanitizedUrl(post.videoURL)"
+            class="w-full max-w-2xl aspect-video rounded"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <h1 class="text-3xl font-bold italic text-gray-900 dark:text-white mb-4">{{ post.title }}</h1>
+
+        <div
+          class="prose prose-lg max-w-none my-6 dark:prose-invert"
+          [innerHTML]="util.getSanitizedHtml(post.text)"
+        ></div>
+
+        <ng-container *ngIf="auth.currentUser$ | async as user">
+          <div *ngIf="user.roles.admin || user.uid === post.createUid" class="flex justify-end gap-3 mt-6">
+            <a
+              [routerLink]="['/blog/posts']"
+              class="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm transition"
+              >Manage</a
+            >
+            <a
+              [routerLink]="['/blog/posts', post.id, 'edit']"
+              class="px-4 py-2 rounded border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-sm transition"
+              >Edit</a
+            >
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-center my-8 gap-4">
+  <a
+    [routerLink]="['/blog']"
+    class="px-5 py-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium transition"
+    >Return to Blog</a
+  >
+  <a
+    [routerLink]="['/']"
+    class="px-5 py-2 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium transition"
+    >Home</a
+  >
+</div>

@@ -1,18 +1,17 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ModalController, PopoverController } from '@ionic/angular';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { State, Store } from '../../core/store';
-import { CoreModule } from '../../core/core.module';
 import { SharedModule } from '../../shared/shared.module';
 
 export class UserListPageState extends State {
-  role: string;
-  mateActive: boolean | string;
-  joinStatus: string;
+  role!: string;
+  mateActive!: boolean | string;
+  joinStatus!: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,9 +22,8 @@ export class UserListPageStore extends Store<UserListPageState> {
 }
 
 @Component({
-  standalone: true,
-  imports: [CoreModule, SharedModule],
   selector: 'app-resoure-list-popover',
+  imports: [SharedModule],
   template: `
     <form [formGroup]="form">
       <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
@@ -36,8 +34,7 @@ export class UserListFilterComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public util: UtilService,
-    public popoverCtrl: PopoverController,
-    public modalCtrl: ModalController,
+    public dialogRef: MatDialogRef<UserListFilterComponent>,
     public _store: UserListPageStore
   ) {}
 
@@ -110,6 +107,6 @@ export class UserListFilterComponent implements OnInit {
   }
 
   close(result?: string) {
-    this.popoverCtrl.dismiss(result || null);
+    this.dialogRef.close(result || null);
   }
 }

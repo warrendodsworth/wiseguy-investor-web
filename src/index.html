@@ -2,11 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>App</title>
     <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
 
-    <!-- New -->
+    <!-- Mat Symbols -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0"
@@ -18,9 +20,6 @@
       }
     </style>
 
-    <!-- For Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Rounded" rel="stylesheet" />
-
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,79 +27,10 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#1976d2" />
-
-    <!-- inline spinner styles to be able to display spinner right away -->
-    <style type="text/css">
-      body,
-      html {
-        height: 100%;
-      }
-
-      .app-loading {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-
-      .app-loading .spinner {
-        height: 200px;
-        width: 200px;
-        animation: rotate 2s linear infinite;
-        transform-origin: center center;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-      }
-
-      .app-loading .spinner .path {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-        animation: dash 1.5s ease-in-out infinite;
-        stroke-linecap: round;
-        stroke: #ddd;
-      }
-
-      .app-loading-logo {
-        width: 100px;
-        height: 100px;
-
-        background: url('./assets/logo.png') center center no-repeat;
-      }
-
-      @keyframes rotate {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      @keyframes dash {
-        0% {
-          stroke-dasharray: 1, 200;
-          stroke-dashoffset: 0;
-        }
-
-        50% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -35px;
-        }
-
-        100% {
-          stroke-dasharray: 89, 200;
-          stroke-dashoffset: -124px;
-        }
-      }
-    </style>
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  </head>
+  <body>
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {
@@ -114,40 +44,9 @@
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-MJKDTWS');
     </script>
+    <!-- End Google Tag Manager -->
 
-    <!-- facebook -->
-    <script src="https://connect.facebook.net/en_US/sdk.js" type="text/javascript"></script>
-    <script src="https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js"></script>
-  </head>
-
-  <body class="bg-light mat-typography">
-    <app-root>
-      <!-- loading layout replaced by app after startupp -->
-      <div class="app-loading">
-        <div class="app-loading-logo"></div>
-        <svg class="spinner" viewBox="25 25 50 50">
-          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-        </svg>
-      </div>
-    </app-root>
-
-    <!-- mailchimp subscribe -->
-    <script
-      type="text/javascript"
-      src="//downloads.mailchimp.com/js/signup-forms/popup/unique-methods/embed.js"
-      data-dojo-config="usePlainJson: true, isDebug: false"
-    ></script>
-    <script type="text/javascript">
-      window.dojoRequire(['mojo/signup-forms/Loader'], function (L) {
-        L.start({
-          baseUrl: 'mc.us14.list-manage.com',
-          uuid: 'f87d6e1ec58cd04830f6a367b',
-          lid: 'e58a2a6af0',
-          uniqueMethods: true,
-        });
-      });
-    </script>
-    <noscript>Please enable JavaScript to continue using this application.</noscript>
+    <app-root></app-root>
   </body>
 </html>
 

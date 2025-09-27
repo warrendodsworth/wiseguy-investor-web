@@ -1,7 +1,7 @@
 export class UnsplashResponse {
-  results: UnsplashPhoto[];
-  total: number;
-  total_pages: number;
+  results: UnsplashPhoto[] | undefined;
+  total: number | undefined;
+  total_pages: number | undefined;
 }
 
 // UNSPLASH response types - UnsplashRes is root, UnsplashPhotos above is the simple version

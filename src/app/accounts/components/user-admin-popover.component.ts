@@ -10,7 +10,7 @@ import { MaterialModule } from '../../core/material.module';
   imports: [SharedModule, MaterialModule],
   template: `
     <h2 mat-dialog-title class="p-3 flex flex-row justify-between items-center">
-      <span class="font-semibold text-base">{{ user?.displayName }}</span>
+      <span class="font-semibold text-base">{{ user.displayName }}</span>
       <a
         [routerLink]="['/accounts/users', user.uid, 'edit']"
         (click)="close()"
@@ -20,7 +20,7 @@ import { MaterialModule } from '../../core/material.module';
       </a>
     </h2>
     <mat-dialog-content class="bg-white rounded-b-2xl px-2 pb-2">
-      @if(currentUser?.roles?.admin) {
+      @if(currentUser.roles.admin) {
       <a
         [routerLink]="['/app/tabs/accounts', user.uid, 'requests']"
         (click)="close()"
@@ -49,7 +49,7 @@ import { MaterialModule } from '../../core/material.module';
         <span>Mate in Training status</span>
       </a>
 
-      @if(currentUser?.roles?.admin) {
+      @if(currentUser.roles.admin) {
       <a
         [routerLink]="['/app/tabs/accounts', user.uid, 'membership']"
         (click)="close()"

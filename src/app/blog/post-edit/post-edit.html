@@ -1,0 +1,16 @@
+@if (!working) {
+<header class="mb-6">
+  <h3 class="mb-0 text-xl">{{ model?.id ? 'Edit' : 'New' }} Post</h3>
+  <a [routerLink]="['/blog/posts']" class="btn btn-light">Back</a>
+</header>
+}
+
+<div class="w-full sm:max-w-screen-sm mx-auto mb-6">
+  <form [formGroup]="form" (submit)="save(model)">
+    <formly-form [model]="model" [fields]="postFields" [options]="options"></formly-form>
+
+    <div class="text-center mt-3">
+      <button [disabled]="form.invalid" type="submit" class="button-primary">Save</button>
+    </div>
+  </form>
+</div>

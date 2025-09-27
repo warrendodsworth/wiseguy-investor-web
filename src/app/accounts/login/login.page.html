@@ -2,31 +2,34 @@
   <!-- card -->
   <div class="border border-gray-200 rounded-lg">
     <div class="w-full md:w-[480px] p-4 flex flex-col items-center">
-      <!-- <div *ngIf="config.app$ | async as app">
-        <h2>{{app.title}}</h2>
-        <h3 *ngIf="view == 'login'">{{ app.tagline }}</h3>
-      </div> -->
       <div class="flex items-center gap-4">
-        <a routerLink="/">
-          <img [src]="'assets/wiseguyapp-high-resolution-logo-transparent.webp'" class="w-auto h-4 mt-4 mb-8 mx-auto" />
-        </a>
+        <h2 class="text-2xl font-normal text-center my-8">{{ config.config().title }}</h2>
+        <!-- <div *ngIf="config.app$ | async as app"></div> -->
+        <!-- <img [src]="'assets/wiseguyapp-high-resolution-logo-transparent.webp'" class="w-auto h-4 mt-4 mb-8 mx-auto" /> -->
       </div>
 
       <!-- login -->
       <section class="text-center mb-4">
-        <form [formGroup]="form" (keyup.enter)="view == 'login' ? loginEmail(model) : view == 'signup' ? signupEmail(model) : ''">
+        <form
+          [formGroup]="form"
+          (keyup.enter)="view == 'login' ? loginEmail(model) : view == 'signup' ? signupEmail(model) : ''"
+        >
           @if (view == 'forgotPassword') {
           <p>Enter the email account you used to sign up, and we'll send you a password reset link.</p>
           } @else if (view == 'signup'){
-          <h2>Welcome</h2>
-          <p>First we need a few details to get your account set up.</p>
+          <h2 class="text-xl mb-2">Welcome</h2>
+          <p class="mb-4">First we need a few details to get your account set up</p>
           }
 
           <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
 
           <div class="my-3">
-            <button *ngIf="view === 'login'" type="button" (click)="loginEmail(model)" class="button-primary">Sign in</button>
-            <button *ngIf="view === 'signup'" type="button" (click)="signupEmail(model)" class="button-primary">Sign up</button>
+            <button *ngIf="view === 'login'" type="button" (click)="loginEmail(model)" class="button-primary">
+              Sign in
+            </button>
+            <button *ngIf="view === 'signup'" type="button" (click)="signupEmail(model)" class="button-primary">
+              Sign up
+            </button>
             <button
               *ngIf="view === 'forgotPassword'"
               type="button"
@@ -40,18 +43,18 @@
 
         <div class="flex flex-col items-center justify-center gap-2">
           <div *ngIf="view === 'login'">
-            <a (click)="changeView('forgotPassword')">Forgot password?</a>
+            <a (click)="changeView('forgotPassword')" class="cursor-pointer">Forgot password?</a>
           </div>
           <div *ngIf="view === 'forgotPassword'">
-            <a (click)="changeView('login')">Back to Sign in</a>
+            <a (click)="changeView('login')" class="cursor-pointer">Back to Sign in</a>
           </div>
           <span *ngIf="view === 'signup'">
             Already have an account?
-            <a (click)="changeView('login')">Sign in</a>
+            <a (click)="changeView('login')" class="cursor-pointer">Sign in</a>
           </span>
           <span *ngIf="view === 'login'">
             Don't have an account?
-            <a (click)="changeView('signup')"> Sign up</a>
+            <a (click)="changeView('signup')" class="cursor-pointer"> Sign up</a>
           </span>
         </div>
       </section>
@@ -63,19 +66,21 @@
           (click)="loginGoogle()"
           class="border border-gray-300 hover:border-gray-400 text-gray-700 font-medium py-1 pl-2 pr-4 rounded-lg flex items-center"
         >
-          <img class="inline-block h-8 w-8 mr-2" src="../../../assets/icons/auth/google.svg" />
+          <img class="inline-block h-8 w-8 mr-2" src="/icons/auth/google.svg" />
           <span>Sign {{ view === 'login' ? 'in' : 'up' }} with Google</span>
         </button>
       </section>
 
       <!-- signup info -->
-      <section *ngIf="view === 'signup'" class="w-full sm:w-80 text-center mt-4">
+      @if (view === 'signup') {
+      <section class="w-full sm:w-80 text-center mt-4">
         <span>
           One last thing - by signing up you understand and agree with our
           <a href="../../home/terms-and-conditions" target="_blank" rel="noopener">Terms of Use</a> and
           <a href="../../home/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>
         </span>
       </section>
+      }
     </div>
   </div>
 </div>
