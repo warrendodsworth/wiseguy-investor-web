@@ -38,6 +38,7 @@ node_modules
 *-firebase-adminsdk-*.json
 service*.json
 /prod-*.json
+firestore-debug.log
 
 *.keystore
 *.pem
