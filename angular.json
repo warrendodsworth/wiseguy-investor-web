@@ -25,13 +25,18 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/manifest.json",
+              "src/sw-main.js",
+              "src/sw-workbox.js",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "src/styles.scss",
               "node_modules/quill/dist/quill.core.css",
               "node_modules/quill/dist/quill.snow.css"
-            ]
+            ],
+            "sourceMap": true
           },
           "configurations": {
             "production": {
