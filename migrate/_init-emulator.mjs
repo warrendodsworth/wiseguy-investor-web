@@ -14,7 +14,6 @@ export async function setupEmulatorData() {
     title: 'WiseGuy Investor',
     photoURL: 'https://picsum.photos/100',
     description: 'Default app config',
-    theme: { name: 'blue' },
     tagline: 'Welcome to WiseGuy Investor',
     pages: [
       { id: 'home', name: 'Home', icon: 'home', menuGroup: 'home' },
