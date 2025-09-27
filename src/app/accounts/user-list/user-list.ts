@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { QueryConstraint, where } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Subject, from, shareReplay, switchMap, takeUntil } from 'rxjs';
-import { AuthService } from '../../core/services/auth.service';
 import { AppUser } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
 import { QueryConfig } from '../../core/services/base-firestore-entity.service';
 import { UserService } from '../../core/services/user.service';
 import { UtilService } from '../../core/services/util.service';
-import { UserListPageStore } from './user-list-filter.component';
 import { SharedModule } from '../../shared/shared.module';
 import { UserItemComponent } from '../components/user-item.component';
-import { QueryConstraint, where } from '@angular/fire/firestore';
+import { UserListPageStore } from './user-list-filter.component';
 
 @Component({
   templateUrl: './user-list.html',
