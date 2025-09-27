@@ -1,5 +1,4 @@
-import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -13,18 +12,17 @@ import { emailReadOnlyField } from '../../core/formly/fields-basic';
 
 @Component({
   templateUrl: './user-edit.page.html',
-  standalone: true,
   imports: [SharedModule],
 })
 export class UserEditPage implements OnInit {
-  constructor(
-    private location: Location,
-    public router: Router,
-    public route: ActivatedRoute,
-    public auth: AuthService,
-    public util: UtilService,
-    protected cdRef: ChangeDetectorRef
-  ) {}
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  auth = inject(AuthService);
+  util = inject(UtilService);
+  cdRef = inject(ChangeDetectorRef);
+
+  constructor() {}
+
   selectedSegment: string | undefined;
 
   form = new FormGroup({});
@@ -109,10 +107,12 @@ export class UserEditPage implements OnInit {
 
   async ngOnInit() {
     this.selectedSegment = this.route.snapshot.queryParamMap.get('selectedSegment') || 'edit';
+
+    // load uid and current user
     const uid = this.route.snapshot.paramMap.get('uid');
     const currentUser = await this.auth.getCurrentUser();
 
-    // incase admins needs to change email
+    // for admins to change email
     let email: string | null | undefined = null;
     if (currentUser?.roles.admin && uid) {
       const meta = await this.auth.getUserMeta(uid);
@@ -120,12 +120,15 @@ export class UserEditPage implements OnInit {
     } else {
       email = (await this.auth.afAuth.currentUser)?.email;
     }
-    this.model = await this.auth.getUser(uid);
+
+    // load user data
+    this.model = uid ? await this.auth.getUser(uid) : currentUser;
     this.model.email = email;
     this.model.mateJoin = this.model.mateJoin || {};
     if (!this.model.photoURL) {
       this.model.photoURL = this.util.env.gravatarURL;
     }
+    // console.table(`UserEditPage model:`, this.model);
     // this.model.mate = this.model.mate || {}; // temp until data migrated
 
     this.options.formState.mainModel = { ...this.model };

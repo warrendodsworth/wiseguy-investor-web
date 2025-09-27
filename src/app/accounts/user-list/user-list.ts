@@ -9,8 +9,7 @@ import { UtilService } from '../../core/services/util.service';
 import { UserListPageStore } from './user-list-filter.component';
 import { SharedModule } from '../../shared/shared.module';
 import { UserItemComponent } from '../components/user-item.component';
-import { Query, QueryConstraint, where } from '@angular/fire/firestore';
-import { ModularQueryFn } from '../../core/services/base-firestore.service';
+import { QueryConstraint, where } from '@angular/fire/firestore';
 
 @Component({
   templateUrl: './user-list.html',

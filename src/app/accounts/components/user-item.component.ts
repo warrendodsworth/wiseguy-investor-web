@@ -1,17 +1,17 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, inject, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, model, output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ShowPhotoComponent } from '../../core/components/show-photo.component';
 import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
-import { UtilService } from '../../core/services/util.service';
 import { UserService } from '../../core/services/user.service';
+import { UtilService } from '../../core/services/util.service';
 import { SharedModule } from '../../shared/shared.module';
-import { MatDialog } from '@angular/material/dialog';
 import { UsersAdminPopoverComponent } from './user-admin-popover.component';
 
 @Component({
   selector: 'app-user-item',
-  standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, ShowPhotoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (user() != null) {

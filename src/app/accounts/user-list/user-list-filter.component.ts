@@ -2,12 +2,11 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
 import { State, Store } from '../../core/store';
-import { CoreModule } from '../../core/core.module';
 import { SharedModule } from '../../shared/shared.module';
-import { MatDialogRef } from '@angular/material/dialog';
 
 export class UserListPageState extends State {
   role!: string;
@@ -24,8 +23,7 @@ export class UserListPageStore extends Store<UserListPageState> {
 
 @Component({
   selector: 'app-resoure-list-popover',
-  standalone: true,
-  imports: [CoreModule, SharedModule],
+  imports: [SharedModule],
   template: `
     <form [formGroup]="form">
       <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>

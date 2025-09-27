@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
+import { ShowPhotoComponent } from '../../core/components/show-photo.component';
 import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { UtilService } from '../../core/services/util.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   templateUrl: './user-profile.page.html',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, ShowPhotoComponent],
 })
 export class UserProfileComponent implements OnInit {
   uid: string = '';
