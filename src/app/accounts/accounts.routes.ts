@@ -11,7 +11,7 @@ export const accountsRoutes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./user-profile/user-profile.page').then((m) => m.UserProfileComponent),
+    loadComponent: () => import('./user-profile/user-profile.page').then((m) => m.UserProfilePage),
     title: 'Profile',
   },
   {
@@ -30,7 +30,7 @@ export const accountsRoutes: Routes = [
       },
       {
         path: ':uid',
-        loadComponent: () => import('./user-profile/user-profile.page').then((m) => m.UserProfileComponent),
+        loadComponent: () => import('./user-profile/user-profile.page').then((m) => m.UserProfilePage),
         title: 'User Profile',
       },
       {

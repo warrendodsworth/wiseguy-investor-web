@@ -9,10 +9,9 @@ import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   templateUrl: './user-profile.page.html',
-  standalone: true,
   imports: [SharedModule, ShowPhotoComponent],
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfilePage implements OnInit {
   uid: string = '';
   user: AppUser | null = null;
   useTransparentToolbar = true;
