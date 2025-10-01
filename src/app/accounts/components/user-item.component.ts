@@ -6,12 +6,12 @@ import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 import { UsersAdminPopoverComponent } from './user-admin-popover.component';
 
 @Component({
   selector: 'app-user-item',
-  imports: [SharedModule, ShowPhotoComponent],
+  imports: [SHARED_CONFIG, ShowPhotoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (user() != null) {

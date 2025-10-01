@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, User } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from '@angular/fire/auth';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -7,21 +7,20 @@ import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
 import { AuthService } from '../../core/services/auth.service';
 import { ConfigService } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
-import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 
 type View = 'login' | 'signup' | 'forgotPassword';
 
 @Component({
   templateUrl: 'login.page.html',
-  standalone: true,
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginPage implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     public route: ActivatedRoute,

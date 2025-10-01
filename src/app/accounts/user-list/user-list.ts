@@ -7,13 +7,13 @@ import { AuthService } from '../../core/services/auth.service';
 import { QueryConfig } from '../../core/services/base-firestore-entity.service';
 import { UserService } from '../../core/services/user.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 import { UserItemComponent } from '../components/user-item.component';
 import { UserListPageStore } from './user-list-filter.component';
 
 @Component({
   templateUrl: './user-list.html',
-  imports: [SharedModule, UserItemComponent],
+  imports: [SHARED_CONFIG, UserItemComponent],
 })
 export class UserList implements OnInit {
   constructor(

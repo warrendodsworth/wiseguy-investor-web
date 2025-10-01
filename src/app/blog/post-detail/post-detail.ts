@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
 
-import { Post } from '../post';
-import { PostService } from '../post.service';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
+import { Post } from '../post';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.html',
   styleUrls: ['./post-detail.scss'],
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
 })
 export class PostDetailComponent implements OnInit {
   post$: Observable<Post | undefined> | undefined;

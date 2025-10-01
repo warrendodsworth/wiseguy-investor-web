@@ -7,13 +7,13 @@ import { finalize } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { PhotoService } from '../../core/services/photo.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 import { Post } from '../post';
 import { PostService } from '../post.service';
 
 @Component({
   templateUrl: './post-edit.html',
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
 })
 export class PostEditComponent implements OnInit {
   constructor(

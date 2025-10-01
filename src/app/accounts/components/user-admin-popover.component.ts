@@ -2,12 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { AppUser } from '../../core/models/user';
-import { SharedModule } from '../../shared/shared.module';
-import { MaterialModule } from '../../core/material.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 
 @Component({
-  standalone: true,
-  imports: [SharedModule, MaterialModule],
+  imports: [SHARED_CONFIG],
   template: `
     <h2 mat-dialog-title class="p-3 flex flex-row justify-between items-center">
       <span class="font-semibold text-base">{{ user.displayName }}</span>

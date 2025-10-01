@@ -2,16 +2,16 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { orderBy } from '@angular/fire/firestore';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 import { Post } from '../post';
 import { PostService } from '../post.service';
-import { SharedModule } from '../../shared/shared.module';
-import { orderBy } from '@angular/fire/firestore';
 
 @Component({
   templateUrl: './post-list.html',
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
 })
 export class PostsComponent implements OnInit {
   route = inject(ActivatedRoute);

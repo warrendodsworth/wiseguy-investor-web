@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { where } from 'firebase/firestore';
 import { AuthService } from '../../core/services/auth.service';
+import { SHARED_CONFIG } from '../../shared/shared.config';
+import { PostComponent } from '../components/post/post';
 import { Post } from '../post';
 import { PostService } from '../post.service';
-import { SharedModule } from '../../shared/shared.module';
-import { PostComponent } from '../components/post/post';
-import { where } from 'firebase/firestore';
 
 @Component({
   templateUrl: './blog-home.html',
-  imports: [SharedModule, PostComponent],
+  imports: [SHARED_CONFIG, PostComponent],
 })
 export class BlogHomePage implements OnInit {
   posts$: Observable<Post[]> | undefined;

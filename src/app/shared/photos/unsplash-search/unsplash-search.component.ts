@@ -1,17 +1,17 @@
-import { Component, ViewChild, ChangeDetectionStrategy, signal, computed, inject, Injectable } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Injectable, signal, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, map, switchMap } from 'rxjs';
 
 import { Photo } from '../../../core/models/photo';
+import { ConfigService } from '../../../core/services/config.service';
 import { UtilService } from '../../../core/services/util.service';
+import { State, Store } from '../../../core/store';
+import { SHARED_CONFIG } from '../../shared.config';
 import { UnsplashPhoto } from './unsplash-response';
 import { UnsplashService } from './unsplash.service';
-import { SharedModule } from '../../shared.module';
-import { ConfigService } from '../../../core/services/config.service';
-import { State, Store } from '../../../core/store';
 
 class UnsplashSearchPageState extends State {
   view: 'grid' | 'list' = 'grid';
@@ -32,7 +32,7 @@ export class UnsplashSearchStore extends Store<UnsplashSearchPageState> {
 @Component({
   selector: 'app-unsplash-search',
   templateUrl: './unsplash-search.component.html',
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
   providers: [UnsplashSearchStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,7 +40,7 @@ export class UnsplashSearchComponent {
   route = inject(ActivatedRoute);
   router = inject(Router);
   util = inject(UtilService);
-  config = inject(UtilService);
+  config = inject(ConfigService);
   _unsplash = inject(UnsplashService);
   dialogRef = inject(MatDialogRef<UnsplashSearchComponent>);
   data = inject(MAT_DIALOG_DATA);

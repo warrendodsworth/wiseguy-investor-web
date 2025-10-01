@@ -5,11 +5,11 @@ import { AppUser } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { LayoutService } from '../../core/services/layout.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 
 @Component({
   templateUrl: './user-profile.page.html',
-  imports: [SharedModule, ShowPhotoComponent],
+  imports: [SHARED_CONFIG, ShowPhotoComponent],
 })
 export class UserProfilePage implements OnInit {
   uid: string = '';

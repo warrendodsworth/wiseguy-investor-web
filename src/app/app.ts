@@ -5,11 +5,11 @@ import { filter } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { ConfigService } from './core/services/config.service';
 import { ThemeService } from './core/services/theme.service';
-import { SharedModule } from './shared/shared.module';
+import { SHARED_CONFIG } from './shared/shared.config';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SharedModule],
+  imports: [RouterOutlet, SHARED_CONFIG],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

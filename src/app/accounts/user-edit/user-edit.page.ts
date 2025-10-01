@@ -3,16 +3,16 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
+import { displayNameField, profilePhotoField } from '../../core/formly/fields-app';
+import { emailReadOnlyField } from '../../core/formly/fields-basic';
 import { AppUser, Roles } from '../../core/models/user';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilService } from '../../core/services/util.service';
-import { SharedModule } from '../../shared/shared.module';
-import { profilePhotoField, displayNameField } from '../../core/formly/fields-app';
-import { emailReadOnlyField } from '../../core/formly/fields-basic';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 
 @Component({
   templateUrl: './user-edit.page.html',
-  imports: [SharedModule],
+  imports: [SHARED_CONFIG],
 })
 export class UserEditPage implements OnInit {
   router = inject(Router);

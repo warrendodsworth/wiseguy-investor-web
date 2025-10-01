@@ -6,7 +6,7 @@ export const accountsRoutes: Routes = [
 
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then((m) => m.LoginComponent),
+    loadComponent: () => import('./login/login.page').then((m) => m.LoginPage),
     title: 'Login',
   },
   {

@@ -1,16 +1,16 @@
 import { Component, inject, Signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { where, orderBy } from '@angular/fire/firestore';
-import { SharedModule } from '../../shared/shared.module';
-import { PostService } from '../../blog/post.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Post } from '../../blog/post';
-import { AuthService } from '../../core/services/auth.service';
+import { orderBy, where } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { PostComponent } from '../../blog/components/post/post';
+import { Post } from '../../blog/post';
+import { PostService } from '../../blog/post.service';
+import { AuthService } from '../../core/services/auth.service';
+import { SHARED_CONFIG } from '../../shared/shared.config';
 
 @Component({
   templateUrl: './home.html',
-  imports: [SharedModule, PostComponent],
+  imports: [SHARED_CONFIG, PostComponent],
 })
 export class HomeComponent {
   router = inject(Router);
