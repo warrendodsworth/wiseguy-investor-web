@@ -1,5 +1,6 @@
-import { ConfigOption } from '@ngx-formly/core';
+import { ConfigOption, provideFormlyConfig } from '@ngx-formly/core';
 import { FormlyFieldRichEditor } from './rich-editor.type';
+import { NgModule } from '@angular/core';
 
 export const FORMLY_CONFIG_SHARED: ConfigOption = {
   types: [
@@ -9,3 +10,8 @@ export const FORMLY_CONFIG_SHARED: ConfigOption = {
     },
   ],
 };
+
+@NgModule({
+  providers: [provideFormlyConfig(FORMLY_CONFIG_SHARED)],
+})
+export class FormlyChildModule {}

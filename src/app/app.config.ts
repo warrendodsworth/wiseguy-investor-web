@@ -12,14 +12,10 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
-import { FormlyModule } from '@ngx-formly/core';
 import { provideQuillConfig, QuillModule } from 'ngx-quill';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { CoreModule } from './core/core.module';
-import { FormlyCoreModule } from './core/formly/formly-core.module';
-import { MaterialModule } from './core/material.module';
-import { FORMLY_CONFIG_SHARED } from './shared/shared-formly.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,10 +24,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     importProvidersFrom(CoreModule.forRoot({ id: 'wgi', title: 'Wiseguy Investor' })),
-    importProvidersFrom(MaterialModule),
-
-    importProvidersFrom(FormlyCoreModule),
-    importProvidersFrom(FormlyModule.forChild(FORMLY_CONFIG_SHARED)),
 
     importProvidersFrom(QuillModule.forRoot()),
     provideQuillConfig({
@@ -44,7 +36,7 @@ export const appConfig: ApplicationConfig = {
           [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
           [{ color: [] }, { background: [] }], // dropdown with defaults
           [{ align: [] }],
-          ['link', 'image', 'code-block'],
+          ['link', 'code-block'], // 'image',
           ['clean'], // remove formatting button
         ],
       },
