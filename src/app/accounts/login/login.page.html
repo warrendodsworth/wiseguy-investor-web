@@ -1,14 +1,12 @@
 <div class="pt-10 flex flex-col items-center">
-  <!-- card -->
+  <!-- Card -->
   <div class="border border-gray-200 rounded-lg">
     <div class="w-full md:w-[480px] p-4 flex flex-col items-center">
       <div class="flex items-center gap-4">
         <h2 class="text-2xl font-normal text-center my-8">{{ config.config().title }}</h2>
-        <!-- <div *ngIf="config.app$ | async as app"></div> -->
-        <!-- <img [src]="'assets/wiseguyapp-high-resolution-logo-transparent.webp'" class="w-auto h-4 mt-4 mb-8 mx-auto" /> -->
       </div>
 
-      <!-- login -->
+      <!-- Login -->
       <section class="text-center mb-4">
         <form
           [formGroup]="form"
@@ -21,6 +19,7 @@
           <p class="mb-4">First we need a few details to get your account set up</p>
           }
 
+          <!-- Formly Form -->
           <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
 
           <div class="my-3">
@@ -59,9 +58,8 @@
         </div>
       </section>
 
-      <!-- social auth -->
+      <!-- Social Auth -->
       <section class="mb-4">
-        <!-- class="flex flex-row justify-center"  -->
         <button
           (click)="loginGoogle()"
           class="border border-gray-300 hover:border-gray-400 text-gray-700 font-medium py-1 pl-2 pr-4 rounded-lg flex items-center"
@@ -71,7 +69,7 @@
         </button>
       </section>
 
-      <!-- signup info -->
+      <!-- Signup Info -->
       @if (view === 'signup') {
       <section class="w-full sm:w-80 text-center mt-4">
         <span>
@@ -84,9 +82,3 @@
     </div>
   </div>
 </div>
-
-<!-- apple -->
-<!--<button mat-button class="auth-button" *ngIf="!platform.is('android')" (click)="loginApple()" color="dark" fill="outline" shape="round" style="min-width: 140px; min-height: 30px;">
-      <img src="../../../assets/icons/auth/apple_black.svg" style="min-height: 32px; width: 32px; margin-right: 7px;" />
-      <span style="padding-right: 8px"> Sign {{ view === 'login' ? 'in' : 'up' }} with Apple </span>
-    </button> -->

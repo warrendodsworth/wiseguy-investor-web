@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 import { AuthService } from '../../core/services/auth.service';
 import { ConfigService } from '../../core/services/config.service';
 import { UtilService } from '../../core/services/util.service';
@@ -87,7 +87,7 @@ export class LoginPage implements OnInit, OnDestroy {
     this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.view = (params.get('view') as View) || this.view;
       this.options.formState.view = this.view; // formly options formstate.view needed for consistent hide expr execution
-      setCurrentScreen(this.analytics, this.view);
+      logEvent(this.analytics, 'screen_view');
       logEvent(this.analytics, 'page_view', { page: this.view });
     });
   }
